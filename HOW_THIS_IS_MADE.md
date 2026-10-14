@@ -11,7 +11,7 @@
 - **Contributors and the authors of the papers** check entries; their names appear on
   the entries they checked, with their consent.
 
-## Why it can be trusted anyway
+## Why you can check it
 
 Not because of who wrote it, but because of what every entry must show:
 
@@ -26,8 +26,16 @@ Not because of who wrote it, but because of what every entry must show:
 3. **Everything reruns.** `python tools/verify_all.py --slow` reproduces every check.
 
 When a check exposed a mistake, it was more often in our code than in the
-literature; when it was in the literature, it is recorded in
-[docs/errata.md](docs/errata.md) with the evidence.
+literature. When our computation disagrees with a printed equation, the case is listed
+in [docs/errata.md](docs/errata.md) with the computation, as a question to the authors
+until they answer.
+
+A check only catches what it tests. The second model's first review (14 October 2026)
+found inputs on which the solvers' own error estimates certified wrong or unconverged
+answers: a narrow feature between sample points, a position-dependent D at an infinite
+end, a well hidden beyond a truncation point, and a slowly converging eigenvalue
+iteration. Each was fixed or made to raise an error, each now has a test, and the
+limits that remain are listed in the README.
 
 ## Rules we keep
 

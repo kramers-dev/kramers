@@ -105,6 +105,8 @@ def first_passage_times(
     hi = b_abs if b_abs is not None else b_ref
     if (lo is not None and x0 < lo) or (hi is not None and x0 > hi):
         raise OutsideDomain("x0 outside the domain")
+    if x0 == a_abs or x0 == b_abs:
+        raise OutsideDomain("a start on an absorbing end is absorbed at once; start inside the domain")
     if reset_rate > 0 and reset_period is not None:
         raise OutsideDomain("choose Poissonian or periodic resetting, not both")
     reset_point = x0 if reset_to is None else float(reset_to)

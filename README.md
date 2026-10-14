@@ -1,6 +1,6 @@
 # kramers
 
-**Escape and first-passage results you can run and trust.**
+**Escape and first-passage results you can run and check.**
 
 kramers is an open handbook of first-passage and escape results in statistical
 physics. Every result is a Python function, tied to the paper and equation that print
@@ -35,9 +35,10 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
   a barrier, switching under a ramp, diffusion to a target, stochastic resetting,
   active and anomalous motion, transport in periodic potentials, neuron models.
 - **Reference solvers**, the independent computations the checks rest on:
-  - exact first-passage moments, splitting probabilities and decay rates of any
-    one-dimensional diffusion, by quadrature in logarithms, at any barrier height
-    (rates down to 1e-300), including drifts that reach infinity in finite time;
+  - first-passage moments, splitting probabilities and decay rates of
+    one-dimensional diffusions, by quadrature in logarithms, at any barrier height
+    (rates down to 1e-300), including drifts that reach infinity in finite time
+    (limits below);
   - the time-dependent Fokker-Planck equation, for distributions and for ramped
     (time-dependent) drifts;
   - simulation with boundary-crossing correction and resetting;
@@ -45,8 +46,23 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
 - **Validity maps.** For approximate results, the error against the exact answer
   across the parameter range: Kramers' rate, for example, is 3% to 6% too high at a
   10 kT barrier, depending on the shape of the well.
-- **Errata.** Implementing and checking published equations finds misprints. They are
-  listed, with the numerical evidence, in [docs/errata.md](docs/errata.md).
+- **Questions for authors.** Implementing and checking a printed equation sometimes
+  finds a disagreement. Each is listed with the computation, as a question to the
+  authors until they answer, in [docs/errata.md](docs/errata.md).
+
+## Known limits of the solvers
+
+- The quadrature solver finds the shape of the potential by sampling it. A well or
+  barrier narrower than about 1/8000 of the domain can be missed, and then its error
+  estimate misses it too: give such features as `breakpoints`.
+- An infinite end is classified by walking outwards and scanning beyond the cut; a
+  narrow well far beyond the cut can still escape the scan. Ends that are reached in
+  finite time ("exit") need a constant D.
+- The Fokker-Planck solver does not keep the density positive at large early time
+  steps, and its Richardson extrapolation can give survival slightly above one when the
+  coarse grid is under-resolved; `info["richardson_change"]` reports the correction.
+
+These are tested in `tests/` with the inputs that first exposed them.
 
 ## The entries
 
@@ -65,7 +81,7 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
 | [K0027](docs/handbook/K0027.md) | Mean and variance of the rupture force under constant loading (Dudko, Hummer and Szabo) | asymptotic | O. K. Dudko, G. Hummer and A. Szabo, Phys. Rev. Lett. 96, 108101 (2006) |
 | [K0028](docs/handbook/K0028.md) | Force-dependent lifetimes from rupture-force histograms (Dudko, Hummer and Szabo, 2008) | estimator | O. K. Dudko, G. Hummer and A. Szabo, Proc. Natl. Acad. Sci. USA 105, 15755 (2008) |
 | [K0029](docs/handbook/K0029.md) | Most probable rupture force under constant loading (Bell-Evans) | exact | Z. Liu, H. Liu, A. M. Vera, R. C. Bernardi, P. Tinnefeld and M. A. Nash, Nat. Commun. 11, 4321 (2020) |
-| [K0030](docs/handbook/K0030.md) | Switching of the noisy fold under a linear ramp, solved exactly (computed reference) | computed-reference | computed here |
+| [K0030](docs/handbook/K0030.md) | Switching of the noisy fold under a linear ramp, without the quasi-static approximation (computed reference) | computed-reference | computed here |
 | [K0003](docs/handbook/K0003.md) | Splitting probability between two absorbing ends in one dimension | exact | L. Dagdug and A. M. Berezhkovskii, J. Chem. Phys. 131, 056101 (2009) |
 | [K0012](docs/handbook/K0012.md) | Drift-diffusion on an interval: exit probability, mean and conditional exit times | exact | S. Redner, Physica A 631, 128545 (2023) |
 | [K0013](docs/handbook/K0013.md) | First-passage duality: conditional exit times do not depend on the sign of the drift | exact | P. L. Krapivsky and S. Redner, J. Stat. Mech. (2018) 093208 |

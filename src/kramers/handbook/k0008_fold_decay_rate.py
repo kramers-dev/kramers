@@ -44,10 +44,11 @@ def fold_decay_rate(u: ArrayLike) -> np.ndarray | float:
     4/3 u^(3/2) in units of the noise). In physical units, for dx = (r + x^2) dt +
     sqrt(D) dW, the rate is E0(u) * (D/2)^(1/3) with u = -r / (D/2)^(2/3).
 
-    The value is the smallest eigenvalue of the backward operator, computed by power
-    iteration on its Green's operator, which keeps full relative accuracy for rates as
-    small as 1e-300. It is not the reciprocal mean passage time (K0004); the two agree
-    only when the barrier is high.
+    The value is the smallest eigenvalue of the backward operator, computed as the
+    smallest root of its characteristic function, whose Taylor coefficients are
+    integrals of positive functions; this keeps full relative accuracy for rates as small
+    as 1e-300. It is not the reciprocal mean passage time (K0004); the two agree only
+    when the barrier is high.
     """
     arr = np.asarray(u, dtype=float)
     if np.any(arr < -2.0) or not np.all(np.isfinite(arr)):

@@ -98,14 +98,14 @@ register(Entry(
     aliases=("CV of the theta neuron", "interspike-interval variance", "quadratic integrate-and-fire"),
     related=("K0004", "K0005", "K0009"),
     notes=(
-        "Two misprints found while implementing this entry, both checked numerically. (1) Eq. (3.2) "
-        "as printed has the prefactor (9/D)^(2/3); the correct prefactor is 2 (9/D)^(2/3). As "
-        "printed it gives exactly half of the paper's own Eq. (3.5) at beta = 0 (computed: ratio "
-        "2.0000 at beta = 0, -0.5 and 0.8). (2) In Eq. (A.3) the middle integrand must be "
-        "exp(+V(z)/D): with the printed minus sign a linear potential V = -mu x gives 8.3e3 "
-        "instead of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while the plus "
-        "sign reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and "
-        "with this entry."
+        "Questions for the authors (Lindner, Longtin and Bulsara), both from computations. "
+        "(1) Eq. (3.2) as printed has the prefactor (9/D)^(2/3); with it, Eq. (3.2) gives exactly "
+        "half of the paper's own Eq. (3.5) at beta = 0 (computed ratio 2.0000 at beta = 0, -0.5 "
+        "and 0.8), and with 2 (9/D)^(2/3) the two agree. (2) In Eq. (A.3) as printed the middle "
+        "integrand is exp(-V(z)/D); for a linear potential V = -mu x that gives 8.3e3 instead "
+        "of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while exp(+V(z)/D) "
+        "reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this "
+        "entry. We read both as misprints but may have misread the notation."
     ),
     added="2026-10-14",
 ))

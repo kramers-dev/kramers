@@ -99,6 +99,11 @@ class Panels:
     def with_order(self, n: int) -> Panels:
         return Panels(self.edges, n)
 
+    def bisected(self) -> Panels:
+        """Every panel split in two (for an independent error estimate)."""
+        mids = 0.5 * (self.edges[:-1] + self.edges[1:])
+        return Panels(np.sort(np.concatenate([self.edges, mids])), self.n)
+
     def locate(self, points: Array) -> tuple[NDArray[np.intp], NDArray[np.intp]]:
         """Panel and node index of points that are panel edges (exactly)."""
         points = np.atleast_1d(np.asarray(points, dtype=float))
@@ -125,14 +130,31 @@ def build_panels(
     max_range: float = 3.0,
     coeff_tol: float = 1e-12,
     max_panels: int = 200_000,
+    min_panels: int = 32,
+    probe: int = 8192,
 ) -> Panels:
     """Split [a, b] until phi varies by at most ``max_range`` and is resolved on each panel.
 
     ``phi`` is the logarithm of the weights to be integrated, so ``max_range`` bounds
-    the dynamic range of exp(phi) within one panel.
+    the dynamic range of exp(phi) within one panel. The search starts from
+    ``min_panels`` equal panels, with an extra edge at every local extremum of phi
+    found on ``probe`` equally spaced points. A feature of phi narrower than that
+    spacing, (b - a) / probe, can still be missed: put a breakpoint at it.
     """
     ref = lobatto(n)
-    cuts = sorted({float(a), float(b), *(float(x) for x in breakpoints if a < x < b)})
+    a, b = float(a), float(b)
+    uniform = np.linspace(a, b, max(1, int(min_panels)) + 1)[1:-1]
+    extrema: list[float] = []
+    if probe > 2:
+        xs = np.linspace(a, b, int(probe) + 1)
+        with np.errstate(all="ignore"):
+            fs = np.asarray(phi(xs), dtype=float)
+        if np.all(np.isfinite(fs)):
+            d = np.sign(np.diff(fs))
+            turn = np.flatnonzero(d[1:] * d[:-1] < 0) + 1  # sign change of the slope
+            if turn.size <= int(probe) // 8:  # a smooth function, not rounding noise
+                extrema = xs[turn].tolist()
+    cuts = sorted({a, b, *(float(x) for x in breakpoints if a < x < b), *uniform.tolist(), *extrema})
     stack = [(cuts[i], cuts[i + 1]) for i in range(len(cuts) - 1)]
     done: list[tuple[float, float]] = []
     while stack:
@@ -142,7 +164,10 @@ def build_panels(
         if not np.all(np.isfinite(f)):
             raise ValueError(f"log-weight is not finite on [{lo}, {hi}]")
         coeffs = ref.to_coeffs @ f
-        unresolved = np.max(np.abs(coeffs[-3:])) > coeff_tol * max(1.0, np.max(np.abs(f)) * 1e-3)
+        # rounding floor of the samples: phi itself, and the rounding of x times the slope
+        slope = np.ptp(f) / (hi - lo)
+        noise = 8.0 * np.finfo(float).eps * (np.max(np.abs(f)) + slope * max(abs(lo), abs(hi)))
+        unresolved = np.max(np.abs(coeffs[-3:])) > max(coeff_tol * max(1.0, np.max(np.abs(f)) * 1e-3), noise)
         too_steep = np.ptp(f) > max_range
         tiny = (hi - lo) <= 1e-13 * max(1.0, abs(lo), abs(hi))
         if (unresolved or too_steep) and not tiny:

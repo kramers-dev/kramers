@@ -13,34 +13,63 @@ from ..solvers import fokker_planck, simulate
 from .k0008_fold_decay_rate import fold_decay_rate
 
 
+def _quasi_stationary(y: np.ndarray, u0: float, y_escape: float) -> np.ndarray:
+    """Density of the frozen fold at u0 that carries a constant escape flux to y_escape.
+
+    p(y) proportional to exp(phi(y)) times the integral from y to y_escape of exp(-phi),
+    with phi = y^3/3 - u0 y: the quasi-stationary density up to terms of relative order
+    exp(-barrier) (the barrier is 4/3 u0^(3/2) noise units, 3.8 at u0 = 2, 24.7 at u0 = 7).
+    """
+    phi = y**3 / 3.0 - u0 * y
+    grid = np.append(y, y_escape)
+    neg = -(grid**3 / 3.0 - u0 * grid)
+    # log of the integral from each point to y_escape (trapezoid in log space, right to left)
+    seg = np.logaddexp(neg[:-1], neg[1:]) + np.log(0.5 * np.diff(grid))
+    tail = np.logaddexp.accumulate(seg[::-1])[::-1]
+    logp = phi + tail
+    return np.exp(logp - np.max(logp))
+
+
 @lru_cache(maxsize=256)
-def _solve(sigma: float, u0: float, y_escape: float, n_cells: int) -> tuple[np.ndarray, np.ndarray]:
+def _solve(sigma: float, u0: float, y_escape: float, n_cells: int, n_steps: int) -> tuple[np.ndarray, np.ndarray]:
     left = -np.sqrt(max(u0, 0.0)) - 6.0
     t_end = (u0 + 6.0) / sigma
     sol = fokker_planck.solve(lambda y, s: y * y - (u0 - sigma * s), 1.0, (left, y_escape), left="reflecting",
-                              right="absorbing", t_end=t_end, n_cells=n_cells, dt=t_end / 3000.0,
-                              p0=lambda y: np.exp(-((y + np.sqrt(u0)) ** 2) * np.sqrt(u0)), time_dependent=True)
+                              right="absorbing", t_end=t_end, n_cells=n_cells, dt=t_end / n_steps,
+                              p0=lambda y: _quasi_stationary(y, u0, y_escape), time_dependent=True)
     return sol.t, sol.survival
 
 
 def ramped_fold_switching(sigma: float, levels: tuple[float, ...] = (0.1, 0.5, 0.9), u0: float = 7.0,
-                          y_escape: float = 9.0, n_cells: int = 1500) -> np.ndarray:
+                          y_escape: float = 9.0, n_cells: int = 1500, n_steps: int = 3000) -> np.ndarray:
     """Distance to the fold, u, at which the fractions ``levels`` of paths have escaped.
 
     Model (scaled): dy = (y^2 - u(s)) ds + sqrt(2) dW with u(s) = u0 - sigma s; paths start
-    in the quasi-stationary well (a Gaussian around -sqrt(u0)) and escape when y reaches
-    ``y_escape``. Negative values are past the fold. Computed by the time-dependent
-    Fokker-Planck solver; no fitted coefficient and no quasi-static assumption.
+    from the quasi-stationary density of the frozen well at u0 and escape when y reaches
+    ``y_escape``. Negative values are past the fold. Computed with the time-dependent
+    Fokker-Planck solver: no fitted coefficient and no quasi-static assumption. The
+    discretisation error, checked by doubling ``n_cells`` and ``n_steps``, is below 1e-3
+    in u for the defaults.
     """
     if not (sigma > 0 and u0 >= 2.0 and y_escape >= np.sqrt(u0) + 2):
         raise OutsideDomain("need sigma > 0, u0 >= 2 and an escape point well past the saddle")
-    t, S = _solve(float(sigma), float(u0), float(y_escape), int(n_cells))
+    t, S = _solve(float(sigma), float(u0), float(y_escape), int(n_cells), int(n_steps))
     lv = np.asarray(levels, dtype=float)
     absorbed = 1.0 - S
     if np.any(lv >= absorbed[-1]):
         raise OutsideDomain("not all requested fractions escaped within the run")
     t_q = np.interp(lv, absorbed, t)
     return u0 - sigma * t_q
+
+
+def _check_convergence():
+    rows = []
+    for sigma in (0.02, 0.1, 0.3):
+        base = ramped_fold_switching(sigma)
+        fine = ramped_fold_switching(sigma, n_cells=3000, n_steps=6000)
+        for q, b, f in zip((0.1, 0.5, 0.9), base, fine, strict=True):
+            rows.append((f"u at {q} escaped, sigma={sigma}", float(b), float(f)))
+    return absolute(rows, 1e-3, ref="twice the cells and twice the time steps")
 
 
 def _check_simulation():
@@ -76,7 +105,7 @@ def _check_slow_ramp():
 register(Entry(
     id="K0030",
     slug="ramped-fold-switching",
-    title="Switching of the noisy fold under a linear ramp, solved exactly (computed reference)",
+    title="Switching of the noisy fold under a linear ramp, without the quasi-static approximation (computed reference)",
     area="driven",
     kind="computed-reference",
     statement=(
@@ -90,10 +119,13 @@ register(Entry(
     formula=r"S(s)=\int p(y,s)\,dy,\quad \partial_s p=-\partial_y[(y^2-u(s))p]+\partial_y^2p,\ p(y_c,s)=0",
     function=ramped_fold_switching,
     parameters={"sigma": "scaled ramp rate", "levels": "escaped fractions", "u0": "starting distance",
-                "y_escape": "escape point", "n_cells": "grid size"},
+                "y_escape": "escape point", "n_cells": "grid size", "n_steps": "run length over the largest time step"},
     sources=(),
-    validity="Scaled ramp rates from about 1e-3 to 1 and beyond; the solver's own error is below 1e-3 in u.",
+    validity=("Checked from Sigma = 0.002 (against the quasi-static limit) to 0.3; discretisation error "
+              "below 1e-3 in u at Sigma = 0.02, 0.1 and 0.3 (computed check). The start is the "
+              "quasi-stationary density of the frozen well, so u0 must leave a barrier of a few noise units."),
     checks=(
+        Check("grid and time-step convergence", "the same computation with twice the cells and steps", _check_convergence, slow=True),
         Check("quantiles against direct simulation", "Euler-Maruyama, 6,000 paths, the same escape criterion", _check_simulation, slow=True),
         Check("slow ramp: approaches the quasi-static median", "decay rate of the frozen fold (K0008)", _check_slow_ramp, slow=True),
     ),

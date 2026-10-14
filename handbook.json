@@ -62,7 +62,7 @@
       "checks": [
         {
           "name": "converges to the exact decay rate like 1/barrier",
-          "reference": "power iteration on the quadrature Green's operator",
+          "reference": "smallest eigenvalue, quadrature solver",
           "slow": false
         },
         {
@@ -132,7 +132,7 @@
         "K0003",
         "K0012"
       ],
-      "notes": "Erratum found while implementing this entry. In Eq. (7.7) of Haenggi, Talkner and Borkovec as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]; it must be exp[-U(z)/kBT]. Computed check: for U = x^3/3 - x on [-2, 1] with kT = D = 1, the printed form gives t(b) = 2.511 instead of 0, while the corrected form agrees with this entry to 1e-10. A flat potential cannot reveal the difference. No erratum was found in Crossref.",
+      "notes": "Question for the authors (Haenggi, Talkner and Borkovec). In Eq. (7.7) as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential cannot reveal the difference. We read this as a misprint but may have misread the notation; no erratum was found in Crossref.",
       "written_by": [
         "Claude Opus 5.5 (AI), for A. Sokol"
       ],
@@ -737,7 +737,7 @@
         "K0005",
         "K0009"
       ],
-      "notes": "Two misprints found while implementing this entry, both checked numerically. (1) Eq. (3.2) as printed has the prefactor (9/D)^(2/3); the correct prefactor is 2 (9/D)^(2/3). As printed it gives exactly half of the paper's own Eq. (3.5) at beta = 0 (computed: ratio 2.0000 at beta = 0, -0.5 and 0.8). (2) In Eq. (A.3) the middle integrand must be exp(+V(z)/D): with the printed minus sign a linear potential V = -mu x gives 8.3e3 instead of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while the plus sign reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this entry.",
+      "notes": "Questions for the authors (Lindner, Longtin and Bulsara), both from computations. (1) Eq. (3.2) as printed has the prefactor (9/D)^(2/3); with it, Eq. (3.2) gives exactly half of the paper's own Eq. (3.5) at beta = 0 (computed ratio 2.0000 at beta = 0, -0.5 and 0.8), and with 2 (9/D)^(2/3) the two agree. (2) In Eq. (A.3) as printed the middle integrand is exp(-V(z)/D); for a linear potential V = -mu x that gives 8.3e3 instead of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while exp(+V(z)/D) reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this entry. We read both as misprints but may have misread the notation.",
       "written_by": [
         "Claude Opus 5.5 (AI), for A. Sokol"
       ],
@@ -900,8 +900,13 @@
       "function": "kramers.handbook.k0013_first_passage_duality.conditional_time_to_origin",
       "checks": [
         {
-          "name": "conditional mean against K0012 for v and -v",
+          "name": "printed Eq. (28b) against K0012 for v and -v",
           "reference": "Srivastava et al. formulas (K0012)",
+          "slow": false
+        },
+        {
+          "name": "no loss of digits at tiny and large drift",
+          "reference": "v -> 0 limit and sign symmetry",
           "slow": false
         },
         {
@@ -1992,7 +1997,7 @@
     {
       "id": "K0030",
       "slug": "ramped-fold-switching",
-      "title": "Switching of the noisy fold under a linear ramp, solved exactly (computed reference)",
+      "title": "Switching of the noisy fold under a linear ramp, without the quasi-static approximation (computed reference)",
       "area": "driven",
       "kind": "computed-reference",
       "statement": "When the control parameter of a noisy saddle-node is ramped towards the fold at any speed, the distribution of the distance at which paths escape, computed from the time-dependent Fokker-Planck equation with no quasi-static assumption and no fitted coefficient. At fast ramps the quasi-static (Kramers or exact-rate) answer is off by tens of per cent and many paths escape only after the fold.",
@@ -2003,10 +2008,11 @@
         "levels": "escaped fractions",
         "u0": "starting distance",
         "y_escape": "escape point",
-        "n_cells": "grid size"
+        "n_cells": "grid size",
+        "n_steps": "run length over the largest time step"
       },
       "sources": [],
-      "validity": "Scaled ramp rates from about 1e-3 to 1 and beyond; the solver's own error is below 1e-3 in u.",
+      "validity": "Checked from Sigma = 0.002 (against the quasi-static limit) to 0.3; discretisation error below 1e-3 in u at Sigma = 0.02, 0.1 and 0.3 (computed check). The start is the quasi-stationary density of the frozen well, so u0 must leave a barrier of a few noise units.",
       "aliases": [
         "rate-induced delay of tipping",
         "dynamic bifurcation with noise",
@@ -2026,6 +2032,11 @@
       "added": "2026-10-14",
       "function": "kramers.handbook.k0030_ramped_fold.ramped_fold_switching",
       "checks": [
+        {
+          "name": "grid and time-step convergence",
+          "reference": "the same computation with twice the cells and steps",
+          "slow": true
+        },
         {
           "name": "quantiles against direct simulation",
           "reference": "Euler-Maruyama, 6,000 paths, the same escape criterion",

@@ -25,6 +25,7 @@ class SwitchingDistribution:
     mean: float
     variance: float
     mode: float
+    mass: float = 1.0  # probability of switching below F_max
 
     def _eval(self, F: ArrayLike) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         F = np.atleast_1d(np.asarray(F, dtype=float))
@@ -63,7 +64,7 @@ class SwitchingDistribution:
 
 
 def switching_distribution(rate: Callable[[np.ndarray], np.ndarray], loading_rate: float | Callable[[np.ndarray], np.ndarray],
-                           F_max: float, F0: float = 0.0, n: int = 25) -> SwitchingDistribution:
+                           F_max: float, F0: float = 0.0, n: int = 25, partial: bool = False) -> SwitchingDistribution:
     """Distribution of the control value F at which the system switches while F rises from F0.
 
     p(F) = k(F) / Fdot(F) * exp(-integral from F0 to F of k / Fdot), the quasi-static
@@ -71,6 +72,10 @@ def switching_distribution(rate: Callable[[np.ndarray], np.ndarray], loading_rat
     (vectorised, positive); ``loading_rate`` is dF/dt, a number or a function of F.
     The integral is accumulated in logarithms on Chebyshev panels, so rates spanning
     hundreds of orders of magnitude are handled.
+
+    ``F_max`` must lie beyond essentially all switching (survival below 1e-12 there);
+    otherwise this raises, unless ``partial=True``, when the mean and variance are those
+    of the switching points below ``F_max`` and ``mass`` says how much probability that is.
     """
     if not F_max > F0:
         raise OutsideDomain("need F_max > F0")
@@ -95,16 +100,20 @@ def switching_distribution(rate: Callable[[np.ndarray], np.ndarray], loading_rat
     w_mean = _cheb.log_integral(P, log_p + np.log(shifted))
     w_sq = _cheb.log_integral(P, log_p + 2 * np.log(shifted))
     mass = -float(np.expm1(-H[-1, -1]))
+    if mass < 1.0 - 1e-12 and not partial:
+        raise OutsideDomain(f"only {mass:.6g} of the switching probability lies below F_max; raise F_max, "
+                            "or pass partial=True for moments conditioned on switching below it")
     mean = F0 + float(np.exp(w_mean)) / mass
     var = float(np.exp(w_sq)) / mass - (mean - F0) ** 2
     flat = np.argmax(log_p.ravel())
     dist = SwitchingDistribution(panels=P, log_hazard_density=lh, hazard=H, F0=F0, mean=mean, variance=var,
-                                 mode=float(x.ravel()[flat]))
+                                 mode=float(x.ravel()[flat]), mass=mass)
     # refine the mode on a fine grid around the best node
     span = P.edges[-1] - P.edges[0]
     fine = np.linspace(max(P.edges[0], dist.mode - 1e-2 * span), min(P.edges[-1], dist.mode + 1e-2 * span), 4001)
     mode = float(fine[np.argmax(dist.pdf(fine))])
-    return SwitchingDistribution(panels=P, log_hazard_density=lh, hazard=H, F0=F0, mean=mean, variance=var, mode=mode)
+    return SwitchingDistribution(panels=P, log_hazard_density=lh, hazard=H, F0=F0, mean=mean, variance=var, mode=mode,
+                                 mass=mass)
 
 
 def _dhs_rate(F, k0, x, dG, nu):

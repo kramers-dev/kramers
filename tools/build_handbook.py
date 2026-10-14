@@ -98,14 +98,15 @@ def main() -> None:
             table.append(f"| [{e.id}](docs/handbook/{e.id}.md) | {e.title} | {e.kind} | {prim} |")
         index.append("")
     (out / "index.md").write_text("\n".join(index))
-    errata = ["# Errata found while building the handbook", "",
-              "Misprints in published equations, found when an entry was implemented and checked. Each was "
-              "verified numerically here. We have not checked whether any of them entered computations in "
-              "the papers; the results of those papers that we reproduced (named in each note) agree with "
-              "the corrected forms. We have not found published errata for them. If you are an author and "
-              "we are wrong, please say so in an issue; we will correct this page and credit you.", ""]
+    errata = ["# Questions for authors", "",
+              "Printed equations that disagree with our computations. Each case was found when an entry "
+              "was implemented and checked, and each is stated with the computation, so that it can be "
+              "rerun. We think these are misprints, but we list them as questions until the authors have "
+              "answered: we may have misread the notation. We have not checked whether any of them entered "
+              "computations in the papers, and we found no published erratum for them. If you are an "
+              "author, please tell us in an issue; we will correct this page and credit you.", ""]
     for e in entries:
-        if any(w in e.notes.lower() for w in ("erratum", "misprint")):
+        if "question for the authors" in e.notes.lower():
             errata += [f"## {e.id}. {e.title}", "", e.notes, ""]
     (ROOT / "docs" / "errata.md").write_text("\n".join(errata))
     (ROOT / "handbook.json").write_text(kramers.to_json())

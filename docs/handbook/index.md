@@ -23,7 +23,7 @@
 | [K0027](K0027.md) | Mean and variance of the rupture force under constant loading (Dudko, Hummer and Szabo) | asymptotic | O. K. Dudko, G. Hummer and A. Szabo, Phys. Rev. Lett. 96, 108101 (2006) |
 | [K0028](K0028.md) | Force-dependent lifetimes from rupture-force histograms (Dudko, Hummer and Szabo, 2008) | estimator | O. K. Dudko, G. Hummer and A. Szabo, Proc. Natl. Acad. Sci. USA 105, 15755 (2008) |
 | [K0029](K0029.md) | Most probable rupture force under constant loading (Bell-Evans) | exact | Z. Liu, H. Liu, A. M. Vera, R. C. Bernardi, P. Tinnefeld and M. A. Nash, Nat. Commun. 11, 4321 (2020) |
-| [K0030](K0030.md) | Switching of the noisy fold under a linear ramp, solved exactly (computed reference) | computed-reference | computed here |
+| [K0030](K0030.md) | Switching of the noisy fold under a linear ramp, without the quasi-static approximation (computed reference) | computed-reference | computed here |
 
 ## Diffusion to a target
 

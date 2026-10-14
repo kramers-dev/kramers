@@ -9,10 +9,21 @@ so that the density obeys dp/dt = -d/dx [A p - D dp/dx]. The drift may change in
 
 Numerics (computed checks in ``tests/test_fokker_planck.py``): finite volumes with
 Scharfetter-Gummel fluxes, which are exact for a constant flux through a cell with
-linear potential, conserve probability, and keep the density positive; TR-BDF2 in time
-(second order, L-stable, so a point start needs no special first steps).
+linear potential and conserve probability; TR-BDF2 in time (second order, L-stable).
 Absorbing ends are Dirichlet conditions on the boundary face; the outward fluxes there
-are the first-passage-time densities through each end.
+are the first-passage-time densities through each end. The probability absorbed at
+each end is taken from the scheme's own discrete balance, so survival plus absorbed
+probability is one to rounding error.
+
+Limits. TR-BDF2 does not preserve positivity: with time steps large against h^2 / D
+at early times (a point start on a fine grid), the density and the fluxes can dip
+below zero for a few steps. The default time grid starts at steps of ``dt / 1000`` to
+avoid this; ``be_start`` replaces the first steps with backward Euler, which is
+positive but first order. Richardson extrapolation (the default in :func:`solve`) acts
+on survival, fluxes and absorbed probabilities only; an under-resolved coarse grid can
+then give survival slightly above one or small negative fluxes, and
+``info["richardson_change"]`` reports the size of the correction. Density snapshots
+are from the fine grid and are not extrapolated.
 """
 
 from __future__ import annotations
@@ -198,6 +209,8 @@ def _solve_once(
     if p0 is None:
         if x0 is None or not a <= x0 <= b:
             raise OutsideDomain("give x0 inside the domain, or p0")
+        if (x0 == a and left == "absorbing") or (x0 == b and right == "absorbing"):
+            raise OutsideDomain("a start on an absorbing end is absorbed at once; start inside the domain")
         p = np.zeros(n_cells)
         pos = (x0 - x[0]) / h
         i = int(np.clip(np.floor(pos), 0, n_cells - 2))

@@ -37,6 +37,10 @@ def dhs_rupture_force_moments(loading_rate: float, k0: float, x: float, dG: floa
     arg_v = np.log(k0 * kT / (x * loading_rate)) + b + _GAMMA_TILDE
     if arg_m <= 0 or arg_v <= 0:
         raise OutsideDomain("loading too fast: the logarithm is negative (the bond breaks before the barrier matters)")
+    if arg_m >= b:
+        raise OutsideDomain("loading too slow: the formula gives a mean force <= 0, because the bond breaks "
+                            "spontaneously before the force matters (loading rate below k0 kT e^gamma / x); "
+                            "use the full distribution, K0024 with the rate of K0026")
     mean = dG / (nu * x) * (1.0 - (arg_m / b) ** nu)
     var = np.pi**2 * kT**2 / (6.0 * x**2) * (arg_v / b) ** (2 * nu - 2)
     return ForceMoments(mean=float(mean), variance=float(var))

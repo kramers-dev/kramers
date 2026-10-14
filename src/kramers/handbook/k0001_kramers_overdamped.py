@@ -11,8 +11,8 @@ from ..registry import Check, Entry, Source, register
 from ..result import OutsideDomain, ValidityWarning
 from ..solvers.quadrature import FirstPassage1D
 
-# Relative overestimate of the formula against the exact decay rate (power iteration on
-# the quadrature Green's operator), computed 14 October 2026 by the check below.
+# Relative overestimate of the formula against the exact decay rate (smallest eigenvalue
+# from the quadrature solver), computed 14 October 2026 by the check below.
 VALIDITY_MAP = {
     "barrier_kT": (2.0, 5.0, 10.0, 20.0, 40.0, 80.0),
     "cubic well": (0.0792, 0.0700, 0.0319, 0.0148, 0.0072, 0.0035),
@@ -141,7 +141,7 @@ register(Entry(
               "exact rate (computed check): cubic well 7.0%, 3.2%, 1.5% at 5, 10, 20 kT; quartic "
               "double well 10.0%, 4.3%, 2.0%; cosine well 13.4%, 5.8%, 2.7%."),
     checks=(
-        Check("converges to the exact decay rate like 1/barrier", "power iteration on the quadrature Green's operator", _check_convergence),
+        Check("converges to the exact decay rate like 1/barrier", "smallest eigenvalue, quadrature solver", _check_convergence),
         Check("the stored validity map is current", "the same computation", _check_map, slow=True),
     ),
     aliases=("Kramers rate", "Arrhenius law with prefactor", "transition state theory, overdamped",

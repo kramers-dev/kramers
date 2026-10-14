@@ -120,12 +120,13 @@ register(Entry(
     aliases=("Pontryagin formula", "Kramers time", "mean exit time", "MFPT"),
     related=("K0001", "K0003", "K0012"),
     notes=(
-        "Erratum found while implementing this entry. In Eq. (7.7) of Haenggi, Talkner and "
-        "Borkovec as printed (journal scan, p. 291), the inner integral in the numerator of the "
-        "first term has exp[U(z)/kBT]; it must be exp[-U(z)/kBT]. Computed check: for "
-        "U = x^3/3 - x on [-2, 1] with kT = D = 1, the printed form gives t(b) = 2.511 instead "
-        "of 0, while the corrected form agrees with this entry to 1e-10. A flat potential "
-        "cannot reveal the difference. No erratum was found in Crossref."
+        "Question for the authors (Haenggi, Talkner and Borkovec). In Eq. (7.7) as printed "
+        "(journal scan, p. 291), the inner integral in the numerator of the first term has "
+        "exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for "
+        "U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With "
+        "exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential "
+        "cannot reveal the difference. We read this as a misprint but may have misread the "
+        "notation; no erratum was found in Crossref."
     ),
     added="2026-10-14",
 ))

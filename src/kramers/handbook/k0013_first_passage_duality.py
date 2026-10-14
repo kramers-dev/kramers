@@ -11,15 +11,23 @@ from ..solvers import fokker_planck
 from .k0012_drift_diffusion_interval import drift_diffusion_interval
 
 
+def _printed_28b(ell: float, L: float, v: float, D: float) -> float:
+    """Krapivsky and Redner's Eq. (28b) exactly as printed (loses digits for |v| L / D small or large)."""
+    ea, el = np.exp(-v * L / D), np.exp(-v * ell / D)
+    return float(ell / v * (ea + el) / (el - ea) - 2 * L / v * (1 - el) / (1 - ea) * ea / (el - ea))
+
+
 def conditional_time_to_origin(ell: float, L: float, v: float, D: float) -> float:
     """Mean time to hit 0 before L from ell, given that 0 is hit first (Krapivsky and Redner, Eq. 28b).
 
-    v > 0 is drift away from the origin. The value is the same for v and -v.
+    v > 0 is drift away from the origin; the value is the same for v and -v. The printed
+    form cancels catastrophically when |v| L / D is very small or large, so the value is
+    computed from the equivalent form of K0012 (through z coth z - 1), which is accurate
+    for every v, including v = 0; a check compares the two where both are accurate.
     """
-    if not (0 < ell < L and D > 0 and v != 0):
-        raise OutsideDomain("need 0 < ell < L, D > 0 and v != 0 (use K0012 for v = 0)")
-    ea, el = np.exp(-v * L / D), np.exp(-v * ell / D)
-    return float(ell / v * (ea + el) / (el - ea) - 2 * L / v * (1 - el) / (1 - ea) * ea / (el - ea))
+    if not (0 < ell < L and D > 0 and np.isfinite(v)):
+        raise OutsideDomain("need 0 < ell < L, D > 0 and a finite v")
+    return float(drift_diffusion_interval(ell, L, v, D).mean_time_left)
 
 
 def _conditional_densities(x0: float, L: float, v: float, D: float):
@@ -30,11 +38,22 @@ def _conditional_densities(x0: float, L: float, v: float, D: float):
 
 
 def _check_against_k0012():
+    # the printed Eq. (28b), at drift v and -v, against the independently derived K0012 form
     rows = []
     for ell, L, v, D in ((0.3, 1.0, 2.0, 0.5), (1.5, 2.0, -1.0, 1.0), (0.9, 1.0, 7.0, 1.0)):
-        rows.append((f"ell={ell}, v={v}", conditional_time_to_origin(ell, L, v, D), drift_diffusion_interval(ell, L, v, D).mean_time_left))
-        rows.append((f"ell={ell}, -v", conditional_time_to_origin(ell, L, -v, D), drift_diffusion_interval(ell, L, v, D).mean_time_left))
+        rows.append((f"ell={ell}, v={v}", _printed_28b(ell, L, v, D), drift_diffusion_interval(ell, L, v, D).mean_time_left))
+        rows.append((f"ell={ell}, -v", _printed_28b(ell, L, -v, D), drift_diffusion_interval(ell, L, v, D).mean_time_left))
     return relative(rows, 1e-11, ref="K0012 (Srivastava et al.), same and opposite drift")
+
+
+def _check_extremes():
+    # the function stays finite and continuous where the printed form cancels
+    ell, L, D = 0.3, 1.0, 1.0
+    free = (L * L - (L - ell) ** 2) / (6.0 * D)  # v = 0, Redner Eq. (4.19)
+    rows = [(f"v={v:g}", conditional_time_to_origin(ell, L, v, D), free) for v in (1e-12, -1e-12, 1e-7)]
+    strong = conditional_time_to_origin(ell, L, 1000.0, D)
+    rows.append(("v=1000 vs -1000", strong, conditional_time_to_origin(ell, L, -1000.0, D)))
+    return relative(rows, 1e-9, ref="v -> 0 limit (Redner 4.19); sign symmetry at |v| = 1000")
 
 
 def _check_distributions():
@@ -112,7 +131,8 @@ register(Entry(
     validity=("Constant drift and diffusion. The drift-sign invariance holds for any start; the "
               "equality of the two ends holds only for a start at the midpoint."),
     checks=(
-        Check("conditional mean against K0012 for v and -v", "Srivastava et al. formulas (K0012)", _check_against_k0012),
+        Check("printed Eq. (28b) against K0012 for v and -v", "Srivastava et al. formulas (K0012)", _check_against_k0012),
+        Check("no loss of digits at tiny and large drift", "v -> 0 limit and sign symmetry", _check_extremes),
         Check("whole distributions at each end unchanged by v -> -v", "time-dependent Fokker-Planck solver", _check_distributions),
         Check("midpoint: the two ends coincide; off-centre they differ", "time-dependent Fokker-Planck solver", _check_midpoint),
     ),
