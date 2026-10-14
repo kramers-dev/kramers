@@ -36,6 +36,8 @@ def absolute(rows: Sequence[Row], tol: float, what: str = "entry", ref: str = "r
 def statistical(rows: Sequence[tuple[str, float, float, float]], n_sigma: float = 4.0, what: str = "entry",
                 ref: str = "simulation") -> CheckResult:
     """Pass when every entry value lies within n_sigma standard errors of the simulation."""
+    if not rows:
+        raise ValueError("a statistical check needs at least one row")
     z = [abs(v - r) / s if s > 0 else (0.0 if v == r else np.inf) for _, v, r, s in rows]
     worst = float(max(z))
     detail = _table(["case", what, ref, "std. error", "deviation / s.e."],

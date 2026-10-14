@@ -41,7 +41,7 @@ from functools import cached_property
 
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
-from scipy.special import roots_laguerre, roots_legendre
+from scipy.special import roots_legendre
 
 from ..result import OutsideDomain, Result
 from . import _cheb
@@ -601,7 +601,8 @@ class FirstPassage1D:
         mu_old = np.inf
         mu = np.nan
         it = 0
-        for it in range(1, max_iter + 1):
+        for _ in range(max_iter):
+            it += 1
             logg = self._green_log(g, logf)
             num = _cheb.log_integral(P, g.logw + logf + logg)
             den = _cheb.log_integral(P, g.logw + 2 * logf)

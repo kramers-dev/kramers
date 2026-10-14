@@ -1,0 +1,20 @@
+name: nightly verification
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: python tools/verify_all.py --slow
+      - run: python tools/build_handbook.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verification-report
+          path: reports/

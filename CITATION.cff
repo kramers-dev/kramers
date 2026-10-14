@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: >-
+  If you use a result from kramers, cite the original paper given on the entry's page
+  first, and then this software.
+title: "kramers: an open handbook of first-passage and escape results"
+type: software
+authors:
+  - family-names: Sokol
+    given-names: Alexander
+license: MIT
+version: 0.1.0.dev0
+keywords:
+  - first passage
+  - escape rate
+  - Kramers
+  - Fokker-Planck
+  - stochastic resetting
+  - statistical physics

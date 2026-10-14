@@ -29,7 +29,7 @@ def resetting_optimal_rate(x0: float, D: float) -> float:
 def _check_minimum():
     rows = []
     for x0, D in ((1.0, 1.0), (0.4, 2.5)):
-        res = minimize_scalar(lambda lr: np.log(resetting_mean_time(x0, np.exp(lr), D)), bounds=(-10.0, 10.0),
+        res = minimize_scalar(lambda lr, x0=x0, D=D: np.log(resetting_mean_time(x0, np.exp(lr), D)), bounds=(-10.0, 10.0),
                               method="bounded", options={"xatol": 1e-10})
         rows.append((f"x0={x0}, D={D}", resetting_optimal_rate(x0, D), float(np.exp(res.x))))
     return relative(rows, 1e-6, ref="numerical minimum of K0015")

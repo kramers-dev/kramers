@@ -1,0 +1,5 @@
+- [ ] The source was opened; equation number, page and version read are recorded
+- [ ] The equation is transcribed as printed, with the notation mapped
+- [ ] At least one independent check, with a justified tolerance
+- [ ] `python -m pytest` passes and `python tools/build_handbook.py` was run
+- [ ] AI tools used: none / yes (what they did):

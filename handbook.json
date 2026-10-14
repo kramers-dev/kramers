@@ -1,0 +1,2042 @@
+{
+  "format": "kramers-handbook/1",
+  "entries": [
+    {
+      "id": "K0001",
+      "slug": "kramers-rate-overdamped",
+      "title": "Kramers' escape rate, overdamped (Smoluchowski) limit",
+      "area": "escape",
+      "kind": "asymptotic",
+      "statement": "For strong friction and a barrier high compared with kT, the rate of escape from a potential well is the geometric mean of the curvatures at the well bottom and the barrier top, divided by 2 pi times the friction coefficient, times the Arrhenius factor. It is too high by corrections of relative order kT/barrier: 3 to 6% at 10 kT for the cubic, quartic double-well and cosine shapes mapped here.",
+      "model": "\\zeta\\dot x = -U'(x) + \\sqrt{2\\zeta k_BT}\\,\\xi(t),\\quad \\Delta U = U(x_b)-U(x_a) \\gg k_BT",
+      "formula": "k = \\frac{\\sqrt{U''(x_a)\\,|U''(x_b)|}}{2\\pi\\zeta}\\exp\\!\\left(-\\frac{\\Delta U}{k_BT}\\right)",
+      "parameters": {
+        "curvature_well": "U''(x_a)",
+        "curvature_barrier": "|U''(x_b)|",
+        "barrier": "Delta U",
+        "friction": "friction coefficient zeta (D = kT/zeta)",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "P. Haenggi, P. Talkner and M. Borkovec, Rev. Mod. Phys. 62, 251 (1990)",
+          "doi": "10.1103/RevModPhys.62.251",
+          "locator": "Eq. (4.34), p. 272; also (4.54), p. 274, and (7.10), p. 291",
+          "version_read": "scan of the journal pages, Augsburg university repository (opus4 file 41911); p. 291 viewed 14 Oct 2026",
+          "printed": "k^{\\rm overdamped}_{A\\to C}=\\frac{\\omega_0\\,\\omega_b}{2\\pi\\gamma}\\exp(-\\beta E_b)",
+          "notation": "M omega_0^2 = U''(x_a), M omega_b^2 = |U''(x_b)|, E_b = Delta U, beta = 1/kT; their gamma is a damping rate (Eq. 4.1), so M gamma = zeta, our friction coefficient",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "H. A. Kramers, Physica 7, 284 (1940)",
+          "doi": "10.1016/S0031-8914(40)90098-2",
+          "locator": "the original derivation",
+          "version_read": "not opened (closed access); citation only",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Overdamped motion (friction large compared with the barrier frequency), barrier large compared with kT, smooth parabolic well and barrier. Overestimate against the exact rate (computed check): cubic well 7.0%, 3.2%, 1.5% at 5, 10, 20 kT; quartic double well 10.0%, 4.3%, 2.0%; cosine well 13.4%, 5.8%, 2.7%.",
+      "aliases": [
+        "Kramers rate",
+        "Arrhenius law with prefactor",
+        "transition state theory, overdamped",
+        "Smoluchowski limit",
+        "Eyring-Kramers formula in one dimension"
+      ],
+      "related": [
+        "K0002",
+        "K0006",
+        "K0008"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0001_kramers_overdamped.kramers_rate_overdamped",
+      "checks": [
+        {
+          "name": "converges to the exact decay rate like 1/barrier",
+          "reference": "power iteration on the quadrature Green's operator",
+          "slow": false
+        },
+        {
+          "name": "the stored validity map is current",
+          "reference": "the same computation",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0002",
+      "slug": "mfpt-1d",
+      "title": "Exact mean first-passage time in one dimension (quadrature formula)",
+      "area": "escape",
+      "kind": "exact",
+      "statement": "The mean time for an overdamped particle in a potential U to leave an interval is a double integral of exp(U/kT) and exp(-U/kT): the Pontryagin-Andronov-Vitt formula. It holds at any barrier height and for any potential shape, and it is the exact reference against which rate formulas such as Kramers' are judged.",
+      "model": "dx = -D\\,U'(x)\\,dt + \\sqrt{2D}\\,dW,\\ a<x<b,\\ U \\text{ in } k_BT",
+      "formula": "t(x) = \\frac{1}{D}\\int_x^b dy\\, e^{U(y)}\\int_a^y dz\\, e^{-U(z)}\\quad (a \\text{ reflecting},\\ b \\text{ absorbing})",
+      "parameters": {
+        "potential": "U(x) in kT",
+        "x0": "start",
+        "a, b": "ends of the interval",
+        "D": "diffusion coefficient",
+        "left, right": "boundary types"
+      },
+      "sources": [
+        {
+          "citation": "P. Haenggi, P. Talkner and M. Borkovec, Rev. Mod. Phys. 62, 251 (1990)",
+          "doi": "10.1103/RevModPhys.62.251",
+          "locator": "Eq. (7.8), p. 291 (reflecting a, absorbing b); Eq. (7.7) (both absorbing); Eq. (4.56b), p. 275",
+          "version_read": "scan of the journal pages, Augsburg university repository; p. 291 viewed 14 Oct 2026",
+          "printed": "t(x)=\\frac{M\\gamma}{k_BT}\\int_x^b dy\\,\\exp[U(y)/k_BT]\\int_a^y dz\\,\\exp[-U(z)/k_BT]",
+          "notation": "M gamma / kT = 1/D; U/kT = our U",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. Szabo, K. Schulten and Z. Schulten, J. Chem. Phys. 72, 4350 (1980)",
+          "doi": "10.1063/1.439715",
+          "locator": "Eq. (2.15), p. 4352 (any dimension, position-dependent D, radiation boundary)",
+          "version_read": "journal scan on the Schulten group site, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "L. Pontryagin, A. Andronov and A. Vitt (1933), as cited by Haenggi, Talkner and Borkovec",
+          "doi": null,
+          "locator": "credited by Haenggi, Talkner and Borkovec for Eq. (7.8)",
+          "version_read": "not opened; journal, volume and page not verified here",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "One-dimensional overdamped (Fokker-Planck) dynamics with white noise; exact.",
+      "aliases": [
+        "Pontryagin formula",
+        "Kramers time",
+        "mean exit time",
+        "MFPT"
+      ],
+      "related": [
+        "K0001",
+        "K0003",
+        "K0012"
+      ],
+      "notes": "Erratum found while implementing this entry. In Eq. (7.7) of Haenggi, Talkner and Borkovec as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]; it must be exp[-U(z)/kBT]. Computed check: for U = x^3/3 - x on [-2, 1] with kT = D = 1, the printed form gives t(b) = 2.511 instead of 0, while the corrected form agrees with this entry to 1e-10. A flat potential cannot reveal the difference. No erratum was found in Crossref.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0002_mfpt_quadrature.mean_first_passage_time",
+      "checks": [
+        {
+          "name": "closed forms: flat potential and constant drift",
+          "reference": "Redner (2023) Eqs. (4.16); Srivastava et al. (2017) Eq. (7)",
+          "slow": false
+        },
+        {
+          "name": "a non-flat potential against the time-dependent solver",
+          "reference": "Fokker-Planck solver, integral of the survival",
+          "slow": false
+        },
+        {
+          "name": "double well against simulation",
+          "reference": "Euler-Maruyama, 20,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0003",
+      "slug": "splitting-probability-1d",
+      "title": "Splitting probability between two absorbing ends in one dimension",
+      "area": "targets",
+      "kind": "exact",
+      "statement": "For a diffusion in a potential U(x) with a position-dependent diffusion coefficient D(x), started at x0 between two absorbing points a < x0 < b, the probability of reaching b first is the integral of exp(U)/D from a to x0 divided by the same integral from a to b.",
+      "model": "dX = [-D(X)\\,U'(X) + D'(X)]\\,dt + \\sqrt{2D(X)}\\,dW,\\quad a < X < b,\\ U \\text{ in } k_BT",
+      "formula": "\\pi_b(x_0) = \\frac{\\int_a^{x_0} e^{U(z)}\\,dz/D(z)}{\\int_a^{b} e^{U(z)}\\,dz/D(z)}",
+      "parameters": {
+        "potential": "U(x) in units of kT",
+        "x0": "start",
+        "a, b": "absorbing ends",
+        "D": "diffusion coefficient (number or function)"
+      },
+      "sources": [
+        {
+          "citation": "L. Dagdug and A. M. Berezhkovskii, J. Chem. Phys. 131, 056101 (2009)",
+          "doi": "10.1063/1.3179679",
+          "locator": "Eq. (6)",
+          "version_read": "PubMed Central PMC2736570 (MathML), opened 14 Oct 2026",
+          "printed": "W_R(x_0)=\\frac{\\int_{x_L}^{x_0}e^{\\beta U(z)}\\frac{dz}{D(z)}}{\\int_{x_L}^{x_R}e^{\\beta U(z)}\\frac{dz}{D(z)}}",
+          "notation": "x_L = a, x_R = b, beta U = our U (in kT), W_R = pi_b",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "S. Redner, Physica A 631, 128545 (2023)",
+          "doi": "10.1016/j.physa.2023.128545",
+          "locator": "Eq. (4.12), p. 6 (constant drift)",
+          "version_read": "journal PDF on the author's site, opened 14 Oct 2026",
+          "printed": "\\mathcal{E}_{+}(x_0)=\\frac{1-e^{-vx_0/D}}{1-e^{-vL/D}}",
+          "notation": "interval [0, L]; constant drift v = D F, i.e. U = -F x",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Markovian one-dimensional diffusion; both ends absorbing; D(x) > 0. Exact.",
+      "aliases": [
+        "hitting probability",
+        "committor",
+        "exit probability",
+        "transmission probability"
+      ],
+      "related": [
+        "K0011"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0003_splitting_probability.splitting_probability",
+      "checks": [
+        {
+          "name": "constant force against the printed closed form",
+          "reference": "Redner (2023), Eq. (4.12)",
+          "slow": false
+        },
+        {
+          "name": "position-dependent D against adaptive quadrature",
+          "reference": "scipy.integrate.quad of the printed integrals",
+          "slow": false
+        },
+        {
+          "name": "double well against simulation",
+          "reference": "Euler-Maruyama simulation, 40,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0004",
+      "slug": "saddle-node-passage-time",
+      "title": "Mean passage time through a noisy saddle-node, closed form in Airy functions",
+      "area": "escape",
+      "kind": "exact",
+      "statement": "The mean time for dx/dt = x^2 + epsilon0 + g0 xi to go from minus to plus infinity is g0^(-2/3) 2^(1/3) pi^2 [Ai^2 + Bi^2] of -2^(2/3) epsilon0 / g0^(4/3), at any distance from the bifurcation and any barrier height, on either side of the fold.",
+      "model": "\\dot x = x^2 + \\epsilon_0 + g_0\\,\\xi(t),\\quad x: -\\infty \\to +\\infty",
+      "formula": "\\tau = g_0^{-2/3}\\,\\mathcal{T}(\\alpha),\\ \\alpha=\\epsilon_0/g_0^{4/3},\\ \\mathcal{T}(\\alpha)=2^{1/3}\\pi^2\\left[\\mathrm{Ai}^2(-2^{2/3}\\alpha)+\\mathrm{Bi}^2(-2^{2/3}\\alpha)\\right]",
+      "parameters": {
+        "epsilon0": "distance from the bifurcation (negative: a barrier)",
+        "g0": "noise amplitude (g0 = sqrt(2D))"
+      },
+      "sources": [
+        {
+          "citation": "D. Hathcock and J. P. Sethna, Phys. Rev. Research 3, 013156 (2021)",
+          "doi": "10.1103/PhysRevResearch.3.013156",
+          "locator": "Eq. (15), p. 013156-4; scaling Eq. (7) and limits Eqs. (8)-(9), p. 013156-3",
+          "version_read": "journal PDF (CC BY 4.0) and arXiv:1902.07382v3, page images read 14 Oct 2026",
+          "printed": "\\mathcal{T}(\\alpha)=2^{1/3}\\pi^2\\left[\\mathrm{Ai}^2(-2^{2/3}\\alpha)+\\mathrm{Bi}^2(-2^{2/3}\\alpha)\\right]",
+          "notation": "their V(x) = -x^3/3 - epsilon0 x with constant noise g0; D = g0^2/2",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eq. (3.1), p. 1770 (double integral); Eq. (3.3) (series, after Colet et al.)",
+          "version_read": "author's PDF, page image read 12 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "B. I. Halperin, Phys. Rev. 139, A104 (1965)",
+          "doi": "10.1103/PhysRev.139.A104",
+          "locator": "the same function of Ai and Bi, as a density of states in a white-noise potential",
+          "version_read": "not opened; attribution from a search summary and from GPT-6 Astra",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Constant (additive) white noise; start at -infinity, absorption at +infinity. Exact.",
+      "aliases": [
+        "noisy saddle-node bifurcation",
+        "mean interspike interval of the theta neuron",
+        "quadratic integrate-and-fire neuron",
+        "barrier crossing at any barrier height",
+        "Airy function passage time"
+      ],
+      "related": [
+        "K0005",
+        "K0006",
+        "K0008",
+        "K0009",
+        "K0011"
+      ],
+      "notes": "This is the mean passage time. Its reciprocal is the firing rate of the quadratic integrate-and-fire neuron (K0009) but not the quasi-stationary decay rate (K0008); the two differ by 43% at the bifurcation point.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0004_saddle_node_passage_time.passage_time_saddle_node",
+      "checks": [
+        {
+          "name": "against the quadrature solver",
+          "reference": "Green's-function quadrature with entrance and exit tails",
+          "slow": false
+        },
+        {
+          "name": "at the bifurcation, against another paper",
+          "reference": "Lindner et al. (2003), Eq. (3.4)",
+          "slow": false
+        },
+        {
+          "name": "the printed asymptotic limits",
+          "reference": "Hathcock and Sethna, Eqs. (8)-(9)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0005",
+      "slug": "saddle-node-at-threshold",
+      "title": "Noisy saddle-node exactly at the bifurcation: mean, variance and CV of the passage time",
+      "area": "escape",
+      "kind": "exact",
+      "statement": "At the saddle-node bifurcation point, the time to pass from minus to plus infinity under dx/dt = x^2 + sqrt(2D) xi has mean Gamma(1/3)^2 (3D)^(-1/3) and variance one third of the mean squared, so its coefficient of variation is 1/sqrt(3) whatever the noise intensity.",
+      "model": "\\dot x = x^2 + \\sqrt{2D}\\,\\xi(t),\\quad x(0)=-\\infty,\\ \\text{passage to } +\\infty",
+      "formula": "\\langle T\\rangle=\\Gamma(\\tfrac13)^2(3D)^{-1/3},\\quad \\langle\\Delta T^2\\rangle=\\tfrac13\\langle T\\rangle^2,\\quad CV=1/\\sqrt3",
+      "parameters": {
+        "D": "noise intensity"
+      },
+      "sources": [
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eqs. (3.4)-(3.6), p. 1771",
+          "version_read": "author's PDF (amor.cms.hu-berlin.de/~lindnebe), page images read 12 Oct 2026",
+          "printed": "\\langle T(\\beta=0)\\rangle=[\\Gamma(1/3)]^2\\left(\\frac{1}{3D}\\right)^{1/3};\\ \\langle\\Delta T^2(\\beta=0)\\rangle=\\frac13[\\Gamma(1/3)]^4\\left(\\frac{1}{3D}\\right)^{2/3}=\\frac13\\langle T\\rangle^2;\\ r(\\beta=0,D)=\\frac{1}{[\\Gamma(1/3)]^2}(3D)^{1/3}\\approx0.201D^{1/3},\\ CV=1/\\sqrt3",
+          "notation": "their Eq. (2.1) x' = beta + x^2 + sqrt(2D) xi(t) with beta = 0 and thresholds at -inf, +inf",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "D. Sigeti and W. Horsthemke, J. Stat. Phys. 54, 1217 (1989)",
+          "doi": "10.1007/BF01044713",
+          "locator": "credited by Lindner et al. for Eqs. (3.4)-(3.5)",
+          "version_read": "not opened; citation only",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "White Gaussian noise, thresholds at plus and minus infinity, bias exactly zero. Exact.",
+      "aliases": [
+        "theta neuron at rheobase",
+        "quadratic integrate-and-fire neuron at threshold",
+        "Sigeti-Horsthemke",
+        "coefficient of variation 1/sqrt(3)"
+      ],
+      "related": [
+        "K0004",
+        "K0006",
+        "K0007",
+        "K0009"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0005_saddle_node_threshold.saddle_node_threshold_statistics",
+      "checks": [
+        {
+          "name": "mean and variance against the quadrature solver",
+          "reference": "quadrature with entrance and exit tails",
+          "slow": false
+        },
+        {
+          "name": "the numbers printed in the paper",
+          "reference": "Lindner et al. (2003), p. 1771",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0006",
+      "slug": "saddle-node-weak-noise-rate",
+      "title": "Escape rate near a saddle-node, weak noise (Kramers limit)",
+      "area": "escape",
+      "kind": "asymptotic",
+      "statement": "Below the saddle-node bifurcation (beta < 0) and for weak noise, the rate of passage for dx/dt = beta + x^2 + sqrt(2D) xi is sqrt|beta|/pi times exp(-4|beta|^(3/2)/(3D)): Kramers' formula for the cubic potential. It is too high by 5/(18 B) to leading order with the barrier B = 4|beta|^(3/2)/(3D); the check maps it against the exact rate.",
+      "model": "\\dot x = \\beta + x^2 + \\sqrt{2D}\\,\\xi(t),\\ \\beta<0,\\ x_\\pm=\\pm\\infty",
+      "formula": "r \\simeq \\frac{\\sqrt{|\\beta|}}{\\pi}\\exp\\!\\left[-\\frac{4|\\beta|^{3/2}}{3D}\\right],\\quad D\\ll|\\beta|^{3/2}",
+      "parameters": {
+        "beta": "bias (negative: below the bifurcation)",
+        "D": "noise intensity"
+      },
+      "sources": [
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eq. (3.10), p. 1772",
+          "version_read": "author's PDF, page image read 12 Oct 2026",
+          "printed": "r=\\frac{\\sqrt{|\\beta|}}{\\pi}\\exp\\left[-\\frac{4|\\beta|^{3/2}}{3D}\\right]\\quad\\text{for }D\\ll|\\beta|^{3/2}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "P. Colet, M. San Miguel, J. Casademunt and J. M. Sancho, Phys. Rev. A 39, 149 (1989)",
+          "doi": "10.1103/PhysRevA.39.149",
+          "locator": "credited by Lindner et al. for the saddle-point approximation",
+          "version_read": "not opened; citation only",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Weak noise: barrier B = 4|beta|^(3/2)/(3D) large. The formula is too high by 5/(18 B) + O(1/B^2) (computed check against K0004): 7.8% at B = 5, 3.2% at B = 10, 1.2% at B = 25, 0.57% at B = 50.",
+      "aliases": [
+        "Kramers rate of the cubic potential",
+        "excitable regime firing rate of the theta neuron"
+      ],
+      "related": [
+        "K0004",
+        "K0001"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0006_saddle_node_weak_noise.saddle_node_kramers_rate",
+      "checks": [
+        {
+          "name": "approaches the exact rate as 1/barrier",
+          "reference": "exact passage time in Airy functions (K0004)",
+          "slow": false
+        },
+        {
+          "name": "transcription",
+          "reference": "Eq. (3.10) evaluated by hand",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0007",
+      "slug": "saddle-node-linear-response",
+      "title": "Rate near a saddle-node to first order in the bias",
+      "area": "neurons",
+      "kind": "asymptotic",
+      "statement": "For weak bias (or strong noise), the rate of passage for dx/dt = beta + x^2 + sqrt(2D) xi is 0.201 D^(1/3) + 0.147 D^(-1/3) beta, with both coefficients known in closed form.",
+      "model": "\\dot x = \\beta + x^2 + \\sqrt{2D}\\,\\xi(t),\\ |\\beta| \\ll D^{2/3}",
+      "formula": "r \\approx \\frac{(3D)^{1/3}}{[\\Gamma(1/3)]^2} + \\frac{9}{8}\\frac{3^{1/6}}{\\pi^3}[\\Gamma(2/3)]^4 D^{-1/3}\\beta \\approx 0.201\\,D^{1/3} + 0.147\\,D^{-1/3}\\beta",
+      "parameters": {
+        "beta": "bias",
+        "D": "noise intensity"
+      },
+      "sources": [
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eq. (3.11), p. 1772",
+          "version_read": "author's PDF, page image read 12 Oct 2026",
+          "printed": "r(\\beta\\ll1,D)\\approx\\frac{(3D)^{1/3}}{[\\Gamma(1/3)]^2}+\\frac98\\frac{3^{1/6}}{\\pi^3}[\\Gamma(2/3)]^4D^{-1/3}\\beta\\approx0.201D^{1/3}+0.147D^{-1/3}\\beta",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "|beta| small compared with D^(2/3). First order in beta; exact value at beta = 0.",
+      "aliases": [
+        "theta neuron gain at rheobase",
+        "quadratic integrate-and-fire neuron, weak input"
+      ],
+      "related": [
+        "K0004",
+        "K0005"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0007_saddle_node_linear_response.saddle_node_rate_linear",
+      "checks": [
+        {
+          "name": "value and slope at beta = 0 against the exact rate",
+          "reference": "exact rate in Airy functions (K0004)",
+          "slow": false
+        },
+        {
+          "name": "the printed decimals",
+          "reference": "Lindner et al. (2003), Eq. (3.11)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0008",
+      "slug": "fold-decay-rate",
+      "title": "Decay rate of the noisy fold at any barrier height (computed reference)",
+      "area": "escape",
+      "kind": "computed-reference",
+      "statement": "The long-time escape rate of the noisy saddle-node normal form, as the smallest eigenvalue of its backward operator, computed to full double precision at any distance from the fold, from the bifurcation point (rate 0.354) to barriers where it is 1e-50 and below.",
+      "model": "dy = (y^2 - u)\\,ds + \\sqrt{2}\\,dW,\\ y(0)\\ \\text{in the well},\\ \\text{escape to } +\\infty",
+      "formula": "S(s) \\sim c\\,e^{-E_0(u)\\,s},\\quad E_0 = \\min\\operatorname{spec}(-\\mathcal{L}_u)",
+      "parameters": {
+        "u": "scaled distance to the fold"
+      },
+      "sources": [],
+      "validity": "Any u >= -2. Double precision; agreement with 65-digit values to about 1e-15.",
+      "aliases": [
+        "escape rate of the cubic potential",
+        "Kramers problem for the saddle-node",
+        "lowest eigenvalue of the Fokker-Planck operator",
+        "quasi-stationary decay rate"
+      ],
+      "related": [
+        "K0004",
+        "K0006"
+      ],
+      "notes": "The quasi-stationary decay rate and the reciprocal mean passage time are different observables: at the fold they differ by 43% (0.354 against 0.201).",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0008_fold_decay_rate.fold_decay_rate",
+      "checks": [
+        {
+          "name": "against 65-digit Hermite-basis values",
+          "reference": "independent high-precision computation",
+          "slow": false
+        },
+        {
+          "name": "high barriers: equals the reciprocal mean passage time",
+          "reference": "Airy closed form (K0004)",
+          "slow": false
+        },
+        {
+          "name": "slope of the log-survival",
+          "reference": "time-dependent Fokker-Planck solver",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0009",
+      "slug": "qif-firing-rate",
+      "title": "Firing rate of the quadratic integrate-and-fire neuron with white noise",
+      "area": "neurons",
+      "kind": "exact",
+      "statement": "The stationary firing rate of the quadratic integrate-and-fire (theta) neuron driven by white noise, for any mean input mu (below or above threshold), as one integral. It is the reciprocal of the passage time through a noisy saddle-node (K0004).",
+      "model": "\\tau_m\\dot v = v^2 + \\mu + \\tau_m^{1/2}\\sigma\\,\\eta(t),\\ \\text{spike at } v=+\\infty,\\ \\text{reset to } -\\infty",
+      "formula": "\\nu = \\frac{1}{\\pi\\tau_m}\\left[\\int_{-\\infty}^{\\infty}\\frac{d\\xi}{\\pi^{1/2}}\\exp(-\\mu\\xi^2-\\sigma^4\\xi^6/48)\\right]^{-1}",
+      "parameters": {
+        "mu": "mean input (dimensionless current)",
+        "sigma": "noise amplitude",
+        "tau_m": "membrane time constant"
+      },
+      "sources": [
+        {
+          "citation": "N. Brunel and P. E. Latham, Neural Comput. 15, 2281 (2003)",
+          "doi": "10.1162/089976603322362365",
+          "locator": "Eq. (3.18a), p. 2288; model Eqs. (2.1a), (2.1b), (2.2), p. 2283",
+          "version_read": "publisher's PDF hosted by the Nirenberg lab, page images read 14 Oct 2026",
+          "printed": "\\nu_{0S}=\\frac{1}{\\pi\\tau_m}\\left[\\int_{-\\infty}^{\\infty}\\frac{d\\xi}{\\pi^{1/2}}\\exp[-\\mu\\xi^2-\\sigma^4\\xi^6/48]\\right]^{-1}",
+          "notation": "nu_0S = nu; zeroth order in tau_s/tau_m (white noise)",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eq. (3.1), p. 1770 (double-integral form)",
+          "version_read": "author's PDF, page image read 12 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "White noise (synaptic time constant negligible against tau_m); any mu. Exact.",
+      "aliases": [
+        "theta neuron firing rate",
+        "type I neuron",
+        "saddle-node on invariant circle"
+      ],
+      "related": [
+        "K0004",
+        "K0005",
+        "K0010"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0009_qif_rate.qif_firing_rate",
+      "checks": [
+        {
+          "name": "against the quadrature solver",
+          "reference": "Green's-function quadrature, entrance and exit tails",
+          "slow": false
+        },
+        {
+          "name": "the printed limits sigma = 0 and mu = 0",
+          "reference": "Brunel and Latham (2003), pp. 2288-2289",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0010",
+      "slug": "lif-siegert-rate",
+      "title": "Firing rate of the leaky integrate-and-fire neuron with white noise (Siegert formula)",
+      "area": "neurons",
+      "kind": "exact",
+      "statement": "The stationary firing rate of the leaky integrate-and-fire neuron with white-noise input is the reciprocal of the refractory period plus the mean first-passage time of an Ornstein-Uhlenbeck process from reset to threshold, written as one integral of exp(u^2)(1 + erf u).",
+      "model": "\\tau\\dot V = -V + \\mu + \\sigma\\sqrt{\\tau}\\,\\eta(t),\\ V=\\theta \\to \\text{spike, reset to } V_r",
+      "formula": "\\frac{1}{\\nu}=\\tau_{rp}+\\tau\\sqrt{\\pi}\\int_{(V_r-\\mu)/\\sigma}^{(\\theta-\\mu)/\\sigma}du\\,e^{u^2}\\left(1+\\operatorname{erf}u\\right)",
+      "parameters": {
+        "mu": "mean input",
+        "sigma": "noise amplitude (free SD is sigma/sqrt 2)",
+        "theta": "threshold",
+        "V_r": "reset",
+        "tau": "membrane time constant",
+        "tau_rp": "refractory period"
+      },
+      "sources": [
+        {
+          "citation": "N. Brunel, J. Comput. Neurosci. 8, 183 (2000)",
+          "doi": "10.1023/A:1008925309027",
+          "locator": "Eq. (21), p. 188; model Eqs. (1), (3), (6), pp. 185-186",
+          "version_read": "publisher's PDF on a third-party university server, page image read 14 Oct 2026",
+          "printed": "\\frac{1}{\\nu_0}=\\tau_{rp}+\\tau\\sqrt{\\pi}\\int_{\\frac{V_r-\\mu_0}{\\sigma_0}}^{\\frac{\\theta-\\mu_0}{\\sigma_0}}du\\,e^{u^2}(1+\\mathrm{erf}(u))",
+          "notation": "mu_0 = mu, sigma_0 = sigma; RI = mu + sigma sqrt(tau) eta (Eq. 3)",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "N. Brunel and V. Hakim, Neural Comput. 11, 1621 (1999)",
+          "doi": "10.1162/089976699300016179",
+          "locator": "Eq. (14) (arXiv cond-mat/9904278 numbering)",
+          "version_read": "arXiv HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. J. F. Siegert, Phys. Rev. 81, 617 (1951)",
+          "doi": "10.1103/PhysRev.81.617",
+          "locator": "the first-passage method behind the formula",
+          "version_read": "not opened; citation only",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Diffusion approximation of the input (white noise); stationary state. Exact for that model. Threshold at most 26 sigma above the mean input.",
+      "aliases": [
+        "Siegert formula",
+        "Ricciardi formula",
+        "LIF transfer function",
+        "Ornstein-Uhlenbeck first passage"
+      ],
+      "related": [
+        "K0009"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0010_lif_siegert.lif_firing_rate",
+      "checks": [
+        {
+          "name": "against the quadrature solver",
+          "reference": "Ornstein-Uhlenbeck mean first-passage time by quadrature",
+          "slow": false
+        },
+        {
+          "name": "against Brunel and Hakim's alternative integral",
+          "reference": "Brunel and Hakim (1999), Eq. (14)",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama, 20,000 interspike intervals",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0011",
+      "slug": "saddle-node-passage-variance",
+      "title": "Variance of the passage time through a noisy saddle-node, any bias and thresholds",
+      "area": "neurons",
+      "kind": "exact",
+      "statement": "The variance of the interspike interval of the quadratic integrate-and-fire neuron with white noise, for any bias and any reset and threshold, is a triple integral of exp(+-V/D) (Lindner, Longtin and Bulsara, Eq. A.4). Together with the mean it gives the coefficient of variation across the whole firing range.",
+      "model": "\\dot x = \\beta + x^2 + \\sqrt{2D}\\,\\xi(t),\\ \\text{reset } x_-,\\ \\text{threshold } x_+,\\ V=-x^3/3-\\beta x",
+      "formula": "\\langle\\Delta T^2\\rangle=\\frac{2}{D^2}\\int_{-\\infty}^{x_+}dz\\,e^{V(z)/D}\\left[\\int_{-\\infty}^{z}dy\\,e^{-V(y)/D}\\right]^2\\int_{z}^{x_+}dx\\,\\Theta(x-x_-)\\,e^{V(x)/D}",
+      "parameters": {
+        "beta": "bias",
+        "D": "noise intensity",
+        "x_minus": "reset (default -inf)",
+        "x_plus": "threshold (default +inf)"
+      },
+      "sources": [
+        {
+          "citation": "B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003)",
+          "doi": "10.1162/08997660360675035",
+          "locator": "Eq. (A.4), p. 1785; Eq. (3.2), p. 1770 (infinite thresholds)",
+          "version_read": "author's PDF (journal typesetting), pages read 12 and 14 Oct 2026",
+          "printed": "\\langle\\Delta T^2\\rangle=\\frac{2}{D^2}\\int_{-\\infty}^{x_+}dz\\,e^{V(z)/D}\\left[\\int_{-\\infty}^{z}dy\\,e^{-V(y)/D}\\right]^2\\times\\int_{z}^{x_+}dx\\,\\Theta(x-x_-)\\,e^{V(x)/D}",
+          "notation": "same symbols; V(x) = -x^3/3 - beta x (their Eq. 2.6)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "White noise, any bias, any thresholds (infinite ones included). Exact.",
+      "aliases": [
+        "CV of the theta neuron",
+        "interspike-interval variance",
+        "quadratic integrate-and-fire"
+      ],
+      "related": [
+        "K0004",
+        "K0005",
+        "K0009"
+      ],
+      "notes": "Two misprints found while implementing this entry, both checked numerically. (1) Eq. (3.2) as printed has the prefactor (9/D)^(2/3); the correct prefactor is 2 (9/D)^(2/3). As printed it gives exactly half of the paper's own Eq. (3.5) at beta = 0 (computed: ratio 2.0000 at beta = 0, -0.5 and 0.8). (2) In Eq. (A.3) the middle integrand must be exp(+V(z)/D): with the printed minus sign a linear potential V = -mu x gives 8.3e3 instead of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while the plus sign reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this entry.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0011_saddle_node_variance.saddle_node_passage_variance",
+      "checks": [
+        {
+          "name": "against Eq. (A.4) evaluated directly",
+          "reference": "independent triple integral in log space",
+          "slow": false
+        },
+        {
+          "name": "at the bifurcation point",
+          "reference": "Lindner et al. Eq. (3.5)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0012",
+      "slug": "drift-diffusion-interval",
+      "title": "Drift-diffusion on an interval: exit probability, mean and conditional exit times",
+      "area": "targets",
+      "kind": "exact",
+      "statement": "For Brownian motion with drift v and diffusion D started at x in (0, L) with both ends absorbing: the probability of leaving through L, the mean exit time, and the mean exit time conditioned on each end, in closed form, including the zero-drift limits.",
+      "model": "dX = v\\,dt + \\sqrt{2D}\\,dW,\\quad 0<X<L,\\ \\text{both ends absorbing}",
+      "formula": "\\pi_L=\\frac{1-e^{-vx/D}}{1-e^{-vL/D}},\\ T_L=\\frac{1}{v}\\left[L\\coth\\frac{vL}{2D}-x\\coth\\frac{vx}{2D}\\right],\\ T_0=T_L|_{x\\to L-x},\\ T=\\pi_LT_L+(1-\\pi_L)T_0",
+      "parameters": {
+        "x": "start",
+        "L": "length",
+        "v": "drift (towards L if positive)",
+        "D": "diffusion coefficient"
+      },
+      "sources": [
+        {
+          "citation": "S. Redner, Physica A 631, 128545 (2023)",
+          "doi": "10.1016/j.physa.2023.128545",
+          "locator": "Eqs. (4.12) p. 6; (4.16), (4.19) p. 7",
+          "version_read": "journal PDF on the author's site, opened 14 Oct 2026",
+          "printed": "\\mathcal{E}_{+}(x_0)=\\frac{1-e^{-vx_0/D}}{1-e^{-vL/D}};\\ t(x_0)=\\frac{x_0(L-x_0)}{2D};\\ t_{+}(x_0)=\\frac{L^{2}-x_0^{2}}{6D}",
+          "notation": "E_+ = p_right; zero-drift t and t_+",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "V. Srivastava, S. F. Feng, J. D. Cohen, N. E. Leonard and A. Shenhav, J. Math. Psychol. 77, 94 (2017)",
+          "doi": "10.1016/j.jmp.2016.10.001",
+          "locator": "Eqs. (6), (7), (11), (12), Sec. 3.3",
+          "version_read": "PubMed Central author manuscript PMC5473348 and arXiv:1508.03373v3, opened 14 Oct 2026",
+          "printed": "\\mathrm{mDT}^{+}=\\frac{2\\zeta}{\\mu}\\coth(2s\\zeta)-\\frac{\\zeta+x_0}{\\mu}\\coth(s(\\zeta+x_0)),\\ s=\\mu/\\sigma^2",
+          "notation": "thresholds +-zeta = 0 and L moved by L/2; mu = v; sigma^2 = 2D; their x0 = our x - L/2",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "P. L. Krapivsky and S. Redner, J. Stat. Mech. (2018) 093208",
+          "doi": "10.1088/1742-5468/aaddb3",
+          "locator": "Eqs. (28a), (28b), p. 11",
+          "version_read": "NSF public-access copy of the journal PDF, page image read 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Constant drift and diffusion, both ends absorbing, start inside. Exact.",
+      "aliases": [
+        "gambler's ruin, continuous",
+        "drift-diffusion model of decision making",
+        "Wiener first passage with two barriers"
+      ],
+      "related": [
+        "K0002",
+        "K0003",
+        "K0013"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0012_drift_diffusion_interval.drift_diffusion_interval",
+      "checks": [
+        {
+          "name": "all four quantities against the quadrature solver",
+          "reference": "Green's-function quadrature",
+          "slow": false
+        },
+        {
+          "name": "against the formulas as printed",
+          "reference": "Srivastava et al. (2017)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0013",
+      "slug": "first-passage-duality",
+      "title": "First-passage duality: conditional exit times do not depend on the sign of the drift",
+      "area": "targets",
+      "kind": "exact",
+      "statement": "For drift-diffusion between two absorbing points, the distribution of the exit time conditioned on leaving through a given end is the same for drift v and -v, from any starting point. From the midpoint, the conditional distributions at the two ends are therefore identical, although the exit probabilities differ. The function gives the conditional mean at the origin as printed by Krapivsky and Redner.",
+      "model": "dX = v\\,dt + \\sqrt{2D}\\,dW,\\quad 0<X<L,\\ \\text{both ends absorbing}",
+      "formula": "T(\\ell)=\\frac{\\ell}{v}\\frac{e^{-vL/D}+e^{-v\\ell/D}}{e^{-v\\ell/D}-e^{-vL/D}}-\\frac{2L}{v}\\frac{1-e^{-v\\ell/D}}{1-e^{-vL/D}}\\frac{e^{-vL/D}}{e^{-v\\ell/D}-e^{-vL/D}}",
+      "parameters": {
+        "ell": "start",
+        "L": "length",
+        "v": "drift away from the origin",
+        "D": "diffusion coefficient"
+      },
+      "sources": [
+        {
+          "citation": "P. L. Krapivsky and S. Redner, J. Stat. Mech. (2018) 093208",
+          "doi": "10.1088/1742-5468/aaddb3",
+          "locator": "Eq. (28b), p. 11; half-line form Eq. (4)",
+          "version_read": "NSF public-access copy of the journal PDF, page image read 14 Oct 2026; arXiv:1807.07651v4",
+          "printed": "T(\\ell)=\\frac{\\ell}{v}\\,\\frac{e^{-vL/D}+e^{-v\\ell/D}}{e^{-v\\ell/D}-e^{-vL/D}}-\\frac{2L}{v}\\,\\frac{1-e^{-v\\ell/D}}{1-e^{-vL/D}}\\,\\frac{e^{-vL/D}}{e^{-v\\ell/D}-e^{-vL/D}}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "L. Dagdug and A. M. Berezhkovskii, J. Chem. Phys. 131, 056101 (2009)",
+          "doi": "10.1063/1.3179679",
+          "locator": "Eq. (1) (identity of the two conditional distributions, start midway between the ends)",
+          "version_read": "PubMed Central PMC2736570 (MathML), opened 14 Oct 2026",
+          "printed": "\\varphi_{+}(\\tau)=\\varphi_{-}(\\tau)=\\varphi(\\tau)",
+          "notation": "absorbing points at x0 +- L (their L is our L/2); periodic potentials allowed",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. M. Berezhkovskii, G. Hummer and S. M. Bezrukov, Phys. Rev. Lett. 97, 020601 (2006)",
+          "doi": "10.1103/PhysRevLett.97.020601",
+          "locator": "identity of direct uphill and downhill translocation-time distributions",
+          "version_read": "abstract only (full text paywalled)",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Constant drift and diffusion. The drift-sign invariance holds for any start; the equality of the two ends holds only for a start at the midpoint.",
+      "aliases": [
+        "uphill and downhill first passage",
+        "translocation time symmetry",
+        "conditional first-passage time"
+      ],
+      "related": [
+        "K0012"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0013_first_passage_duality.conditional_time_to_origin",
+      "checks": [
+        {
+          "name": "conditional mean against K0012 for v and -v",
+          "reference": "Srivastava et al. formulas (K0012)",
+          "slow": false
+        },
+        {
+          "name": "whole distributions at each end unchanged by v -> -v",
+          "reference": "time-dependent Fokker-Planck solver",
+          "slow": false
+        },
+        {
+          "name": "midpoint: the two ends coincide; off-centre they differ",
+          "reference": "time-dependent Fokker-Planck solver",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0014",
+      "slug": "ball-exit-time",
+      "title": "Exit time of Brownian motion from a ball in d dimensions: mean and second moment",
+      "area": "targets",
+      "kind": "exact",
+      "statement": "A Brownian particle with diffusion coefficient D started at distance r from the centre of an absorbing sphere of radius R in d dimensions leaves after a mean time (R^2 - r^2)/(2dD); the second moment is also in closed form.",
+      "model": "\\partial_t p = D\\nabla^2 p\\ \\text{in}\\ |x|<R\\subset\\mathbb{R}^d,\\ p=0\\ \\text{on}\\ |x|=R",
+      "formula": "\\langle\\tau\\rangle=\\frac{R^2-r^2}{2dD},\\quad \\langle\\tau^2\\rangle=\\frac{(R^2-r^2)\\left[(d+4)R^2-dr^2\\right]}{4d^2(d+2)D^2}",
+      "parameters": {
+        "r": "start radius",
+        "R": "ball radius",
+        "D": "diffusion coefficient",
+        "d": "dimension"
+      },
+      "sources": [
+        {
+          "citation": "H. Chen and F. Huang, Phys. Rev. E 105, 034109 (2022)",
+          "doi": "10.1103/PhysRevE.105.034109",
+          "locator": "Eqs. (16)-(18) (arXiv:2109.11101v2 numbering)",
+          "version_read": "arXiv:2109.11101v2 HTML (posted after journal publication), opened 14 Oct 2026",
+          "printed": "\\langle\\bar{\\tau}_0(\\bar r)\\rangle=\\frac{1-\\bar r^{2}}{2d};\\ \\langle\\bar\\tau_0^2(\\bar r)\\rangle=\\frac{(1-\\bar r^2)[(d+4)-d\\bar r^2]}{4d^2(d+2)};\\ \\bar r=r/R,\\ \\bar\\tau=\\tau D/R^{2}",
+          "notation": "no resetting (gamma = 0)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Free diffusion, absorbing sphere, no resetting. Exact.",
+      "aliases": [
+        "mean exit time from a sphere",
+        "Brownian motion in a ball",
+        "narrow escape, trivial case"
+      ],
+      "related": [
+        "K0002"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0014_ball_exit_time.ball_exit_time",
+      "checks": [
+        {
+          "name": "against the radial process by quadrature, d = 1, 2, 3, 5",
+          "reference": "Green's-function quadrature with psi = r^(d-1)",
+          "slow": false
+        },
+        {
+          "name": "against simulation in three dimensions",
+          "reference": "random walk with bridge correction, 20,000 paths, dt = 1e-4",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0015",
+      "slug": "resetting-mean-time",
+      "title": "Diffusion with stochastic resetting: mean time to reach the target",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A Brownian particle that restarts from x0 at random times (rate r) reaches a target at the origin after a finite mean time, (exp(sqrt(r/D) x0) - 1)/r, although without resetting the mean is infinite.",
+      "model": "\\partial_t p = D\\,\\partial_x^2 p - r\\,p + r\\,\\delta(x-x_0),\\ \\text{absorbing at } 0",
+      "formula": "T(x_0)=\\frac{1}{r}\\left(e^{\\alpha_0x_0}-1\\right),\\quad \\alpha_0=\\sqrt{r/D}",
+      "parameters": {
+        "x0": "start and reset position",
+        "r": "resetting rate",
+        "D": "diffusion coefficient"
+      },
+      "sources": [
+        {
+          "citation": "M. R. Evans and S. N. Majumdar, Phys. Rev. Lett. 106, 160601 (2011)",
+          "doi": "10.1103/PhysRevLett.106.160601",
+          "locator": "Eq. (7); model Eq. (1) (arXiv:1102.2704v1 numbering)",
+          "version_read": "arXiv:1102.2704v1 HTML, opened 14 Oct 2026",
+          "printed": "T(x_0)=\\frac{1}{r}\\left(\\exp(\\alpha_0x_0)-1\\right),\\ \\alpha_0=\\sqrt{r/D}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension; Poissonian, instantaneous resetting to the starting point. Exact.",
+      "aliases": [
+        "stochastic resetting",
+        "diffusion with restart",
+        "search with resetting"
+      ],
+      "related": [
+        "K0016",
+        "K0017",
+        "K0018",
+        "K0019"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0015_resetting_mean_time.resetting_mean_time",
+      "checks": [
+        {
+          "name": "against the general renewal formula",
+          "reference": "Reuveni (2016) Eq. (7), entry K0017",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with Poissonian resetting, 40,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0016",
+      "slug": "resetting-optimal-rate",
+      "title": "Optimal resetting rate for diffusion to a target",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "The mean time for a resetting Brownian searcher to find a target at distance x0 is smallest at the rate r* = z*^2 D/x0^2, where z* = 1.59362... solves z/2 = 1 - exp(-z).",
+      "model": "\\text{as K0015}",
+      "formula": "r^*=\\frac{(z^*)^2D}{x_0^2},\\quad \\frac{z^*}{2}=1-e^{-z^*},\\ z^*=1.59362\\ldots",
+      "parameters": {
+        "x0": "start and reset position",
+        "D": "diffusion coefficient"
+      },
+      "sources": [
+        {
+          "citation": "M. R. Evans and S. N. Majumdar, Phys. Rev. Lett. 106, 160601 (2011)",
+          "doi": "10.1103/PhysRevLett.106.160601",
+          "locator": "Eq. (8) and the text after it (arXiv:1102.2704v1 numbering)",
+          "version_read": "arXiv:1102.2704v1 HTML, opened 14 Oct 2026",
+          "printed": "\\frac{z^{*}}{2}=1-{\\rm e}^{-z^{*}},\\ z^*=1.59362\\ldots,\\ r^*=(z^*)^2D/x_0^2",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. Pal, A. Kundu and M. R. Evans, J. Phys. A 49, 225001 (2016)",
+          "doi": "10.1088/1751-8113/49/22/225001",
+          "locator": "text next to Eq. (57) (arXiv:1512.08211v2): 2.53964...",
+          "version_read": "arXiv:1512.08211v2 HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "As K0015. Exact.",
+      "aliases": [
+        "optimal restart",
+        "resetting transition"
+      ],
+      "related": [
+        "K0015",
+        "K0018"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0016_resetting_optimal_rate.resetting_optimal_rate",
+      "checks": [
+        {
+          "name": "is the minimum of the mean time",
+          "reference": "numerical minimisation of K0015",
+          "slow": false
+        },
+        {
+          "name": "the printed digits",
+          "reference": "Evans and Majumdar; Pal, Kundu and Evans",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0017",
+      "slug": "restart-renewal",
+      "title": "Any first-passage process under Poissonian restart: mean and second moment",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "If a process that completes after a random time T is restarted from scratch at rate r, the mean completion time is (1 - T~(r))/(r T~(r)), where T~ is the Laplace transform of the density of T. The second moment also needs only T~ and its slope.",
+      "model": "\\text{any process with completion time } T,\\ \\tilde T(s)=\\langle e^{-sT}\\rangle,\\ \\text{restart at rate } r",
+      "formula": "\\langle T_r\\rangle=\\frac{1-\\tilde T(r)}{r\\,\\tilde T(r)},\\quad \\langle T_r^2\\rangle=\\frac{2\\left(r\\,\\tilde T'(r)-\\tilde T(r)+1\\right)}{r^2\\tilde T(r)^2}",
+      "parameters": {
+        "laplace_fpt": "s -> T~(s)",
+        "r": "restart rate",
+        "h": "step for the derivative"
+      },
+      "sources": [
+        {
+          "citation": "S. Reuveni, Phys. Rev. Lett. 116, 170601 (2016)",
+          "doi": "10.1103/PhysRevLett.116.170601",
+          "locator": "Eq. (7) (arXiv:1512.01600v1 numbering); transform under restart Eq. (6)",
+          "version_read": "arXiv:1512.01600v1 HTML, opened 14 Oct 2026",
+          "printed": "\\langle T_r\\rangle=\\frac{1-\\tilde{T}(r)}{\\tilde{T}(r)}\\frac{1}{r};\\ \\langle T_r^2\\rangle=\\frac{2\\left(r\\frac{d\\tilde{T}(r)}{dr}-\\tilde{T}(r)+1\\right)}{r^2\\tilde{T}(r)^2}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. Pal and S. Reuveni, Phys. Rev. Lett. 118, 030603 (2017)",
+          "doi": "10.1103/PhysRevLett.118.030603",
+          "locator": "Eq. (3) and the constant-rate formula after it (arXiv:1607.06048v3)",
+          "version_read": "arXiv:1607.06048v3 HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Any first-passage process; restarts at exponentially distributed times, instantaneous, from scratch. Exact.",
+      "aliases": [
+        "first passage under restart",
+        "renewal formula for resetting",
+        "restart of randomized algorithms"
+      ],
+      "related": [
+        "K0015",
+        "K0018",
+        "K0019"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0017_restart_renewal.restart_moments",
+      "checks": [
+        {
+          "name": "free diffusion reproduces Evans and Majumdar",
+          "reference": "K0015",
+          "slow": false
+        },
+        {
+          "name": "with a transform computed numerically",
+          "reference": "first-passage density from the Fokker-Planck solver",
+          "slow": false
+        },
+        {
+          "name": "drift-diffusion against simulation",
+          "reference": "Euler-Maruyama with resetting, 40,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0018",
+      "slug": "restart-cv-criterion",
+      "title": "Restart helps at small rates exactly when the coefficient of variation exceeds one",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "Introducing restart at a small rate r changes the mean completion time by r times (<T>^2 - var T)/2: it lowers the mean if and only if the standard deviation of the completion time exceeds its mean.",
+      "model": "\\text{as K0017}",
+      "formula": "\\left.\\frac{d\\langle T_r\\rangle}{dr}\\right|_{r=0}=\\frac{\\langle T\\rangle^2-\\sigma^2(T)}{2},\\quad \\text{restart helps}\\iff \\frac{\\sigma(T)}{\\langle T\\rangle}>1",
+      "parameters": {
+        "mean": "<T> without restart",
+        "second_moment": "<T^2> without restart"
+      },
+      "sources": [
+        {
+          "citation": "A. Pal and S. Reuveni, Phys. Rev. Lett. 118, 030603 (2017)",
+          "doi": "10.1103/PhysRevLett.118.030603",
+          "locator": "statement before Eq. (9), proof in the Supplemental Material (arXiv:1607.06048v3)",
+          "version_read": "arXiv:1607.06048v3 HTML, opened 14 Oct 2026 (stated in prose; SI not opened)",
+          "printed": "\\text{the slope of }\\langle T_R\\rangle\\text{ at } r=0 \\text{ is negative whenever } \\sigma(T)/\\langle T\\rangle>1",
+          "notation": "R exponential with rate r",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "H. Chen and F. Huang, Phys. Rev. E 105, 034109 (2022)",
+          "doi": "10.1103/PhysRevE.105.034109",
+          "locator": "Eq. (1) (arXiv:2109.11101v2 numbering)",
+          "version_read": "arXiv:2109.11101v2 HTML, opened 14 Oct 2026",
+          "printed": "{\\rm CV}=\\frac{\\sqrt{\\langle\\tau_0^2\\rangle-\\langle\\tau_0\\rangle^2}}{\\langle\\tau_0\\rangle}>1",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "S. Reuveni, Phys. Rev. Lett. 116, 170601 (2016)",
+          "doi": "10.1103/PhysRevLett.116.170601",
+          "locator": "the same statement in residual-life form",
+          "version_read": "arXiv:1512.01600v1 HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Finite second moment. Local in r: CV < 1 does not exclude a gain at an intermediate rate.",
+      "aliases": [
+        "restart criterion",
+        "when does resetting help"
+      ],
+      "related": [
+        "K0016",
+        "K0017"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0018_restart_cv_criterion.restart_initial_slope",
+      "checks": [
+        {
+          "name": "slope and sign against the derivative of the renewal formula",
+          "reference": "K0017 with the inverse-Gaussian transform",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0019",
+      "slug": "sharp-restart",
+      "title": "Mean completion time under sharp (periodic) restart",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "If a process is restarted deterministically every tau, its mean completion time is the integral of its survival probability up to tau, divided by the probability of completing within one period.",
+      "model": "\\text{any process with survival } S(t),\\ \\text{restart every } \\tau",
+      "formula": "\\langle T_\\tau\\rangle=\\frac{\\int_0^{\\tau}S(t)\\,dt}{1-S(\\tau)}",
+      "parameters": {
+        "survival": "S(t) without restart",
+        "period": "restart period tau"
+      },
+      "sources": [
+        {
+          "citation": "A. Pal, A. Kundu and M. R. Evans, J. Phys. A 49, 225001 (2016)",
+          "doi": "10.1088/1751-8113/49/22/225001",
+          "locator": "Eq. (65); optimality condition Eq. (66) (arXiv:1512.08211v2 numbering)",
+          "version_read": "arXiv:1512.08211v2 HTML, opened 14 Oct 2026",
+          "printed": "T(x_0)=\\frac{\\int_{0}^{t^{*}}dt~q(x_0,t)}{1-q(x_0,t^{*})}",
+          "notation": "q = S, t* = tau",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. Pal and S. Reuveni, Phys. Rev. Lett. 118, 030603 (2017)",
+          "doi": "10.1103/PhysRevLett.118.030603",
+          "locator": "inline statement <min(T, t)>/Pr(T < t), and Eq. (4)",
+          "version_read": "arXiv:1607.06048v3 HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Any process; instantaneous restart from scratch every tau. Exact.",
+      "aliases": [
+        "periodic resetting",
+        "deterministic restart"
+      ],
+      "related": [
+        "K0015",
+        "K0017"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0019_sharp_restart.sharp_restart_mean_time",
+      "checks": [
+        {
+          "name": "the optimality condition at the best period",
+          "reference": "Pal, Kundu and Evans Eq. (66)",
+          "slow": false
+        },
+        {
+          "name": "free diffusion against simulation",
+          "reference": "Euler-Maruyama with periodic resetting, 40,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0020",
+      "slug": "sparre-andersen",
+      "title": "Sparre Andersen theorem: universal survival probability of a symmetric random walk",
+      "area": "active",
+      "kind": "exact",
+      "statement": "For a random walk on the line with independent jumps drawn from any symmetric, continuous distribution (Levy flights included), the probability of staying positive for n steps is binom(2n, n)/4^n, which decays as 1/sqrt(pi n).",
+      "model": "x_n = x_{n-1}+\\xi_n,\\ x_0=0,\\ \\xi_n\\ \\text{i.i.d., symmetric, continuous}",
+      "formula": "q(n)={2n\\choose n}2^{-2n},\\quad \\sum_{n\\ge0}q(n)s^n=\\frac{1}{\\sqrt{1-s}},\\quad q(n)\\sim\\frac{1}{\\sqrt{\\pi n}}",
+      "parameters": {
+        "n": "number of steps"
+      },
+      "sources": [
+        {
+          "citation": "A. J. Bray, S. N. Majumdar and G. Schehr, Adv. Phys. 62, 225 (2013)",
+          "doi": "10.1080/00018732.2013.803819",
+          "locator": "Eqs. (13)-(15), Sec. 2.1 (arXiv:1304.1195v1 numbering)",
+          "version_read": "arXiv:1304.1195v1 HTML, opened 14 Oct 2026",
+          "printed": "q(n)=Q(0,n)={2n\\choose n}2^{-2n}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "S. N. Majumdar, Physica A 389, 4299 (2010)",
+          "doi": "10.1016/j.physa.2010.01.021",
+          "locator": "Eqs. (35)-(37) (arXiv:0912.2586v3 numbering)",
+          "version_read": "arXiv:0912.2586v3 HTML, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "E. Sparre Andersen, Math. Scand. 1, 263 (1953); 2, 195 (1954)",
+          "doi": null,
+          "locator": "the original theorem",
+          "version_read": "not opened; citation as given by the two reviews",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Symmetric and continuous jump density; start at the origin. Exact for every n. Lattice walks differ.",
+      "aliases": [
+        "universal first passage",
+        "persistence of random walks",
+        "Levy flight survival"
+      ],
+      "related": [],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0020_sparre_andersen.sparre_andersen_survival",
+      "checks": [
+        {
+          "name": "generating function and asymptotics",
+          "reference": "Bray, Majumdar and Schehr Eqs. (13), (15)",
+          "slow": false
+        },
+        {
+          "name": "four jump laws against simulation",
+          "reference": "200,000 walks each: Gaussian, uniform, Cauchy, Laplace",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0021",
+      "slug": "tilted-periodic-velocity",
+      "title": "Mean velocity in a tilted periodic potential (Stratonovich's formula)",
+      "area": "transport",
+      "kind": "exact",
+      "statement": "An overdamped Brownian particle in a periodic potential tilted by a constant force F drifts with a long-time mean velocity given by one double integral over a period. It covers the whole range from the locked state to the running state, through the critical tilt where the barriers vanish.",
+      "model": "\\eta\\dot x=-V'(x)+F+\\sqrt{2\\eta k_BT}\\,\\xi(t),\\quad V(x+L)=V(x)",
+      "formula": "\\langle\\dot x\\rangle=\\frac{1-e^{-LF/k_BT}}{\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+(x)},\\quad I_\\pm(x)=\\int_0^L\\frac{dy}{D_0}e^{[\\pm V(x)\\mp V(x\\mp y)-yF]/k_BT}",
+      "parameters": {
+        "V": "periodic potential (vectorised)",
+        "F": "tilting force",
+        "L": "period",
+        "D0": "free diffusion coefficient kT/eta",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001)",
+          "doi": "10.1103/PhysRevLett.87.010602",
+          "locator": "Eqs. (7) and (9), p. 010602-1; Eq. (4)",
+          "version_read": "journal PDF in the Universitat de Barcelona repository (hdl 2445/13254), page image read 14 Oct 2026",
+          "printed": "\\langle\\dot x\\rangle=\\frac{1-e^{-LF/kT}}{\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+(x)};\\ I_\\pm(x):=\\int_0^L\\frac{dy}{D_0}e^{[\\pm V(x)\\mp V(x\\mp y)-yF]/kT}",
+          "notation": "same symbols; V is the untilted periodic part",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "R. L. Stratonovich, Radiotekh. Elektron. 3, 497 (1958)",
+          "doi": null,
+          "locator": "the velocity formula, as credited by Reimann et al. (their ref. 12)",
+          "version_read": "not opened; citation as given by Reimann et al.",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "One-dimensional overdamped motion, white noise, any periodic V and any F. Exact.",
+      "aliases": [
+        "tilted washboard",
+        "Brownian motion in a tilted periodic potential",
+        "overdamped Josephson junction I-V curve",
+        "colloid driven over a periodic landscape",
+        "depinning"
+      ],
+      "related": [
+        "K0022"
+      ],
+      "notes": "Dagdug and Berezhkovskii (2009) restate I+- with the opposite overall sign in the exponent; the sign here is the PRL's, confirmed by the free-drift check.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0021_tilted_periodic_velocity.tilted_periodic_velocity",
+      "checks": [
+        {
+          "name": "no potential: F / eta",
+          "reference": "free drift",
+          "slow": false
+        },
+        {
+          "name": "against L over the mean time per period",
+          "reference": "quadrature solver, natural boundary behind the tilt",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0022",
+      "slug": "tilted-periodic-diffusion",
+      "title": "Effective diffusion in a tilted periodic potential",
+      "area": "transport",
+      "kind": "exact",
+      "statement": "The long-time effective diffusion coefficient of an overdamped particle in a tilted periodic potential, as one integral over a period. Near the critical tilt it can exceed free diffusion by orders of magnitude (giant acceleration of diffusion).",
+      "model": "\\eta\\dot x=-V'(x)+F+\\sqrt{2\\eta k_BT}\\,\\xi(t),\\quad V(x+L)=V(x)",
+      "formula": "D=D_0\\frac{\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+^2(x)I_-(x)}{\\left[\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+(x)\\right]^3}",
+      "parameters": {
+        "V": "periodic potential",
+        "F": "tilt",
+        "L": "period",
+        "D0": "kT/eta",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001)",
+          "doi": "10.1103/PhysRevLett.87.010602",
+          "locator": "Eqs. (8), (9), (5), p. 010602-1",
+          "version_read": "journal PDF in the Universitat de Barcelona repository, page image read 14 Oct 2026",
+          "printed": "D=D_0\\frac{\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+^2(x)I_-(x)}{[\\int_{x_0}^{x_0+L}\\frac{dx}{L}I_+(x)]^3}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. E 65, 031104 (2002)",
+          "doi": "10.1103/PhysRevE.65.031104",
+          "locator": "the long version",
+          "version_read": "not opened (closed access)",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "One-dimensional overdamped motion, white noise, any periodic V and tilt. Exact.",
+      "aliases": [
+        "giant diffusion",
+        "giant acceleration of free diffusion",
+        "diffusion in a tilted washboard"
+      ],
+      "related": [
+        "K0021"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0022_tilted_periodic_diffusion.tilted_periodic_diffusion",
+      "checks": [
+        {
+          "name": "no potential: D0",
+          "reference": "free diffusion",
+          "slow": false
+        },
+        {
+          "name": "against the passage-time moments over one period",
+          "reference": "quadrature solver, Eq. (5)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0023",
+      "slug": "run-and-tumble-exit",
+      "title": "Mean exit time of a run-and-tumble particle from an interval",
+      "area": "active",
+      "kind": "exact",
+      "statement": "A run-and-tumble particle (speed v, tumble rate alpha) starting at a reflecting wall and moving away from it reaches an absorbing point at distance L after a mean time L/v + L^2/(2 D0), the ballistic time plus a diffusive time with D0 = v^2/alpha.",
+      "model": "\\partial_tP_R=-\\partial_x(vP_R)-\\tfrac{\\alpha}{2}P_R+\\tfrac{\\alpha}{2}P_L,\\ \\text{mirror for } P_L;\\ J(0)=0,\\ P_L(L)=0",
+      "formula": "\\tau=\\frac{L}{v}+\\frac{L^2}{2D_0},\\quad D_0=\\frac{v^2}{\\alpha}",
+      "parameters": {
+        "L": "distance to the absorbing point",
+        "v": "swimming speed",
+        "alpha": "tumble rate"
+      },
+      "sources": [
+        {
+          "citation": "L. Angelani, R. Di Leonardo and M. Paoluzzi, Eur. Phys. J. E 37, 59 (2014)",
+          "doi": "10.1140/epje/i2014-14059-4",
+          "locator": "Eq. (11); model Eqs. (1)-(2) (arXiv:1506.08046v1 numbering)",
+          "version_read": "arXiv:1506.08046v1 HTML (posted after publication), opened 14 Oct 2026",
+          "printed": "\\tau_{free}=\\frac{L}{v}+\\frac{L^{2}}{2D_{0}},\\ D_0=v^2/\\alpha",
+          "notation": "alpha: tumble rate with a random new direction (reversal rate alpha/2)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, constant speed and tumble rate, no translational diffusion, start at the wall moving inwards. Exact.",
+      "aliases": [
+        "active particle first passage",
+        "telegraph process",
+        "bacterial run and tumble"
+      ],
+      "related": [],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0023_run_and_tumble_exit.run_and_tumble_exit_time",
+      "checks": [
+        {
+          "name": "against event-driven simulation",
+          "reference": "exact piecewise-deterministic simulation, 100,000 particles",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0024",
+      "slug": "switching-distribution-ramp",
+      "title": "Distribution of the switching point under a ramp (quasi-static approximation)",
+      "area": "driven",
+      "kind": "exact",
+      "statement": "When a control (a force, a current, a field) is ramped and the system escapes with the rate k(F) of the frozen value F, the switching value has density k(F)/Fdot exp(-integral of k/Fdot). This turns any rate law into switching-current, rupture-force or switching-field histograms, and is exact for a rate process; the rate picture itself fails for ramps that are fast compared with relaxation in the well.",
+      "model": "\\dot S(t)=-k(F(t))\\,S(t),\\quad \\dot F = \\dot F(F) > 0",
+      "formula": "p(F)=\\frac{k(F)}{\\dot F(F)}\\exp\\!\\left(-\\int_{F_0}^{F}\\frac{k(F')}{\\dot F(F')}\\,dF'\\right)",
+      "parameters": {
+        "rate": "k(F)",
+        "loading_rate": "dF/dt (number or function of F)",
+        "F_max": "upper end of the grid",
+        "F0": "starting value",
+        "n": "Chebyshev order per panel"
+      },
+      "sources": [
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Phys. Rev. Lett. 96, 108101 (2006)",
+          "doi": "10.1103/PhysRevLett.96.108101",
+          "locator": "Eqs. (1)-(2), p. 108101-2",
+          "version_read": "published PDF in Zenodo record 1233953 (CC0), opened 14 Oct 2026",
+          "printed": "p(F)=\\frac{k(F)}{\\dot F}\\,e^{-\\int_0^F[k(F')/\\dot F']dF'}",
+          "notation": "same symbols",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Proc. Natl. Acad. Sci. USA 105, 15755 (2008)",
+          "doi": "10.1073/pnas.0806085105",
+          "locator": "Eq. [1], p. 15755",
+          "version_read": "PubMed Central PMC2572921 equation images, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "C. Herbert and F. Bouchet, Phys. Rev. E 96, 030201 (2017)",
+          "doi": "10.1103/PhysRevE.96.030201",
+          "locator": "unnumbered survival law above Eq. (4) (arXiv:1703.01450v2, p. 4): the same law for the noisy saddle-node",
+          "version_read": "arXiv:1703.01450v2, opened 14 Oct 2026 (journal version not opened)",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        },
+        {
+          "citation": "J. Kurkijarvi, Phys. Rev. B 6, 832 (1972); T. A. Fulton and L. N. Dunkleberger, Phys. Rev. B 9, 4760 (1974); A. Garg, Phys. Rev. B 51, 15592 (1995)",
+          "doi": "10.1103/PhysRevB.6.832",
+          "locator": "the switching-current problem; Garg for general rate laws",
+          "version_read": "abstracts only (closed access)",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Exact for a process with the frozen rate k(F). The frozen-rate picture needs the ramp to be slow compared with relaxation in the well; for the ramped noisy fold its error is mapped in K0030.",
+      "aliases": [
+        "switching-current distribution",
+        "rupture-force distribution",
+        "switching-field distribution",
+        "Kurkijarvi distribution",
+        "escape under a linear ramp",
+        "dynamic force spectroscopy"
+      ],
+      "related": [
+        "K0025",
+        "K0026",
+        "K0027",
+        "K0028",
+        "K0029",
+        "K0030"
+      ],
+      "notes": "Herbert and Bouchet's Eq. (5) (arXiv v2), the large-noise moments, is inconsistent with their Eq. (4) by a factor 1/(2 pi) (found by a research agent with its own numerics; not re-derived here, and the journal version was not opened).",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0024_switching_distribution.switching_distribution",
+      "checks": [
+        {
+          "name": "Bell rate: closed form",
+          "reference": "integral of an exponential",
+          "slow": false
+        },
+        {
+          "name": "against the density printed for the Dudko-Hummer-Szabo model",
+          "reference": "Dudko, Hummer and Szabo (2006), Eq. (4)",
+          "slow": false
+        },
+        {
+          "name": "mean and variance for an exponential rate",
+          "reference": "Gumbel law",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0025",
+      "slug": "fulton-dunkleberger",
+      "title": "Escape rates from a switching histogram (Fulton-Dunkleberger transformation)",
+      "area": "driven",
+      "kind": "estimator",
+      "statement": "Counts of switching events in bins of the ramped control (current, force, field) give the escape rate at each bin from the logarithm of the ratio of survivors before and after the bin. Assigned to bin centres it is accurate to second order in the bin width; the standard error from counting statistics is added here.",
+      "model": "\\dot S = -\\Gamma(I)\\,S,\\ I \\text{ ramped at constant } |\\dot I|",
+      "formula": "\\Gamma(I_k)=\\frac{|\\dot I|}{\\Delta I}\\ln\\!\\left(\\frac{\\sum_{j\\ge k}P_j}{\\sum_{j\\ge k+1}P_j}\\right)",
+      "parameters": {
+        "counts": "switching events per bin",
+        "edges": "bin edges (increasing)",
+        "ramp_rate": "dI/dt"
+      },
+      "sources": [
+        {
+          "citation": "J. N. Kaemmerer, S. Masis, K. Hambardzumyan, P. Lenhard, U. Strobel, J. Lisenfeld, H. Rotzinger, A. V. Ustinov et al., arXiv:2411.15048 (2024)",
+          "doi": null,
+          "locator": "Eqs. (11)-(13), p. 4",
+          "version_read": "arXiv:2411.15048v1 PDF, opened 14 Oct 2026 (preprint)",
+          "printed": "\\Gamma(I_k)=\\frac{|\\dot I|}{\\Delta I}\\ln\\left(\\frac{\\sum_{j\\ge k}P_j}{\\sum_{j\\ge k+1}P_j}\\right)",
+          "notation": "P_j = n_j / (N Delta I); bins numbered upwards in current",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "T. A. Fulton and L. N. Dunkleberger, Phys. Rev. B 9, 4760 (1974)",
+          "doi": "10.1103/PhysRevB.9.4760",
+          "locator": "the original transformation",
+          "version_read": "not opened (closed access); credited by Kaemmerer et al.",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "A single switching event per ramp, constant ramp rate, rate process (quasi-static). Bin centres: second order in the bin width (relative errors 1.9e-2, 4.9e-3, 1.2e-3 at widths 2, 1, 0.5 kT/x, from a research agent's numerics); bin edges: first order.",
+      "aliases": [
+        "switching histogram to rate",
+        "Josephson switching current distribution analysis",
+        "histogram inversion",
+        "escape rate from switching statistics"
+      ],
+      "related": [
+        "K0024",
+        "K0028"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0025_fulton_dunkleberger.histogram_to_rate",
+      "checks": [
+        {
+          "name": "recovers a known rate from 200,000 synthetic switches",
+          "reference": "exact sampling from the survival law",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0026",
+      "slug": "dhs-force-dependent-rate",
+      "title": "Force-dependent escape rate of Dudko, Hummer and Szabo",
+      "area": "driven",
+      "kind": "asymptotic",
+      "statement": "Under a constant force F, the escape rate over a barrier of height dG at distance x is k0 (1 - nu F x/dG)^(1/nu - 1) exp{dG [1 - (1 - nu F x/dG)^(1/nu)]/kT}: nu = 2/3 for a linear-cubic surface, 1/2 for a harmonic well with a cusp, and nu = 1 gives Bell's exponential law. For nu = 2/3 it is exactly Kramers' formula for the tilted surface, the large-barrier limit of the noisy saddle-node.",
+      "model": "U(y)=U_0(y)-Fy,\\ \\text{overdamped},\\ \\nu=2/3:\\ U_0=\\tfrac32\\Delta G^\\ddagger y/x^\\ddagger-2\\Delta G^\\ddagger(y/x^\\ddagger)^3",
+      "formula": "k(F)=k_0\\left(1-\\frac{\\nu Fx^\\ddagger}{\\Delta G^\\ddagger}\\right)^{1/\\nu-1}\\exp\\left\\{\\beta\\Delta G^\\ddagger\\left[1-\\left(1-\\frac{\\nu Fx^\\ddagger}{\\Delta G^\\ddagger}\\right)^{1/\\nu}\\right]\\right\\}",
+      "parameters": {
+        "F": "force",
+        "k0": "rate at zero force",
+        "x": "distance to the barrier x^ddagger",
+        "dG": "barrier at zero force",
+        "nu": "2/3, 1/2 or 1",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Phys. Rev. Lett. 96, 108101 (2006)",
+          "doi": "10.1103/PhysRevLett.96.108101",
+          "locator": "Eq. (3), p. 108101-2 (energies in kT)",
+          "version_read": "published PDF in Zenodo record 1233953 (CC0), opened 14 Oct 2026",
+          "printed": "k(F)=k_0\\left(1-\\frac{\\nu Fx^\\ddagger}{\\Delta G^\\ddagger}\\right)^{1/\\nu-1}e^{\\Delta G^\\ddagger[1-(1-\\nu Fx^\\ddagger/\\Delta G^\\ddagger)^{1/\\nu}]}",
+          "notation": "their energies are in units of kT; here beta = 1/kT is written out",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Proc. Natl. Acad. Sci. USA 105, 15755 (2008)",
+          "doi": "10.1073/pnas.0806085105",
+          "locator": "Eq. [5], p. 15757 (lifetime tau(F) = 1/k(F), beta explicit)",
+          "version_read": "PubMed Central PMC2572921 equation images, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Force below the critical force dG/(nu x) with a barrier of several kT left; overdamped, single barrier, soft pulling device. For nu = 2/3 the error against the exact rate is that of Kramers' formula (K0001: 3% at a 10 kT barrier).",
+      "aliases": [
+        "Dudko-Hummer-Szabo",
+        "unified rate for force spectroscopy",
+        "linear-cubic potential",
+        "cusp potential"
+      ],
+      "related": [
+        "K0001",
+        "K0024",
+        "K0027",
+        "K0029"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0026_dhs_rate.dhs_rate",
+      "checks": [
+        {
+          "name": "nu = 2/3 equals Kramers' formula for the tilted surface",
+          "reference": "K0001",
+          "slow": false
+        },
+        {
+          "name": "force dependence against exact decay rates",
+          "reference": "quadrature solver, cubic and cusp landscapes",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0027",
+      "slug": "dhs-rupture-force-moments",
+      "title": "Mean and variance of the rupture force under constant loading (Dudko, Hummer and Szabo)",
+      "area": "driven",
+      "kind": "asymptotic",
+      "statement": "For a bond with the rate of K0026 pulled at constant loading rate, the mean rupture force and its variance have closed forms in the logarithm of the loading rate, which reduce to the Bell-Evans logarithmic law for nu = 1.",
+      "model": "\\text{K0026 rate},\\ F(t)=\\dot F\\,t",
+      "formula": "\\langle F\\rangle\\cong\\frac{\\Delta G^\\ddagger}{\\nu x^\\ddagger}\\left\\{1-\\left[\\frac{1}{\\beta\\Delta G^\\ddagger}\\ln\\frac{k_0k_BTe^{\\beta\\Delta G^\\ddagger+\\gamma}}{x^\\ddagger\\dot F}\\right]^{\\nu}\\right\\},\\ \\sigma_F^2\\cong\\frac{\\pi^2(k_BT)^2}{6x^{\\ddagger2}}\\left[\\frac{1}{\\beta\\Delta G^\\ddagger}\\ln\\frac{k_0k_BTe^{\\beta\\Delta G^\\ddagger+\\tilde\\gamma}}{x^\\ddagger\\dot F}\\right]^{2\\nu-2}",
+      "parameters": {
+        "loading_rate": "dF/dt",
+        "k0": "zero-force rate",
+        "x": "x^ddagger",
+        "dG": "barrier",
+        "nu": "2/3, 1/2 or 1",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Phys. Rev. Lett. 96, 108101 (2006)",
+          "doi": "10.1103/PhysRevLett.96.108101",
+          "locator": "Eqs. (5)-(6), p. 108101-2 (energies in kT; kT restored here)",
+          "version_read": "published PDF in Zenodo record 1233953 (CC0), opened 14 Oct 2026",
+          "printed": "\\langle F\\rangle\\cong\\frac{\\Delta G^\\ddagger}{\\nu x^\\ddagger}\\left\\{1-\\left[\\frac{1}{\\Delta G^\\ddagger}\\ln\\frac{k_0e^{\\Delta G^\\ddagger+\\gamma}}{x^\\ddagger KV}\\right]^{\\nu}\\right\\}",
+          "notation": "KV = loading rate; with kT restored, k0/(x KV) becomes k0 kT/(x KV)",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "A. Garg, Phys. Rev. B 51, 15592 (1995)",
+          "doi": "10.1103/PhysRevB.51.15592",
+          "locator": "credited by Dudko, Hummer and Szabo for Eqs. (5)-(6)",
+          "version_read": "not opened (closed access)",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Several kT of barrier at the typical rupture force; quasi-static (adiabatic) loading. Against the exact moments of the same model (computed check): within 2% at dG = 20 kT, better at higher barriers.",
+      "aliases": [
+        "dynamic force spectroscopy",
+        "loading-rate dependence of rupture force",
+        "mean rupture force"
+      ],
+      "related": [
+        "K0024",
+        "K0026",
+        "K0029"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0027_dhs_rupture_force_moments.dhs_rupture_force_moments",
+      "checks": [
+        {
+          "name": "against the exact moments of the switching distribution",
+          "reference": "K0024 with K0026",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0028",
+      "slug": "dhs-lifetime-transform",
+      "title": "Force-dependent lifetimes from rupture-force histograms (Dudko, Hummer and Szabo, 2008)",
+      "area": "driven",
+      "kind": "estimator",
+      "statement": "A histogram of rupture forces at one loading rate gives the lifetime of the bond at each force: the probability of surviving to that force divided by the density of ruptures there and the loading rate. Histograms from different loading rates must collapse onto one curve if the rate picture holds, which is a test of the model.",
+      "model": "\\tau(F)=\\frac{\\int_F^\\infty p(f)\\,df}{\\dot F(F)\\,p(F)}",
+      "formula": "\\tau\\big(F_0+(k-\\tfrac12)\\Delta F\\big)=\\frac{\\left(h_k/2+\\sum_{i=k+1}^{N}h_i\\right)\\Delta F}{h_k\\,\\dot F\\big(F_0+(k-\\tfrac12)\\Delta F\\big)}",
+      "parameters": {
+        "counts": "ruptures per force bin",
+        "edges": "bin edges",
+        "loading_rate": "dF/dt, number or function of F"
+      },
+      "sources": [
+        {
+          "citation": "O. K. Dudko, G. Hummer and A. Szabo, Proc. Natl. Acad. Sci. USA 105, 15755 (2008)",
+          "doi": "10.1073/pnas.0806085105",
+          "locator": "Eq. [10], p. 15759 (Methods); continuous form Eq. [2], p. 15756",
+          "version_read": "PubMed Central PMC2572921 equation image of Eq. [10], opened 14 Oct 2026",
+          "printed": "\\tau\\big(F_0+(k-\\tfrac12)\\Delta F\\big)=\\frac{\\left(h_k/2+\\sum_{i=k+1}^{N}h_i\\right)\\Delta F}{h_k\\,\\dot F\\big(F_0+(k-\\tfrac12)\\Delta F\\big)}",
+          "notation": "h_i = C_i / (N_tot Delta F); bin k spans [F0 + (k-1) dF, F0 + k dF]",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "Z. Liu, H. Liu, A. M. Vera, R. C. Bernardi, P. Tinnefeld and M. A. Nash, Nat. Commun. 11, 4321 (2020)",
+          "doi": "10.1038/s41467-020-18063-x",
+          "locator": "Eq. (3), Methods (the same estimator as k_off)",
+          "version_read": "Europe PMC full-text XML PMC7456326, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Rate process with single-exponential kinetics at constant force; quasi-adiabatic loading; irreversible rupture; every rupture inside the histogram. On an exact histogram the estimator is too high by a factor lambda / (2 tanh(lambda/2)), about 1 + lambda^2/12, where lambda = ln(S_k/S_k+1) (computed check): 0.09% when 10% of the survivors fail in a bin, 0.7% at 25%, 4% at 50%. The logarithmic form (K0025) has no such bias.",
+      "aliases": [
+        "force spectroscopy histogram transformation",
+        "lifetime from rupture forces",
+        "k_off from histograms"
+      ],
+      "related": [
+        "K0024",
+        "K0025",
+        "K0026"
+      ],
+      "notes": "",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0028_dhs_lifetime_transform.histogram_to_lifetime",
+      "checks": [
+        {
+          "name": "on an exact histogram it equals its known discretisation",
+          "reference": "(dF/Fdot) / (2 tanh(lambda/2))",
+          "slow": false
+        },
+        {
+          "name": "recovers a known lifetime from 200,000 synthetic ruptures",
+          "reference": "exact sampling from the Bell rate",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0029",
+      "slug": "bell-evans-force",
+      "title": "Most probable rupture force under constant loading (Bell-Evans)",
+      "area": "driven",
+      "kind": "exact",
+      "statement": "A bond whose lifetime falls exponentially with force (Bell's model) breaks most often at the force (kT/x) ln(r x/(k0 kT)) when the force rises at rate r: the logarithmic loading-rate law of dynamic force spectroscopy.",
+      "model": "k(F)=k_0\\,e^{Fx/k_BT},\\quad F=\\dot F\\,t",
+      "formula": "F^*=\\frac{k_BT}{x}\\ln\\!\\left[\\frac{\\dot F\\,x}{k_0k_BT}\\right]",
+      "parameters": {
+        "loading_rate": "dF/dt",
+        "k0": "zero-force rate",
+        "x": "distance to the transition state",
+        "kT": "thermal energy"
+      },
+      "sources": [
+        {
+          "citation": "Z. Liu, H. Liu, A. M. Vera, R. C. Bernardi, P. Tinnefeld and M. A. Nash, Nat. Commun. 11, 4321 (2020)",
+          "doi": "10.1038/s41467-020-18063-x",
+          "locator": "Eq. (2), Methods",
+          "version_read": "Europe PMC full-text XML PMC7456326 (CC BY), opened 14 Oct 2026",
+          "printed": "F=\\frac{k_{\\mathrm B}T}{\\Delta x^\\ddagger}\\ln\\left[\\frac{r_{\\mathrm f}\\,\\Delta x^\\ddagger}{k_0k_{\\mathrm B}T}\\right]",
+          "notation": "r_f = loading rate, Delta x^ddagger = x",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "E. Evans and K. Ritchie, Biophys. J. 72, 1541 (1997)",
+          "doi": "10.1016/S0006-3495(97)78802-7",
+          "locator": "Eq. (13), p. 1547: the condition for the most probable force (the closed form is not printed there)",
+          "version_read": "scanned pages in PubMed Central PMC1184350, opened 14 Oct 2026",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Bell's rate law (force-independent x), single barrier, slow loading compared with molecular relaxation, r x > k0 kT. Exact for that model.",
+      "aliases": [
+        "Bell model",
+        "dynamic strength of bonds",
+        "most probable unbinding force",
+        "Evans-Ritchie"
+      ],
+      "related": [
+        "K0024",
+        "K0026",
+        "K0027"
+      ],
+      "notes": "Often cited to Evans and Ritchie (1997), who derive it (their Eq. 13 with the Bell rate) but print only that condition and the scaling; the closed form is printed in Liu et al. (2020), among others.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0029_bell_evans_force.bell_evans_force",
+      "checks": [
+        {
+          "name": "is the mode of the exact rupture-force density",
+          "reference": "K0024 with the Bell rate",
+          "slow": false
+        },
+        {
+          "name": "the nu = 1 limit of the mean-force formula",
+          "reference": "Dudko, Hummer and Szabo (2006) Eq. (5)",
+          "slow": false
+        }
+      ]
+    },
+    {
+      "id": "K0030",
+      "slug": "ramped-fold-switching",
+      "title": "Switching of the noisy fold under a linear ramp, solved exactly (computed reference)",
+      "area": "driven",
+      "kind": "computed-reference",
+      "statement": "When the control parameter of a noisy saddle-node is ramped towards the fold at any speed, the distribution of the distance at which paths escape, computed from the time-dependent Fokker-Planck equation with no quasi-static assumption and no fitted coefficient. At fast ramps the quasi-static (Kramers or exact-rate) answer is off by tens of per cent and many paths escape only after the fold.",
+      "model": "dy=\\left(y^2-u_0+\\Sigma s\\right)ds+\\sqrt2\\,dW,\\ \\text{escape at } y=y_c",
+      "formula": "S(s)=\\int p(y,s)\\,dy,\\quad \\partial_s p=-\\partial_y[(y^2-u(s))p]+\\partial_y^2p,\\ p(y_c,s)=0",
+      "parameters": {
+        "sigma": "scaled ramp rate",
+        "levels": "escaped fractions",
+        "u0": "starting distance",
+        "y_escape": "escape point",
+        "n_cells": "grid size"
+      },
+      "sources": [],
+      "validity": "Scaled ramp rates from about 1e-3 to 1 and beyond; the solver's own error is below 1e-3 in u.",
+      "aliases": [
+        "rate-induced delay of tipping",
+        "dynamic bifurcation with noise",
+        "ramped saddle-node",
+        "switching under a fast ramp",
+        "tipping under a ramp"
+      ],
+      "related": [
+        "K0008",
+        "K0024"
+      ],
+      "notes": "Replaces the lag coefficient fitted to simulations in geoews 0.3 (dev branch). A prototype of 12 October 2026 matched the author's simulated medians (0.748, 0.611, 0.487, 0.338 at Sigma = 0.08, 0.10, 0.122, 0.15; statistical errors 0.003 to 0.005) to within 0.005 after converting between the two escape criteria.",
+      "written_by": [
+        "Claude Opus 5.5 (AI), for A. Sokol"
+      ],
+      "checked_by": [],
+      "added": "2026-10-14",
+      "function": "kramers.handbook.k0030_ramped_fold.ramped_fold_switching",
+      "checks": [
+        {
+          "name": "quantiles against direct simulation",
+          "reference": "Euler-Maruyama, 6,000 paths, the same escape criterion",
+          "slow": true
+        },
+        {
+          "name": "slow ramp: approaches the quasi-static median",
+          "reference": "decay rate of the frozen fold (K0008)",
+          "slow": true
+        }
+      ]
+    }
+  ]
+}
