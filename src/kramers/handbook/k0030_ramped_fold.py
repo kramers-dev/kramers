@@ -32,7 +32,7 @@ def ramped_fold_switching(sigma: float, levels: tuple[float, ...] = (0.1, 0.5, 0
     ``y_escape``. Negative values are past the fold. Computed by the time-dependent
     Fokker-Planck solver; no fitted coefficient and no quasi-static assumption.
     """
-    if not (sigma > 0 and u0 >= 2.0 and y_escape > np.sqrt(u0) + 3):
+    if not (sigma > 0 and u0 >= 2.0 and y_escape >= np.sqrt(u0) + 2):
         raise OutsideDomain("need sigma > 0, u0 >= 2 and an escape point well past the saddle")
     t, S = _solve(float(sigma), float(u0), float(y_escape), int(n_cells))
     lv = np.asarray(levels, dtype=float)

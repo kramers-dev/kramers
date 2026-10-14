@@ -100,9 +100,10 @@ def main() -> None:
     (out / "index.md").write_text("\n".join(index))
     errata = ["# Errata found while building the handbook", "",
               "Misprints in published equations, found when an entry was implemented and checked. Each was "
-              "verified numerically here; none of them affects the papers' main results unless stated. We "
-              "have not found published errata for them. If you are an author and we are wrong, please say "
-              "so in an issue; we will correct this page and credit you.", ""]
+              "verified numerically here. We have not checked whether any of them entered computations in "
+              "the papers; the results of those papers that we reproduced (named in each note) agree with "
+              "the corrected forms. We have not found published errata for them. If you are an author and "
+              "we are wrong, please say so in an issue; we will correct this page and credit you.", ""]
     for e in entries:
         if any(w in e.notes.lower() for w in ("erratum", "misprint")):
             errata += [f"## {e.id}. {e.title}", "", e.notes, ""]
