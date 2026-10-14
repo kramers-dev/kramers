@@ -45,6 +45,11 @@ def statistical(rows: Sequence[tuple[str, float, float, float]], n_sigma: float 
 
 def combine(*results: CheckResult) -> CheckResult:
     """All must pass; the worst is reported relative to its own tolerance."""
-    ratio = max(r.worst / r.tolerance for r in results)
+    def frac(r: CheckResult) -> float:
+        if r.tolerance > 0:
+            return r.worst / r.tolerance
+        return 0.0 if r.worst == 0 else float("inf")
+
+    ratio = max(frac(r) for r in results)
     return CheckResult(passed=all(r.passed for r in results), worst=ratio, tolerance=1.0,
                        detail="\n\n".join(r.detail for r in results) + "\n(worst shown as a fraction of each part's tolerance)")
