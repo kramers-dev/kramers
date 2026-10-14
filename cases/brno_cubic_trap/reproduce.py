@@ -9,12 +9,13 @@ Model (P1 Eq. 1, P2 Eq. 1): overdamped bead, V(x) = mu x^3 / 3, D = kT / gamma.
 Numbers labelled "printed" or "read" come from the papers (figure readings to the stated
 precision); everything else is computed here with kramers' quadrature and Fokker-Planck solvers.
 
-    python cases/brno_cubic_trap/reproduce.py        (about two minutes; writes figure.png)
+    python cases/brno_cubic_trap/reproduce.py        (a few minutes; writes figure.png)
 """
 
 from pathlib import Path
 
 import numpy as np
+from scipy.optimize import minimize_scalar
 
 from kramers.formulas import fold_decay_rate, ramped_fold_switching
 from kramers.solvers import FirstPassage1D, fokker_planck
@@ -28,10 +29,23 @@ def moments(mu, x0, x_abs, D=1.0):
     return fp.moments(x0, n=2).value
 
 
-def survival(mu, D, x0, x_abs, t_end):
-    sol = fokker_planck.solve(lambda x: -D * mu * x * x, D, (x_abs, 3.0), left="absorbing", right="reflecting",
+def survival(mu, x0, x_abs, t_end):
+    """S(t) at D = 1; for another D, S(t; D) = S(D t; 1) (time scales with 1/D at fixed geometry)."""
+    sol = fokker_planck.solve(lambda x: -mu * x * x, 1.0, (x_abs, 3.0), left="absorbing", right="reflecting",
                               x0=x0, t_end=t_end, n_cells=2000, dt=t_end / 3000)
     return sol.t, sol.survival
+
+
+def censored(mu, D, x0, x1, t_cut):
+    """Mean and mean/SD of tau(x0 -> x1) among passages completed by t_cut (unfinished runs discarded),
+    and the fraction completed."""
+    sol = fokker_planck.solve(lambda x: -D * mu * x * x, D, (x1, 2.5), left="absorbing", right="reflecting",
+                              x0=x0, t_end=t_cut, n_cells=2000, dt=t_cut / 4000)
+    dF = np.diff(sol.absorbed_left)
+    tm = 0.5 * (sol.t[1:] + sol.t[:-1])
+    F = dF.sum()
+    m1, m2 = (tm * dF).sum() / F, (tm * tm * dF).sum() / F
+    return m1, m1 / np.sqrt(m2 - m1 * m1), F
 
 
 # ---------------------------------------------------------------- P1, Sci. Rep. 2017
@@ -39,6 +53,7 @@ print("P1. x0 = 1.2 um (Fig. 4; Fig. 1 marks about 1.47), x1 = -2.1 um, mu3 = 6.
 print("    Measured (Fig. 4, read; N = 26): <tau(x0->0)> = 1.16 +- 0.14 s, <tau(x0->x1)> = 3.61 +- 0.29 s, R = 0.32 +- 0.05,")
 print("    mean/SD of tau(x0->x1) = 2.3 +- 1.6; their simulation at these points: 1.62 (2.32 cut at 8 s).")
 D_stokes = KT / (6 * np.pi * 0.95e-3 * 0.497e-6) * 1e12  # um^2/s: water at 22 C assumed; radius 0.497 um printed
+print("\n    Values below are for the ideal model with no time limit, unless marked.")
 print("\n    Reading A: mu3 is the potential itself; D is free.")
 for x0 in (1.2, 1.47):
     t0, _ = moments(6.65, x0, 0.0)
@@ -46,14 +61,25 @@ for x0 in (1.2, 1.47):
     print(f"      x0 = {x0}: R = {t0 / t1:.3f}, mean/SD = {t1 / np.sqrt(s1 - t1 * t1):.3f}; the measured means need "
           f"D = {t0 / 1.16:.3f} +- {0.14 / 1.16 * t0 / 1.16:.3f} and {t1 / 3.61:.3f} +- {0.29 / 3.61 * t1 / 3.61:.3f} um^2/s "
           f"(a wall factor of {D_stokes / (t1 / 3.61):.1f} against the Stokes value {D_stokes:.3f})")
-print("\n    Reading B (P1 Methods: the drift was measured near the wall, the wall factor gamma_c enters only the noise):")
-print("    drift coefficient kappa = 6.65 x D_Stokes fixed; D = D_Stokes / gamma_c; effective mu = 6.65 gamma_c.")
+print("\n    Reading B, a calibration hypothesis: IF the printed 6.65 is the measured drift coefficient kappa divided by")
+print("    D_Stokes, and the wall factor gamma_c enters only the noise (as P1 Methods suggests), then")
+print("    D = D_Stokes / gamma_c and the effective mu = 6.65 gamma_c. (Fig. 1 calls 6.65 the potential coefficient,")
+print("    which is reading A; the paper does not say enough to choose.)")
 print("      gamma_c   <tau(x0->0)>   <tau(x0->x1)>    R      mean/SD    (x0 = 1.2; times scale with the assumed D_Stokes)")
 for gc in (2.0, 3.0, 4.2, 4.6):
     t0, _ = moments(6.65 * gc, 1.2, 0.0, D_stokes / gc)
     t1, s1 = moments(6.65 * gc, 1.2, -2.1, D_stokes / gc)
     print(f"        {gc:3.1f}       {t0:6.3f} s       {t1:6.3f} s      {t0 / t1:.3f}    {t1 / np.sqrt(s1 - t1 * t1):.3f}")
 print("    Asymptotic values for distant points (P3 Eqs. 27, 32): R = 1/3, mean/SD = sqrt(3) = 1.732.")
+print("\n    With P1's 8 s limit (runs not finished by 8 s discarded; our assumption about the measurement), x0 = 1.2:")
+t1A, _ = moments(6.65, 1.2, -2.1)
+for label, mu_, D_ in (("reading A, D from the measured <tau(x0->x1)>", 6.65, t1A / 3.61),
+                       ("reading B, gamma_c = 4.6", 6.65 * 4.6, D_stokes / 4.6)):
+    m0, _, F0 = censored(mu_, D_, 1.2, 0.0, 8.0)
+    m1, r, F1 = censored(mu_, D_, 1.2, -2.1, 8.0)
+    print(f"      {label}: <tau(x0->0)> = {m0:.3f} s, <tau(x0->x1)> = {m1:.3f} s, R = {m0 / m1:.3f}, "
+          f"mean/SD = {r:.3f}; finished by 8 s: {F0:.3f} and {F1:.3f}")
+print("    P1's simulation with the 8 s limit: mean/SD = 2.32; measured: 1.16 s, 3.61 s, R = 0.32, mean/SD = 2.3.")
 
 # ---------------------------------------------------------------- P2, PRL 2018
 print("\nP2. mu = 4.07 +- 0.03 kT/um^3 and lambda0 = 0.44 +- 0.01 1/s (printed); D not printed.")
@@ -61,39 +87,62 @@ E0 = fold_decay_rate(0.0)
 D2 = 0.44 / (E0 * 4.07 ** (2.0 / 3.0))
 print(f"    lambda0 = E0(0) D mu^(2/3) with E0(0) = {E0:.6f} gives D = {D2:.4f} +- {0.01 / 0.44 * D2:.4f} um^2/s "
       f"(Stokes, 1 um bead, water, 22 C: {KT / (6 * np.pi * 0.95e-3 * 0.5e-6) * 1e12:.3f}).")
-sims = {  # SM Fig. S2, simulated (dashed) and measured S(t), read from the plot to +-0.005
+sims = {  # SM Fig. S2, simulated (dashed) and measured S(t), read from the plot to +-0.005 (nan: not read)
+    -2.0: ((0.1, 0.2), (0.17, 0.003), (0.21, np.nan)),
     -1.0: ((0.2, 0.3, 0.5, 0.75, 1.0, 2.0), (0.85, 0.50, 0.17, 0.08, 0.05, 0.02), (0.84, 0.59, 0.22, 0.10, 0.09, 0.06)),
     -0.5: ((0.3, 0.5, 0.75, 1.0, 2.0, 4.0), (0.94, 0.68, 0.46, 0.34, 0.17, 0.06), (0.96, 0.72, 0.48, 0.33, 0.19, 0.10)),
     0.0: ((0.5, 0.75, 1.0, 2.0, 3.0, 4.0), (0.95, 0.82, 0.69, 0.40, 0.24, 0.14), (0.92, 0.78, 0.60, 0.31, 0.23, 0.15)),
 }
-curves = {}
-print("    Survival S(t) with divergence counted at a = -10 um (as we read the text) and at a = -2.75 um (SM Fig. S3):")
+unit = {a: {x0: survival(4.07, x0, a, 4.0) for x0 in sims} for a in (-10.0, -2.75)}  # D = 1
+
+
+def S_at(a, x0, t, D):
+    tt, S = unit[a][x0]
+    return np.interp(D * np.asarray(t), tt, S)
+
+
+def errors(a, D):
+    d = np.concatenate([S_at(a, x0, t, D) - np.array(s_sim) for x0, (t, s_sim, _) in sims.items()])
+    return float(np.sqrt(np.mean(d * d))), float(np.max(np.abs(d)))
+
+
+print("    Survival S(t) with divergence counted at a = -10 um (as the SM states) and at a = -2.75 um:")
 print("      x0     t(s)   a=-10    a=-2.75    P2 sim.   P2 meas.")
 for x0, (t, s_sim, s_meas) in sims.items():
-    tt, S10 = survival(4.07, D2, x0, -10.0, 6.0)
-    tt2, S275 = survival(4.07, D2, x0, -2.75, 6.0)
-    curves[x0] = (tt2, S275, tt, S10)
-    for ti, a, b, c, d in zip(t, np.interp(t, tt, S10), np.interp(t, tt2, S275), s_sim, s_meas, strict=True):
-        print(f"      {x0:5.2f}  {ti:4.2f}   {a:.3f}     {b:.3f}      {c:.2f}      {d:.2f}")
+    for ti, a, b, c, d in zip(t, S_at(-10.0, x0, t, D2), S_at(-2.75, x0, t, D2), s_sim, s_meas, strict=True):
+        print(f"      {x0:5.2f}  {ti:4.2f}   {a:.3f}     {b:.3f}      {c:.3f}     {d:.2f}")
+for a in (-2.75, -10.0):
+    rms, mx = errors(a, D2)
+    print(f"    Against all {sum(len(v[0]) for v in sims.values())} simulated points, a = {a:g}, D = {D2:.4f}: "
+          f"RMS error {rms:.3f}, largest {mx:.3f}")
+best = minimize_scalar(lambda D: errors(-10.0, D)[0], bounds=(0.2, 2.0), method="bounded", options={"xatol": 1e-6})
+rms, mx = errors(-10.0, best.x)
+print(f"    a = -10 with the D that fits best ({best.x:.3f} um^2/s): RMS error {rms:.3f}, largest {mx:.3f}; "
+      f"at x0 = -2, t = 0.1 s it gives S = {float(S_at(-10.0, -2.0, 0.1, best.x)):.2f} against 0.17.")
 
 # ---------------------------------------------------------------- the ramp
 ell = 4.07 ** (-1.0 / 3.0)  # um
 tau = ell * ell / D2  # s
 f_unit = KT / (ell * 1e-6) * 1e15  # fN
 y_esc = 2.75 / ell
-print(f"\nThe ramp nobody has measured, in P2's potential: tilt lowered linearly to zero (the fold) at scaled rate Sigma.")
-print(f"    Units: length {ell:.3f} um, time {tau:.3f} s, tilt force {f_unit:.2f} fN; start 4 units from the fold "
-      f"({4 * f_unit:.1f} fN, well at {2 * ell:.2f} um, inside the calibrated range); escape at -2.75 um.")
-print("      Sigma   tilt at which 10% / 50% / 90% have escaped (fN)   quasi-static median   ramp (fN/s)   run length (s)")
+print("\nAn illustrative extension not studied in P1-P3: V(x) = mu x^3/3 - f(t) x, with the tilt f swept linearly")
+print("through zero (the fold) at scaled rate Sigma, in P2's potential and with P2's D.")
+print(f"    Units: length {ell:.4f} um, time {tau:.4f} s, tilt force {f_unit:.3f} fN; start 4 units from the fold "
+      f"({4 * f_unit:.1f} fN: well at {2 * ell:.3f} um, saddle at {-2 * ell:.3f} um, barrier {4 / 3 * 8:.2f} kT), "
+      "from the quasi-stationary density; escape at -2.75 um.")
+print("      Sigma   ramp (fN/s)   tilt at 10% / 50% / 90% escaped (fN)   quasi-static median (fN)   median shift   "
+      "time to the 90% point (s)")
 u_grid = np.linspace(4.0, 0.0, 401)
 lam = fold_decay_rate(u_grid)
 for sigma in (0.02, 0.05, 0.1, 0.3):
     u = ramped_fold_switching(sigma, (0.1, 0.5, 0.9), u0=4.0, y_escape=y_esc)
     H = np.concatenate([[0.0], np.cumsum(0.5 * (lam[1:] + lam[:-1]) * (-np.diff(u_grid)))]) / sigma
     qs = float(np.interp(np.log(2.0), H, u_grid)) if H[-1] > np.log(2.0) else float("nan")
-    print(f"      {sigma:5.2f}    {u[0] * f_unit:6.2f} / {u[1] * f_unit:6.2f} / {u[2] * f_unit:6.2f}               "
-          f"{qs * f_unit:6.2f}            {sigma * f_unit / tau:.3f}         {4.0 / sigma * tau:.0f}")
-print("    Negative tilt: past the fold. The quasi-static column integrates the frozen escape rate (entry K0024 with K0008).")
+    print(f"      {sigma:5.2f}   {sigma * f_unit / tau:6.3f}      {u[0] * f_unit:6.2f} / {u[1] * f_unit:6.2f} / "
+          f"{u[2] * f_unit:6.2f}             {qs * f_unit:6.2f}               {(u[1] - qs) / qs:+7.1%}         "
+          f"{(4.0 - u[2]) / sigma * tau:6.1f}")
+print("    Negative tilt: past the fold. The quasi-static column integrates the frozen escape rate (K0024 with K0008).")
+print("    The tilted potentials were not calibrated in P2; whether the trap can sweep the tilt this way is untested.")
 
 # ---------------------------------------------------------------- figure
 try:
@@ -101,17 +150,18 @@ try:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(1, 2, figsize=(10, 3.8))
-    colors = {-1.0: "#1f77b4", -0.5: "#2ca02c", 0.0: "#d62728"}
+    colors = {-2.0: "#9467bd", -1.0: "#1f77b4", -0.5: "#2ca02c", 0.0: "#d62728"}
+    tfig = np.linspace(0.0, 4.2, 600)
     for x0, (t, s_sim, s_meas) in sims.items():
-        tt2, S275, tt, S10 = curves[x0]
-        ax[0].plot(tt2, S275, color=colors[x0], lw=1.6, label=f"x0 = {x0:g} um, divergence at -2.75 um")
-        ax[0].plot(tt, S10, color=colors[x0], lw=1.0, ls=":")
+        ax[0].plot(tfig, S_at(-2.75, x0, tfig, D2), color=colors[x0], lw=1.6, label=f"x0 = {x0:g} um, divergence at -2.75 um")
+        ax[0].plot(tfig, S_at(-10.0, x0, tfig, D2), color=colors[x0], lw=1.0, ls=":")
         ax[0].plot(t, s_sim, "o", mfc="none", color=colors[x0], ms=5)
         ax[0].plot(t, s_meas, "x", color=colors[x0], ms=5)
     ax[0].set_xlim(0, 4.2)
     ax[0].set_xlabel("time (s)")
     ax[0].set_ylabel("survival S(t)")
-    ax[0].set_title("P2: computed (lines; dotted: divergence at -10 um),\nP2's simulation (o) and measurement (x)", fontsize=9)
+    ax[0].set_title("P2, SM Fig. S2: ideal cubic with P2's D (lines: divergence at -2.75 um,\n"
+                    "dotted: at -10 um); P2's simulation (o) and measurement (x)", fontsize=9)
     ax[0].legend(fontsize=7, frameon=False)
     sig = np.array([0.02, 0.03, 0.05, 0.08, 0.1, 0.15, 0.2, 0.3])
     q = np.array([ramped_fold_switching(s, (0.1, 0.5, 0.9), u0=4.0, y_escape=y_esc) for s in sig]) * f_unit
@@ -124,7 +174,7 @@ try:
     ax[1].minorticks_off()
     ax[1].set_xlabel("ramp of the tilt force (fN/s)")
     ax[1].set_ylabel("tilt force at escape (fN)")
-    ax[1].set_title("Prediction: escape under a ramped tilt (P2's potential)", fontsize=9)
+    ax[1].set_title("Illustration: escape under a tilt swept through zero\n(P2's potential, ideal model)", fontsize=9)
     ax[1].legend(fontsize=7, frameon=False)
     fig.tight_layout()
     out = Path(__file__).with_name("figure.png")
