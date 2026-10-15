@@ -31,7 +31,7 @@ in [docs/errata.md](docs/errata.md) with the computation, as a question to the a
 until they answer.
 
 A check only catches what it tests. The second model's first review (14 October 2026)
-found inputs on which the solvers' own error estimates certified wrong or unconverged
+found inputs on which the solvers' own error estimates vouched for wrong or unconverged
 answers: a narrow feature between sample points, a position-dependent D at an infinite
 end, a well hidden beyond a truncation point, and a slowly converging eigenvalue
 iteration. Each was fixed or made to raise an error, each now has a test, and the

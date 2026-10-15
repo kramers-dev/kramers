@@ -711,6 +711,16 @@ class FirstPassage1D:
         nearly flat at the root and the root inherits the coefficients' errors amplified
         (to about their square root for a double root); ``decay_rate`` accounts for it.
         Returns the root, a summary, and the log-coefficients.
+
+        Prior work: the series is the spectral-parameter power series of Kravchenko and
+        Porter (Math. Methods Appl. Sci. 33, 459 (2010), Theorem 1), here with zero
+        potential, a case they credit to Weyl (1910); that its zeros are the decay rates
+        of the passage time is Kent's (Z. Wahrsch. 52, 309 (1980)); the first Newton step
+        from zero is the reciprocal mean passage time. What is done here is the
+        evaluation of the coefficients in logarithms, which keeps double precision for
+        rates near 1e-300 where the published method uses multiprecision arithmetic, and
+        the bracket of ``decay_rate``. The bracket rests on estimated coefficient errors,
+        not on proven bounds: it is not a validated enclosure.
         """
         pts = np.array([], dtype=float)
         a, b, _ = self._effective_domain(pts)

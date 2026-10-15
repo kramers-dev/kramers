@@ -105,7 +105,10 @@ register(Entry(
         "integrand is exp(-V(z)/D); for a linear potential V = -mu x that gives 8.3e3 instead "
         "of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while exp(+V(z)/D) "
         "reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this "
-        "entry. We read both as misprints but may have misread the notation."
+        "entry. We read both as misprints but may have misread the notation. The bare prefactor "
+        "of Eq. (3.2) reappears in Vilela and Lindner, J. Theor. Biol. 257, 90 (2009), Eq. (38) of "
+        "the arXiv version (journal version not checked). No erratum or comment was found in "
+        "Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026)."
     ),
     added="2026-10-14",
 ))

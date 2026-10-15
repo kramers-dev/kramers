@@ -126,7 +126,9 @@ register(Entry(
         "U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With "
         "exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential "
         "cannot reveal the difference. We read this as a misprint but may have misread the "
-        "notation; no erratum was found in Crossref."
+        "notation: on the author-hosted scan we read, a speck sits on the sign, so the printed "
+        "sign must be confirmed on a clean copy before the authors are asked. No erratum or "
+        "comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026)."
     ),
     added="2026-10-14",
 ))
