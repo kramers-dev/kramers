@@ -8,10 +8,9 @@ P1. x0 = 1.2 um (Fig. 4; Fig. 1 marks about 1.47), x1 = -2.1 um, mu3 = 6.65 +- 0
       x0 = 1.2: R = 0.287, mean/SD = 1.495; the measured means need D = 0.300 +- 0.036 and 0.336 +- 0.027 um^2/s (a wall factor of 1.4 against the Stokes value 0.458)
       x0 = 1.47: R = 0.299, mean/SD = 1.520; the measured means need D = 0.318 +- 0.038 and 0.342 +- 0.027 um^2/s (a wall factor of 1.3 against the Stokes value 0.458)
 
-    Reading B, a calibration hypothesis: IF the printed 6.65 is the measured drift coefficient kappa divided by
-    D_Stokes, and the wall factor gamma_c enters only the noise (as P1 Methods suggests), then
-    D = D_Stokes / gamma_c and the effective mu = 6.65 gamma_c. (Fig. 1 calls 6.65 the potential coefficient,
-    which is reading A; the paper does not say enough to choose.)
+    Reading B (P1 Methods: the measured drift kappa is kept and the wall factor gamma_c enters only the
+    noise; with 6.65 = kappa / D_Stokes this is D = D_Stokes / gamma_c and effective mu = 6.65 gamma_c).
+    Fig. 1 calls 6.65 the reconstructed potential coefficient, which is reading A.
       gamma_c   <tau(x0->0)>   <tau(x0->x1)>    R      mean/SD    (x0 = 1.2; times scale with the assumed D_Stokes)
         2.0        1.023 s        3.448 s      0.297    1.542
         3.0        1.208 s        4.008 s      0.301    1.565
@@ -19,9 +18,10 @@ P1. x0 = 1.2 um (Fig. 4; Fig. 1 marks about 1.47), x1 = -2.1 um, mu3 = 6.65 +- 0
         4.6        1.433 s        4.686 s      0.306    1.587
     Asymptotic values for distant points (P3 Eqs. 27, 32): R = 1/3, mean/SD = sqrt(3) = 1.732.
 
-    With P1's 8 s limit (runs not finished by 8 s discarded; our assumption about the measurement), x0 = 1.2:
-      reading A, D from the measured <tau(x0->x1)>: <tau(x0->0)> = 1.035 s, <tau(x0->x1)> = 3.186 s, R = 0.325, mean/SD = 1.906; finished by 8 s: 1.000 and 0.941
-      reading B, gamma_c = 4.6: <tau(x0->0)> = 1.432 s, <tau(x0->x1)> = 3.841 s, R = 0.373, mean/SD = 2.300; finished by 8 s: 1.000 and 0.880
+    With P1's 8 s limit, both times taken from the runs that reached x1 by 8 s (our assumption about
+    the measurement), x0 = 1.2:
+      reading A, D from the measured <tau(x0->x1)> without the limit: <tau(x0->0)> = 1.018 s, <tau(x0->x1)> = 3.186 s, R = 0.319, mean/SD = 1.906; runs kept: 0.941
+      reading B, gamma_c = 4.6: <tau(x0->0)> = 1.386 s, <tau(x0->x1)> = 3.841 s, R = 0.361, mean/SD = 2.300; runs kept: 0.880
     P1's simulation with the 8 s limit: mean/SD = 2.32; measured: 1.16 s, 3.61 s, R = 0.32, mean/SD = 2.3.
 
 P2. mu = 4.07 +- 0.03 kT/um^3 and lambda0 = 0.44 +- 0.01 1/s (printed); D not printed.
@@ -50,12 +50,12 @@ P2. mu = 4.07 +- 0.03 kT/um^3 and lambda0 = 0.44 +- 0.01 1/s (printed); D not pr
        0.00  4.00   0.194     0.183      0.140     0.15
     Against all 20 simulated points, a = -2.75, D = 0.4874: RMS error 0.029, largest 0.044
     Against all 20 simulated points, a = -10, D = 0.4874: RMS error 0.257, largest 0.830
-    a = -10 with the D that fits best (0.962 um^2/s): RMS error 0.173, largest 0.387; at x0 = -2, t = 0.1 s it gives S = 0.56 against 0.17.
+    a = -10 with the D in [0.2, 2] that minimises the unweighted RMS error over the 20 points (0.962 um^2/s): RMS error 0.173, largest 0.387; at x0 = -2, t = 0.1 s it gives S = 0.56 against 0.17.
 
 An illustrative extension not studied in P1-P3: V(x) = mu x^3/3 - f(t) x, with the tilt f swept linearly
 through zero (the fold) at scaled rate Sigma, in P2's potential and with P2's D.
     Units: length 0.6263 um, time 0.8048 s, tilt force 6.503 fN; start 4 units from the fold (26.0 fN: well at 1.253 um, saddle at -1.253 um, barrier 10.67 kT), from the quasi-stationary density; escape at -2.75 um.
-      Sigma   ramp (fN/s)   tilt at 10% / 50% / 90% escaped (fN)   quasi-static median (fN)   median shift   time to the 90% point (s)
+      Sigma   sweep (fN/s)  tilt at 10% / 50% / 90% escaped (fN)   quasi-static median (fN)   median shift   time to the 90% point (s)
        0.02    0.162       13.97 /   9.38 /   5.87               9.50                 -1.4%          124.6
        0.05    0.404       11.65 /   6.57 /   2.54               6.88                 -4.6%           58.1
        0.10    0.808        9.59 /   4.04 /  -0.49               4.65                -13.1%           32.8
