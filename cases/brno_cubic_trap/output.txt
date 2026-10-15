@@ -50,10 +50,10 @@ P2. mu = 4.07 +- 0.03 kT/um^3 and lambda0 = 0.44 +- 0.01 1/s (printed); D not pr
        0.00  4.00   0.194     0.183      0.140     0.15
     Against all 20 simulated points, a = -2.75, D = 0.4874: RMS error 0.029, largest 0.044
     Against all 20 simulated points, a = -10, D = 0.4874: RMS error 0.257, largest 0.830
-    a = -10 with the D in [0.2, 2] that minimises the unweighted RMS error over the 20 points (0.962 um^2/s): RMS error 0.173, largest 0.387; at x0 = -2, t = 0.1 s it gives S = 0.56 against 0.17.
+    a = -10 with the D in [0.2, 2] that minimises the unweighted RMS error over the 20 points (0.961 um^2/s): RMS error 0.173, largest 0.388; at x0 = -2, t = 0.1 s it gives S = 0.56 against 0.17.
 
 An illustrative extension not studied in P1-P3: V(x) = mu x^3/3 - f(t) x, with the tilt f swept linearly
-through zero (the fold) at scaled rate Sigma, in P2's potential and with P2's D.
+through zero (the fold) at scaled rate Sigma, in P2's potential and with the D reconstructed from P2's lambda0.
     Units: length 0.6263 um, time 0.8048 s, tilt force 6.503 fN; start 4 units from the fold (26.0 fN: well at 1.253 um, saddle at -1.253 um, barrier 10.67 kT), from the quasi-stationary density; escape at -2.75 um.
       Sigma   sweep (fN/s)  tilt at 10% / 50% / 90% escaped (fN)   quasi-static median (fN)   median shift   time to the 90% point (s)
        0.02    0.162       13.97 /   9.38 /   5.87               9.50                 -1.4%          124.6

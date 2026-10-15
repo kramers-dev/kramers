@@ -66,7 +66,8 @@ distance of the points, moves mean/SD from about 1.6 to about 2.3.
 **The absolute times.** They need D. Under reading B, without a time limit, the model's
 means are 1.43 s and 4.69 s, 24% and 30% above the measured 1.16 s and 3.61 s; with the
 8 s limit they are 1.39 s and 3.84 s, 19.5% and 6% above (the second within the measured
-error, the first about 1.6 standard errors out). Under reading A, the measured means
+error, the first about 1.6 of the plotted experimental standard errors out, not counting
+model or calibration uncertainty). Under reading A, the measured means
 require D = 0.30 to 0.34 µm²/s without a time limit, a wall factor of about 1.4
 against the Stokes value for a 994 nm bead in water at 22 °C (0.458 µm²/s; temperature
 and viscosity are our assumptions). Every estimate of D from these means depends on how
@@ -77,26 +78,27 @@ is printed.
 
 P2 gives μ = 4.07 ± 0.03 kT µm⁻³ and a quasi-stationary decay rate λ0 = 0.44 ± 0.01 s⁻¹,
 but not D. For V = μx³/3 the decay rate is λ0 = E0(0) D μ^(2/3), with
-E0(0) = 0.354123... (entry K0008), so P2's λ0 corresponds to D = 0.487 ± 0.011 µm²/s.
-P2 computed λ0 from its Eq. (3) with a friction coefficient it does not print, so this
-D reconstructs P2's assumed friction; it is not an independent measurement.
+E0(0) = 0.354123... (entry K0008), so P2's λ0 corresponds to D = 0.487 µm²/s (± 0.011
+from the printed uncertainty of λ0 alone). P2 computed λ0 from its Eq. (3) with a
+friction coefficient it does not print, so this D reconstructs P2's assumed friction;
+it is not an independent measurement, and its real uncertainty is not known. Below it
+is called the reconstructed D.
 
 The SM states that the dashed curves of SM Fig. S2 simulate the ideal cubic, with a
 trajectory counted as diverged when it crosses −10 µm. We solved the same model with
-the D above, for all four curves (20 points read from the plot to ±0.005):
+the reconstructed D, for all four curves (20 points read from the plot to ±0.005):
 
 | Divergence counted at | D (µm²/s) | RMS error | Largest error |
 |---|---|---|---|
 | −10 µm, as stated | 0.487 | 0.257 | 0.830 |
-| −10 µm | 0.962 (unweighted best fit to the 20 points) | 0.173 | 0.387 |
+| −10 µm | 0.961 (unweighted best fit to the 20 points) | 0.173 | 0.388 |
 | −2.75 µm | 0.487 | 0.029 | 0.044 |
 
-No D between 0.2 and 2 µm²/s gives a satisfactory simultaneous fit with −10 µm under
-this criterion: at the best D the curve from x0 = −2 µm still has S = 0.56 at
-t = 0.1 s, against 0.17. (Without the two points of that curve the best D is about
-0.67, which is why the fit is sensitive to it.) With divergence counted at
-about −2.75 µm (the outermost absorbing boundary used in SM Fig. S3) and P2's own D,
-they agree to within the reading precision plus a few hundredths. **Our solution is
+With −10 µm, the smallest unweighted RMS error over D between 0.2 and 2 µm²/s is 0.173,
+at D = 0.961; there the curve from x0 = −2 µm has S = 0.56 at t = 0.1 s, against 0.17.
+(Without the two points of that curve the best D is about 0.67, which is why the fit is
+sensitive to it.) With divergence counted at about −2.75 µm (the outermost absorbing
+boundary used in SM Fig. S3) and the reconstructed D, the RMS error is 0.029. **Our solution is
 therefore inconsistent with the stated −10 µm criterion but agrees numerically with an
 effective boundary near −2.75 µm. This points to a convention or implementation detail
 that we have not reconstructed; we do not claim to know which boundary was used.** See
@@ -107,7 +109,7 @@ the left panel of `figure.png`.
 Add a linear tilt to P2's potential, V(x) = μx³/3 − f(t)x, and sweep f linearly through
 zero, where the well disappears (the fold). In the ideal model the tilt at which the
 bead escapes depends on one number, the sweep rate in units of kT/(ℓτ), with
-ℓ = μ^(−1/3) = 0.626 µm and τ = ℓ²/D = 0.805 s (P2's μ and D). Computed with the
+ℓ = μ^(−1/3) = 0.626 µm and τ = ℓ²/D = 0.805 s (P2's μ and the reconstructed D). Computed with the
 time-dependent Fokker-Planck equation (entry K0030), starting 26 fN from the fold from
 the quasi-stationary density (well at 1.25 µm, saddle at −1.25 µm, barrier 10.7 kT) and
 counting escape at −2.75 µm:

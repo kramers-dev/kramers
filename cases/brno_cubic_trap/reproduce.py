@@ -100,7 +100,8 @@ sims = {  # SM Fig. S2, simulated (dashed) and measured S(t), read from the plot
     -0.5: ((0.3, 0.5, 0.75, 1.0, 2.0, 4.0), (0.94, 0.68, 0.46, 0.34, 0.17, 0.06), (0.96, 0.72, 0.48, 0.33, 0.19, 0.10)),
     0.0: ((0.5, 0.75, 1.0, 2.0, 3.0, 4.0), (0.95, 0.82, 0.69, 0.40, 0.24, 0.14), (0.92, 0.78, 0.60, 0.31, 0.23, 0.15)),
 }
-unit = {a: {x0: survival(4.07, x0, a, 4.0) for x0 in sims} for a in (-10.0, -2.75)}  # D = 1
+# at D = 1, to scaled time 9: covers t up to 4.2 s for every D up to 2 in the fit below
+unit = {a: {x0: survival(4.07, x0, a, 9.0) for x0 in sims} for a in (-10.0, -2.75)}
 
 
 def S_at(a, x0, t, D):
@@ -134,7 +135,7 @@ tau = ell * ell / D2  # s
 f_unit = KT / (ell * 1e-6) * 1e15  # fN
 y_esc = 2.75 / ell
 print("\nAn illustrative extension not studied in P1-P3: V(x) = mu x^3/3 - f(t) x, with the tilt f swept linearly")
-print("through zero (the fold) at scaled rate Sigma, in P2's potential and with P2's D.")
+print("through zero (the fold) at scaled rate Sigma, in P2's potential and with the D reconstructed from P2's lambda0.")
 print(f"    Units: length {ell:.4f} um, time {tau:.4f} s, tilt force {f_unit:.3f} fN; start 4 units from the fold "
       f"({4 * f_unit:.1f} fN: well at {2 * ell:.3f} um, saddle at {-2 * ell:.3f} um, barrier {4 / 3 * 8:.2f} kT), "
       "from the quasi-stationary density; escape at -2.75 um.")
@@ -168,7 +169,7 @@ try:
     ax[0].set_xlim(0, 4.2)
     ax[0].set_xlabel("time (s)")
     ax[0].set_ylabel("survival S(t)")
-    ax[0].set_title("P2, SM Fig. S2: ideal cubic with P2's D (lines: divergence at -2.75 um,\n"
+    ax[0].set_title("P2, SM Fig. S2: ideal cubic, D from P2's lambda0 (lines: divergence at -2.75 um,\n"
                     "dotted: at -10 um); P2's simulation (o) and measurement (x)", fontsize=9)
     ax[0].legend(fontsize=7, frameon=False)
     sig = np.array([0.02, 0.03, 0.05, 0.08, 0.1, 0.15, 0.2, 0.3])
