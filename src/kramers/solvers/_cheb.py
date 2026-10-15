@@ -122,7 +122,7 @@ class Panels:
 
 
 def build_panels(
-    phi: Callable[[Array], Array],
+    phi: Callable[[Array], Array] | Sequence[Callable[[Array], Array]],
     a: float,
     b: float,
     breakpoints: Sequence[float] = (),
@@ -133,44 +133,54 @@ def build_panels(
     min_panels: int = 32,
     probe: int = 8192,
 ) -> Panels:
-    """Split [a, b] until phi varies by at most ``max_range`` and is resolved on each panel.
+    """Split [a, b] until each log-weight varies by at most ``max_range`` and is resolved on each panel.
 
-    ``phi`` is the logarithm of the weights to be integrated, so ``max_range`` bounds
-    the dynamic range of exp(phi) within one panel. The search starts from
-    ``min_panels`` equal panels, with an extra edge at every local extremum of phi
-    found on ``probe`` equally spaced points. A feature of phi narrower than that
-    spacing, (b - a) / probe, can still be missed: put a breakpoint at it.
+    ``phi`` is the logarithm of a weight to be integrated (or a sequence of them, all
+    resolved on the same panels), so ``max_range`` bounds the dynamic range of each
+    weight within one panel. The search starts from ``min_panels`` equal panels, with
+    an extra edge at every local extremum found on ``probe`` equally spaced points. A
+    feature narrower than that spacing, (b - a) / probe, can still be missed: put a
+    breakpoint at it.
     """
+    funcs = list(phi) if isinstance(phi, Sequence) else [phi]
     ref = lobatto(n)
     a, b = float(a), float(b)
     uniform = np.linspace(a, b, max(1, int(min_panels)) + 1)[1:-1]
     extrema: list[float] = []
     if probe > 2:
         xs = np.linspace(a, b, int(probe) + 1)
-        with np.errstate(all="ignore"):
-            fs = np.asarray(phi(xs), dtype=float)
-        if np.all(np.isfinite(fs)):
-            d = np.sign(np.diff(fs))
-            turn = np.flatnonzero(d[1:] * d[:-1] < 0) + 1  # sign change of the slope
-            if turn.size <= int(probe) // 8:  # a smooth function, not rounding noise
-                extrema = xs[turn].tolist()
+        for func in funcs:
+            with np.errstate(all="ignore"):
+                fs = np.asarray(func(xs), dtype=float)
+            if np.all(np.isfinite(fs)):
+                # each panel spans at most max_range of variation: a lower bound on the count
+                if np.sum(np.abs(np.diff(fs))) / max_range > max_panels:
+                    raise RuntimeError("panel refinement did not converge; the log-weight varies too fast")
+                d = np.sign(np.diff(fs))
+                turn = np.flatnonzero(d[1:] * d[:-1] < 0) + 1  # sign change of the slope
+                if turn.size <= int(probe) // 8:  # a smooth function, not rounding noise
+                    extrema += xs[turn].tolist()
     cuts = sorted({a, b, *(float(x) for x in breakpoints if a < x < b), *uniform.tolist(), *extrema})
     stack = [(cuts[i], cuts[i + 1]) for i in range(len(cuts) - 1)]
     done: list[tuple[float, float]] = []
     while stack:
         lo, hi = stack.pop()
         x = (lo + hi) / 2.0 + (hi - lo) / 2.0 * ref.s
-        f = np.asarray(phi(x), dtype=float)
-        if not np.all(np.isfinite(f)):
-            raise ValueError(f"log-weight is not finite on [{lo}, {hi}]")
-        coeffs = ref.to_coeffs @ f
-        # rounding floor of the samples: phi itself, and the rounding of x times the slope
-        slope = np.ptp(f) / (hi - lo)
-        noise = 8.0 * np.finfo(float).eps * (np.max(np.abs(f)) + slope * max(abs(lo), abs(hi)))
-        unresolved = np.max(np.abs(coeffs[-3:])) > max(coeff_tol * max(1.0, np.max(np.abs(f)) * 1e-3), noise)
-        too_steep = np.ptp(f) > max_range
+        split = False
+        for func in funcs:
+            f = np.asarray(func(x), dtype=float)
+            if not np.all(np.isfinite(f)):
+                raise ValueError(f"log-weight is not finite on [{lo}, {hi}]")
+            coeffs = ref.to_coeffs @ f
+            # rounding floor of the samples: the function itself, and the rounding of x times the slope
+            slope = np.ptp(f) / (hi - lo)
+            noise = 8.0 * np.finfo(float).eps * (np.max(np.abs(f)) + slope * max(abs(lo), abs(hi)))
+            unresolved = np.max(np.abs(coeffs[-3:])) > max(coeff_tol * max(1.0, np.max(np.abs(f)) * 1e-3), noise)
+            if unresolved or np.ptp(f) > max_range:
+                split = True
+                break
         tiny = (hi - lo) <= 1e-13 * max(1.0, abs(lo), abs(hi))
-        if (unresolved or too_steep) and not tiny:
+        if split and not tiny:
             mid = (lo + hi) / 2.0
             stack.append((mid, hi))
             stack.append((lo, mid))

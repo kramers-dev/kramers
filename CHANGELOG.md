@@ -25,3 +25,13 @@
   asked; K0027 refuses slow loading; K0030 starts from the quasi-stationary density and
   has a convergence check. Each failing input from the review is a test
   (`tests/test_review_cases.py`).
+- After the second round of that review (15 October): panels resolve the speed density
+  as well as phi when D varies, and D <= 0 or non-finite is refused; the scan beyond a
+  cut is geometric, out to 1e8 times the cut's distance; a natural cut is moved past
+  any rebound of the weight instead of being refused (periodic tails work); the
+  decay-rate error now includes how far the root can move when the coefficients carry
+  their own errors, which matters when two wells have nearly equal rates (the accuracy
+  is then about 1e-6, and the error says so); moments, splitting probabilities and
+  conditional times carry a floor of a few units in the last place of their logarithm;
+  Newton's method stops at the rounding floor; K0012/K0013 no longer overflow at
+  extreme drift; a domain that would need more than 200,000 panels is refused at once.

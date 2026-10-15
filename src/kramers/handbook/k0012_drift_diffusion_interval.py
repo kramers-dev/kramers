@@ -19,16 +19,12 @@ class IntervalExit(NamedTuple):
     mean_time_left: float  # mean exit time given exit through 0
 
 
-def _zcoth_minus_one(z: np.ndarray) -> np.ndarray:
-    """g(z) = z coth z - 1, without cancellation near 0."""
-    z = np.asarray(z, dtype=float)
-    out = np.empty_like(z)
-    small = np.abs(z) < 0.05
-    zs = z[small] ** 2
-    out[small] = zs / 3.0 - zs**2 / 45.0 + 2.0 * zs**3 / 945.0 - zs**4 / 4725.0
-    zb = z[~small]
-    out[~small] = zb / np.tanh(zb) - 1.0
-    return out
+def _langevin(z: float) -> float:
+    """h(z) = coth z - 1/z, without cancellation near 0 and without overflow for large z."""
+    if abs(z) < 0.05:
+        z2 = z * z
+        return z * (1.0 / 3.0 - z2 / 45.0 + 2.0 * z2 * z2 / 945.0 - z2**3 / 4725.0)
+    return 1.0 / np.tanh(z) - 1.0 / z
 
 
 def drift_diffusion_interval(x: float, L: float, v: float, D: float) -> IntervalExit:
@@ -37,7 +33,8 @@ def drift_diffusion_interval(x: float, L: float, v: float, D: float) -> Interval
     p_right is Redner's Eq. (4.12). The conditional means are Srivastava et al.'s
     Eqs. (11)-(12) moved to [0, L] (thresholds +-zeta = +-L/2 around the midpoint):
     T_L = [L coth(vL/2D) - x coth(vx/2D)] / v and T_0 the same with x -> L - x.
-    Evaluated through g(z) = z coth z - 1 so that small drifts lose no digits.
+    Evaluated through h(z) = coth z - 1/z, so that small drifts lose no digits and
+    large ones do not overflow.
     """
     if not (0.0 <= x <= L and L > 0 and D > 0):
         raise OutsideDomain("need 0 <= x <= L, L > 0, D > 0")
@@ -52,10 +49,12 @@ def drift_diffusion_interval(x: float, L: float, v: float, D: float) -> Interval
         t_right = (L * L - x * x) / (6.0 * D)
         t_left = (L * L - (L - x) ** 2) / (6.0 * D)
     else:
-        g = _zcoth_minus_one
-        t_right = float((g(np.array(a * L)) - g(np.array(a * x))) / (2.0 * D * a * a)) if x > 0 else float(g(np.array(a * L)) / (2.0 * D * a * a))
+        # [g(aL) - g(ax)] / (2 D a^2) with g(z) = z coth z - 1 = z h(z), divided through by a
+        # once, so that nothing overflows at large drift
+        h = _langevin
+        t_right = (L * h(a * L) - x * h(a * x)) / (2.0 * D * a)
         y = L - x
-        t_left = float((g(np.array(a * L)) - g(np.array(a * y))) / (2.0 * D * a * a)) if y > 0 else float(g(np.array(a * L)) / (2.0 * D * a * a))
+        t_left = (L * h(a * L) - y * h(a * y)) / (2.0 * D * a)
     mean = p * t_right + (1.0 - p) * t_left
     return IntervalExit(p_right=p, mean_time=mean, mean_time_right=t_right, mean_time_left=t_left)
 

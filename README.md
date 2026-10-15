@@ -52,12 +52,18 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
 
 ## Known limits of the solvers
 
-- The quadrature solver finds the shape of the potential by sampling it. A well or
-  barrier narrower than about 1/8000 of the domain can be missed, and then its error
-  estimate misses it too: give such features as `breakpoints`.
-- An infinite end is classified by walking outwards and scanning beyond the cut; a
-  narrow well far beyond the cut can still escape the scan. Ends that are reached in
-  finite time ("exit") need a constant D.
+- The quadrature solver finds the shape of the potential (and of D, when D varies) by
+  sampling it. A well or barrier narrower than about 1/8000 of the domain can be
+  missed, and then its error estimate misses it too: give such features as
+  `breakpoints`.
+- An infinite end is cut where its weight is negligible, and the region beyond is
+  scanned out to 1e8 times the cut's distance. A natural end is moved outwards past any
+  rebound the scan finds; an exit end with structure beyond the cut is refused. A
+  feature narrower than about 0.1% of its distance from the cut can escape the scan.
+  Ends that are reached in finite time ("exit") need a constant D.
+- Decay rates are accurate to about 1e-13 relative, except when the two slowest rates
+  nearly coincide (two equal wells far apart): then to about 1e-6, and the returned
+  error says so.
 - The Fokker-Planck solver does not keep the density positive at large early time
   steps, and its Richardson extrapolation can give survival slightly above one when the
   coarse grid is under-resolved; `info["richardson_change"]` reports the correction.

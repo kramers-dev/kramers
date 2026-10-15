@@ -21,18 +21,21 @@ logarithms, so barriers of hundreds of kT neither overflow nor lose relative acc
 Every result is computed twice, the second time on bisected panels at a higher order,
 and the difference is returned as its error.
 
-Known limits (also in the README). The panels are found by sampling phi; a feature
-narrower than the sample spacing (initially 1/32 of the finite domain, then adaptive)
-can be missed, and both computations of the error estimate would then miss it too:
-give ``breakpoints`` at narrow features. Infinite ends are classified by sampling;
-the region beyond each cut is scanned for a change of monotonicity, which again cannot
-see arbitrarily narrow features.
+Known limits (also in the README). The panels are found by sampling phi (and log D);
+a feature narrower than the probe spacing, 1/8192 of the domain, can be missed, and both
+computations of the error estimate would then miss it too: give ``breakpoints`` at
+narrow features. Infinite ends are cut by marching outwards; the region beyond each cut
+is scanned geometrically out to 1e8 times the cut's distance, and a natural cut is moved
+past any rebound found, while an exit end with structure beyond its cut is refused. A
+feature narrower than about 0.1% of its distance from the cut can escape the scan.
 
 Boundaries
 ----------
 ``"absorbing"``, ``"reflecting"``: finite ends.
-``"natural"``: an infinite end the process cannot reach (exp(phi) vanishes there); the
-    domain is cut where exp(phi) has fallen by e^-50 and the cut is made reflecting.
+``"natural"``: an infinite end the process cannot reach (the speed density exp(phi) / D
+    vanishes there); the domain is cut where it has fallen by e^-50 below its largest
+    value, beyond every rebound above e^-35 found by the scan, and the cut is made
+    reflecting.
 ``"exit"``: an infinite end reached in finite time (an explosive drift, as for the
     noisy saddle-node). The domain is cut at a point ``b0`` far past every barrier, the
     time from ``b0`` to infinity is added by the strong Markov property, and that time
@@ -65,7 +68,7 @@ _FINITE = {"absorbing", "reflecting"}
 _INFINITE = {"natural", "exit"}
 _DROP = 50.0  # e-folds by which a truncated weight has fallen
 _RETURN = 45.0  # e-folds that make a return from beyond b0 negligible
-_REGAIN = 15.0  # e-folds the weight may climb back beyond a natural cut
+_REGAIN = 15.0  # e-folds a natural tail may climb back beyond the cut (to e^-35 of the peak)
 
 
 def _numerical_derivative(f: Func) -> Func:
@@ -107,6 +110,14 @@ class _Grid:
     @property
     def logS_tot(self) -> float:
         return float(self.logS_fwd[-1, -1])
+
+
+def _log_floor(value: Array) -> Array:
+    """A value obtained as exp(log v) is known only to a few units in the last place of log v."""
+    v = np.abs(np.asarray(value, dtype=float))
+    with np.errstate(divide="ignore"):
+        lg = np.abs(np.log(v))
+    return 16.0 * np.finfo(float).eps * np.maximum(1.0, np.where(np.isfinite(lg), lg, 0.0)) * v
 
 
 class FirstPassage1D:
@@ -256,43 +267,46 @@ class FirstPassage1D:
         with np.errstate(divide="ignore"):
             return self._phi(x) - np.log(self._D(x))
 
-    def _scan_beyond(self, cut: float, direction: float, exit: bool) -> None:
-        """Refuse if the tail beyond a cut has a feature the cut assumes away.
+    def _scan_beyond(self, cut: float, direction: float, slope: bool, ceiling: float = np.inf) -> float | None:
+        """The farthest point beyond a cut where the tail breaks the cut's assumption, or None.
 
-        Natural end: the log speed density must not climb back more than ``_REGAIN``
-        e-folds above its value at the cut (a hidden well), so that the weight dropped
-        there stays below e^-35 of its maximum; periodic wiggles on a falling trend are
-        allowed. Exit end: phi' must stay positive. The scan covers 20 times the distance of the cut from the origin, on a
-        grid that is finest near the cut, and stops where the functions overflow; a narrow
-        enough feature still escapes it.
+        ``slope``: phi' must stay positive (exit and entrance tails, whose time is
+        computed from local integrals). Otherwise the log speed density must stay below
+        ``ceiling`` (natural ends: the weight dropped beyond the cut must stay negligible).
+        The scan is geometric, from 1e-4 to 1e8 times the cut's distance from the origin,
+        2,000 points per decade, and stops where the functions overflow: a feature
+        narrower than about 0.1% of its distance from the cut can still escape it.
         """
-        span = 20.0 * max(1.0, abs(cut))
-        xs = cut + direction * np.linspace(0.0, 1.0, 20001) ** 2 * span
+        scale = max(1.0, abs(cut))
+        t = np.concatenate([[0.0], scale * np.logspace(-4.0, 8.0, 24001)])
+        xs = cut + direction * t
         with np.errstate(all="ignore"):
-            vals = self._dphi(xs) if exit else self._logw(xs)
-        # the scan ends where the functions can no longer be evaluated (overflow, D -> 0)
+            vals = self._dphi(xs) if slope else self._logw(xs)
         finite = np.isfinite(vals)
         stop = int(np.argmin(finite)) if not np.all(finite) else vals.size
         xs, vals = xs[:stop], vals[:stop]
-        if exit:
-            bad = ~(vals > 0)
-        else:
-            bad = vals > vals[0] + _REGAIN
-        if np.any(bad):
-            x_bad = float(xs[np.argmax(bad)])
-            what = "phi' turns negative" if exit else "the weight rises again"
-            raise OutsideDomain(f"beyond the cut at {cut:.4g}, {what} (near {x_bad:.4g}): a well or barrier is "
-                                "hidden there; give a breakpoint at it, or cut the domain at a finite point")
+        bad = ~(vals > 0) if slope else vals > ceiling
+        if not np.any(bad):
+            return None
+        return float(xs[np.flatnonzero(bad)[-1]])
 
-    def _march(self, start: float, direction: float, *, exit: bool, entrance: bool = False) -> float:
-        """Walk outwards until the weight is negligible (natural) or the tail is safe (exit)."""
+    def _march(self, start: float, direction: float, *, exit: bool, entrance: bool = False,
+               extreme: float = -np.inf) -> tuple[float, float]:
+        """Walk outwards until the weight is negligible (natural) or the tail is safe (exit).
+
+        Returns the cut and the extreme of the log-weight met on the way (the largest log
+        speed density for a natural end, the smallest phi for an exit).
+        """
         if self._variable_D and (exit or entrance):
             raise OutsideDomain("exit and entrance ends need a constant D; cut the domain at a finite point")
         weight = self._phi if exit else self._logw
         step = max(0.5, 0.25 * abs(start))
         x = start
         xs = np.linspace(start, start + direction * 1e-9, 2)
-        extreme = float(np.max(weight(xs))) if not exit else float(np.min(weight(xs)))
+        if exit:
+            extreme = float(np.min(weight(xs)))
+        else:
+            extreme = max(extreme, float(np.max(weight(xs))))
         for _ in range(400):
             x_new = x + direction * step
             seg = np.linspace(x, x_new, 257)
@@ -303,25 +317,50 @@ class FirstPassage1D:
                 extreme = max(extreme, float(np.max(vals)))
                 outward_decreasing = vals[-1] < vals[-2]
                 if vals[-1] < extreme - _DROP and outward_decreasing and (not entrance or self._tail_safe(x_new)):
-                    self._scan_beyond(float(x_new), direction, exit=False)
-                    return float(x_new)
+                    return float(x_new), extreme
             else:
                 extreme = min(extreme, float(np.min(vals)))
                 if vals[-1] > extreme + _RETURN and self._tail_safe(x_new):
-                    self._scan_beyond(float(x_new), direction, exit=True)
-                    return float(x_new)
+                    return float(x_new), extreme
             x = x_new
             step *= 1.5
         kind = "an exit (explosive)" if exit else "a natural"
         raise OutsideDomain(f"the boundary does not behave as {kind} boundary")
 
+    def _natural_cut(self, start: float, direction: float, entrance: bool = False) -> float:
+        """Cut for a natural end, moved outwards past every rebound of the weight the scan finds."""
+        cut, extreme = self._march(start, direction, exit=False, entrance=entrance)
+        for _ in range(100):
+            if entrance:
+                far = self._scan_beyond(cut, direction, slope=True)
+                if far is not None:
+                    raise OutsideDomain(f"beyond the entrance cut at {cut:.4g}, phi' turns negative (near {far:.4g}); "
+                                        "a start at infinity needs a drift-dominated tail")
+            far = self._scan_beyond(cut, direction, slope=False, ceiling=extreme - (_DROP - _REGAIN))
+            if far is None:
+                return cut
+            # the weight comes back beyond the cut: continue the march from the farthest such point
+            with np.errstate(divide="ignore"):
+                extreme = max(extreme, float(self._logw(np.array([far]))[0]))
+            cut, extreme = self._march(far, direction, exit=False, entrance=entrance, extreme=extreme)
+        raise OutsideDomain("the weight keeps coming back beyond every cut; cut the domain at a finite point")
+
+    def _exit_cut(self, start: float) -> float:
+        cut, _ = self._march(start, +1.0, exit=True)
+        far = self._scan_beyond(cut, +1.0, slope=True)
+        if far is not None:
+            raise OutsideDomain(f"beyond the cut at {cut:.4g}, phi' turns negative (near {far:.4g}): a well or barrier "
+                                "lies there; cut the domain at a finite point beyond it, or give a breakpoint at it")
+        return cut
+
     def _effective_domain(self, points: Array, entrance: bool = False) -> tuple[float, float, float]:
         """Finite cuts (a, b) of the domain and, for a start at -infinity, the entrance cut.
 
-        A natural end is cut where exp(phi) has fallen by e^-50, so a reflecting wall
-        there changes no result at the starting points by more than that. For a start
-        at -infinity the entrance tail begins at a cut ``a0`` and the domain itself is
-        extended 50 more e-folds beyond it, so that the wall is negligible at ``a0`` too.
+        A natural end is cut where the speed density has fallen by e^-50 below its
+        largest value, and moved further out while a scan beyond the cut finds it
+        climbing back above e^-35 of that value; a reflecting wall there then changes no
+        result by more than that. For a start at -infinity the entrance tail begins at a
+        cut ``a0`` and the domain itself is extended 50 more e-folds beyond it.
         """
         inner = np.concatenate([points, np.asarray(self._user_breaks, dtype=float)])
         lo = float(np.min(inner)) if inner.size else 0.0
@@ -330,25 +369,35 @@ class FirstPassage1D:
         a0 = np.nan
         if self.left == "natural":
             if entrance:
-                a0 = self._march(lo, -1.0, exit=False, entrance=True)
-                a = self._march(a0, -1.0, exit=False)
+                a0 = self._natural_cut(lo, -1.0, entrance=True)
+                a = self._natural_cut(a0, -1.0)
             else:
-                a = self._march(lo, -1.0, exit=False)
+                a = self._natural_cut(lo, -1.0)
         if self.right == "natural":
-            b = self._march(hi, +1.0, exit=False)
+            b = self._natural_cut(hi, +1.0)
         if self.right == "exit":
-            b = self._march(hi, +1.0, exit=True)
+            b = self._exit_cut(hi)
         return a, b, a0
 
     def _grid(self, a: float, b: float, points: Array, order: int) -> _Grid:
         breaks = [*points.tolist(), *self._user_breaks]
-        panels = _cheb.build_panels(self._phi, a, b, breakpoints=breaks, n=self._order)
+        # the integrands carry exp(-phi) and the speed density exp(phi) / D: resolve both
+        weights = [self._phi, self._logw] if self._variable_D else [self._phi]
+        try:
+            panels = _cheb.build_panels(weights, a, b, breakpoints=breaks, n=self._order)
+        except ValueError as err:
+            raise OutsideDomain(f"{err}: D must be positive and finite, and phi finite, on the domain") from None
+        except RuntimeError as err:
+            raise OutsideDomain(f"{err} (more than 200,000 panels on [{a:.4g}, {b:.4g}])") from None
         if order > self._order:  # the check computation: finer panels and a higher order
             panels = panels.bisected()
         panels = panels.with_order(order)
         x = panels.x
         phi = self._phi(x)
-        logD = np.log(self._D(x))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            logD = np.log(self._D(x))
+        if not (np.all(np.isfinite(logD)) and np.all(np.isfinite(phi))):
+            raise OutsideDomain("D must be positive and finite, and phi finite, on the domain")
         logS_fwd = _cheb.log_cumulative(panels, -phi)
         logS_rev = _cheb.log_cumulative(panels, -phi, reverse=True)
         return _Grid(panels, phi, logD, logS_fwd, logS_rev)
@@ -578,7 +627,7 @@ class FirstPassage1D:
         shape = (n,) + np.shape(x0)
         return Result(
             value=hi.reshape(shape),
-            error=np.abs(hi - lo).reshape(shape),
+            error=(np.abs(hi - lo) + _log_floor(hi)).reshape(shape),
             method="quadrature: Green's function on Chebyshev panels, log-space accumulation",
             details=info_hi,
         )
@@ -612,7 +661,7 @@ class FirstPassage1D:
         if self._mirror:  # the "right" end of the user is the left end internally
             lo, hi = 1.0 - lo, 1.0 - hi
         shape = np.shape(x0)
-        return Result(hi.reshape(shape), np.abs(hi - lo).reshape(shape),
+        return Result(hi.reshape(shape), (np.abs(hi - lo) + _log_floor(hi)).reshape(shape),
                       "quadrature: scale function on Chebyshev panels")
 
     def _conditional_once(self, pts: Array, order: int, end: str) -> Array:
@@ -637,11 +686,11 @@ class FirstPassage1D:
         lo = self._conditional_once(pts, self._order, end)
         hi = self._conditional_once(pts, self._order + 8, end)
         shape = np.shape(x0)
-        return Result(hi.reshape(shape), np.abs(hi - lo).reshape(shape),
+        return Result(hi.reshape(shape), (np.abs(hi - lo) + _log_floor(hi)).reshape(shape),
                       "quadrature: Green's function with the splitting probability as source")
 
     # ------------------------------------------------------------ the decay rate
-    def _decay_once(self, order: int, max_terms: int) -> tuple[float, dict]:
+    def _decay_once(self, order: int, max_terms: int) -> tuple[float, dict, Array]:
         """Smallest root of the characteristic function, from its Taylor coefficients.
 
         The eigenfunction q of L q = -lambda q that meets the boundary condition at one
@@ -651,7 +700,10 @@ class FirstPassage1D:
         F(lambda) = F(0) prod_i (1 - lambda / lambda_i) over the eigenvalues. Every c_n
         is an integral of positive functions, so it is computed in logarithms to full
         relative accuracy; on [0, lambda_1] F is decreasing and convex, so Newton's
-        method from 0 rises monotonically to lambda_1 however close lambda_2 is.
+        method from 0 rises monotonically to lambda_1. When lambda_2 is close, F is
+        nearly flat at the root and the root inherits the coefficients' errors amplified
+        (to about their square root for a double root); ``decay_rate`` accounts for it.
+        Returns the root, a summary, and the log-coefficients.
         """
         pts = np.array([], dtype=float)
         a, b, _ = self._effective_domain(pts)
@@ -694,6 +746,7 @@ class FirstPassage1D:
         steps = 1
         rounding = np.inf
         converged = False
+        previous = np.inf
         while steps < 200 and not converged:
             steps += 1
             F, lamFp, size = evaluate(lam)
@@ -703,26 +756,63 @@ class FirstPassage1D:
             step = -F / lamFp  # relative Newton step, (lambda_new - lambda) / lambda
             rounding = 4.0 * np.finfo(float).eps * size / abs(lamFp)
             lam *= 1.0 + step
-            converged = abs(step) <= max(4.0 * np.finfo(float).eps, rounding)
+            # done when the step is at the rounding level, or has stopped shrinking there
+            stalled = abs(step) < 1e-10 and abs(step) > 0.9 * previous
+            converged = abs(step) <= max(16.0 * np.finfo(float).eps, 4.0 * rounding) or stalled
+            if stalled:
+                rounding = max(rounding, abs(step))
+            previous = abs(step)
         if not converged and lamFp < 0.0:
             rounding = max(rounding, abs(step))
             warnings.warn("Newton's method for the decay rate did not converge in 200 steps; the error "
                           "includes the last step", RuntimeWarning, stacklevel=3)
         info = {"newton_steps": steps, "series_terms": len(logc), "domain": (a, b),
                 "panels": P.edges.size - 1, "rounding_error": float(rounding)}
-        return lam, info
+        return lam, info, np.asarray(logc)
+
+    @staticmethod
+    def _root_error(lam: float, logc: Array, eta: Array) -> float:
+        """Relative change of the smallest root when each c_n may be off by a relative eta_n.
+
+        With dF = sum_n lambda^n c_n eta_n and the derivatives of F at the root, the
+        root can move by h where |F'| h + |F''| h^2 / 2 = dF: linear in dF for a simple,
+        well-separated root and its square root for a (near-)double one.
+        """
+        n = np.arange(logc.size)
+        lt = n * np.log(lam) + logc
+        top = float(np.max(lt))
+        t = np.exp(lt - top)
+        sign = (-1.0) ** n
+        d1 = abs(float(np.sum(sign * n * t)))  # |lambda F'| / s
+        d2 = abs(float(np.sum(sign * n * (n - 1) * t)))  # |lambda^2 F''| / s
+        dF = float(np.sum(t * eta))
+        return 2.0 * dF / (d1 + np.sqrt(d1 * d1 + 2.0 * d2 * dF))
 
     def decay_rate(self, max_terms: int = 4000) -> Result:
         """Smallest eigenvalue of -L: the long-time decay rate of the survival probability.
 
         Computed as the smallest root of the characteristic function (see
-        ``_decay_once``), which keeps full relative accuracy however small the rate is
-        and however close the second eigenvalue. The error is the difference between two
-        discretisations plus the rounding error of the root, which grows as the two
-        smallest eigenvalues approach each other (about 1e-16 divided by their relative
-        gap).
+        ``_decay_once``), which keeps full relative accuracy however small the rate is.
+        The error combines the difference between two discretisations with the movement
+        of the root that the coefficients' own errors can cause; it is estimated from the
+        difference of each coefficient between the two discretisations, with a floor of
+        a few units in the last place of its logarithm (a coefficient near e^500 is then
+        known to about 1e-13). When the two smallest eigenvalues nearly coincide
+        (two equal wells far apart) the root is accurate only to about the square root of
+        the coefficients' accuracy, typically 1e-7, and the error says so.
         """
-        lo, info_lo = self._decay_once(self._order, max_terms)
-        hi, info = self._decay_once(self._order + 8, max_terms)
-        rounding = max(info_lo["rounding_error"], info["rounding_error"]) * abs(hi)
-        return Result(hi, abs(hi - lo) + rounding, "smallest root of the characteristic function (quadrature)", info)
+        lo, info_lo, logc_lo = self._decay_once(self._order, max_terms)
+        hi, info, logc_hi = self._decay_once(self._order + 8, max_terms)
+        m = min(logc_lo.size, logc_hi.size)
+        eps = np.finfo(float).eps
+        n = np.arange(logc_hi.size)
+        eta = np.empty(logc_hi.size)
+        eta[:m] = np.abs(logc_hi[:m] - logc_lo[:m])
+        eta[m:] = np.max(eta[:m]) if m else 1.0
+        # a coefficient held as its logarithm carries an absolute error of a few units in
+        # the last place of that logarithm, which no change of discretisation reveals
+        eta = np.maximum(eta, 32.0 * eps * (n + 1) * np.maximum(1.0, np.abs(logc_hi)))
+        root = self._root_error(hi, logc_hi, eta)
+        info["root_error"] = root
+        error = abs(hi - lo) + max(root, info["rounding_error"], info_lo["rounding_error"]) * abs(hi)
+        return Result(hi, error, "smallest root of the characteristic function (quadrature)", info)

@@ -1,4 +1,4 @@
-"""Inputs on which the second model's first review (14 October 2026) broke the solvers.
+"""Inputs on which the second model's reviews (14 October 2026, two rounds) broke the solvers.
 
 Each test is one of those inputs, with the behaviour the code must now show: the right
 answer, or a refusal. Exact values are derived next to each test.
@@ -61,12 +61,56 @@ def test_a_natural_end_is_judged_on_the_speed_density():
             fp.mean_time(-1.0)
 
 
-def test_a_well_hidden_beyond_a_natural_cut_is_refused():
-    # U = x^2 / 2 with a well of depth 200 at x = -30, far beyond where exp(-U) is negligible
+def test_a_well_beyond_a_natural_cut_is_brought_into_the_domain():
+    # U = x^2 / 2 with a well of depth 800 at x = -30, far beyond where exp(-U) first becomes
+    # negligible. T(0) >= int_0^1 e^{U(y)} dy * int_{-30.1}^{-29.9} e^{-U(z)} dz > 0.2 e^{315.6}
     U = lambda x: x**2 / 2 - 800.0 * np.exp(-(((np.asarray(x) + 30.0) / 0.5) ** 2))  # noqa: E731
     fp = FirstPassage1D(U, domain=(-np.inf, 1.0), left="natural", right="absorbing")
+    r = fp.mean_time(0.0)
+    assert np.log(float(r.value)) > 314.0
+    assert r.details["domain"][0] < -30.0
+
+
+def test_a_periodic_natural_tail_is_not_refused():
+    # integrable as x -> -infinity despite rebounds of 40 e-folds; reviewer's second round
+    phi = lambda x: -x * x - 20.0 * np.cos(10.0 * (x + 6.59375))  # noqa: E731
+    fp = FirstPassage1D(log_psi=phi, domain=(-np.inf, 0.0), left="natural", right="absorbing")
+    by_cut = FirstPassage1D(log_psi=phi, domain=(-12.0, 0.0), left="reflecting", right="absorbing")
+    assert float(fp.mean_time(-1.0).value) == pytest.approx(float(by_cut.mean_time(-1.0).value), rel=1e-12)
+
+
+def test_broad_structure_far_beyond_a_cut():
+    # reviewer's second round: a broad well at x = -1000 (natural end) and a broad barrier at
+    # x = 1000 (exit end), both beyond the old scan; neither may give a small finite answer
+    U = lambda x: x * x / 2 - 600000.0 * np.exp(-(((np.asarray(x) + 1000.0) / 20.0) ** 2))  # noqa: E731
+    with pytest.raises(OutsideDomain):  # needs more panels than allowed: refused, not wrong
+        FirstPassage1D(U, domain=(-np.inf, 1.0), left="natural", right="absorbing").mean_time(0.0)
+    phi = lambda x: x**3 / 3 - 4e8 * np.exp(-(((np.asarray(x) - 1000.0) / 20.0) ** 2))  # noqa: E731
     with pytest.raises(OutsideDomain):
-        fp.mean_time(0.0)
+        FirstPassage1D(log_psi=phi, domain=(0.0, np.inf), left="reflecting", right="exit").mean_time(0.0)
+
+
+def test_panels_resolve_a_narrow_feature_of_D():
+    # flat phi, D with a narrow deep dip: the speed density has a spike the panels must see.
+    # Rayleigh bound with sin(pi x): lambda_1 <= 1.66015758e-29 (reviewer's second round)
+    c, w = 0.233123, 1e-4
+    D = lambda x: np.exp(-100.0 * np.exp(-(((np.asarray(x) - c) / w) ** 2)))  # noqa: E731
+    r = FirstPassage1D(log_psi=lambda x: 0 * x, D=D, domain=(0.0, 1.0), left="absorbing", right="absorbing").decay_rate()
+    assert float(r.value) <= 1.66015758e-29
+    deeper = lambda x: np.exp(-800.0 * np.exp(-(((np.asarray(x) - c) / w) ** 2)))  # noqa: E731
+    with pytest.raises(OutsideDomain):  # D underflows to 0: refused
+        FirstPassage1D(log_psi=lambda x: 0 * x, D=deeper, domain=(0.0, 1.0), left="absorbing",
+                       right="absorbing", breakpoints=[c]).decay_rate()
+
+
+@pytest.mark.parametrize("barrier", [100.0, 540.0])
+def test_decay_rate_error_covers_two_equal_wells(barrier):
+    # an even double well: the ground rate on (-1.5, 1.5) with both ends absorbing equals the
+    # rate on (0, 1.5) reflecting at 0, by symmetry; the reported error must cover the difference
+    U = lambda x: 10 * (x * x - 1) ** 2 + barrier * np.exp(-((x / 0.2) ** 2))  # noqa: E731
+    full = FirstPassage1D(U, domain=(-1.5, 1.5), left="absorbing", right="absorbing").decay_rate()
+    half = FirstPassage1D(U, domain=(0.0, 1.5), left="reflecting", right="absorbing").decay_rate()
+    assert abs(float(full.value) - float(half.value)) <= float(full.error) + float(half.error)
 
 
 def test_an_exit_end_with_variable_D_is_refused():
@@ -122,6 +166,7 @@ def test_duality_entry_at_extreme_drifts():
     free = (1.0 - 0.7**2) / 6.0  # v = 0: (L^2 - (L - ell)^2) / (6 D), ell = 0.3, L = D = 1
     assert conditional_time_to_origin(0.3, 1.0, 1e-12, 1.0) == pytest.approx(free, rel=1e-12)
     assert np.isfinite(conditional_time_to_origin(0.3, 1.0, -1000.0, 1.0))
+    assert conditional_time_to_origin(0.3, 1.0, 1e155, 1.0) == pytest.approx(3e-156, rel=1e-12)  # ell / |v|
 
 
 def test_rupture_force_moments_refuse_slow_loading():
