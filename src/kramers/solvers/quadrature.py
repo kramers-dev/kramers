@@ -271,8 +271,9 @@ class FirstPassage1D:
         """The farthest point beyond a cut where the tail breaks the cut's assumption, or None.
 
         ``slope``: phi' must stay positive (exit and entrance tails, whose time is
-        computed from local integrals). Otherwise the log speed density must stay below
-        ``ceiling`` (natural ends: the weight dropped beyond the cut must stay negligible).
+        computed from local integrals). Otherwise the log speed density, and the log of
+        its mass per decade of distance, must stay below ``ceiling`` (natural ends: the
+        weight dropped beyond the cut must stay negligible and integrable).
         The scan is geometric, from 1e-4 to 1e8 times the cut's distance from the origin,
         2,000 points per decade, and stops where the functions overflow: a feature
         narrower than about 0.1% of its distance from the cut can still escape it.
@@ -285,7 +286,13 @@ class FirstPassage1D:
         finite = np.isfinite(vals)
         stop = int(np.argmin(finite)) if not np.all(finite) else vals.size
         xs, vals = xs[:stop], vals[:stop]
-        bad = ~(vals > 0) if slope else vals > ceiling
+        if slope:
+            bad = ~(vals > 0)
+        else:
+            # the weight must stay low pointwise, and its mass per decade of distance,
+            # about w(t) (t + scale), must stay low too, or the tail is not integrable
+            mass = vals + np.log(t[:stop] + scale) - np.log(scale)
+            bad = (vals > ceiling) | (mass > ceiling)
         if not np.any(bad):
             return None
         return float(xs[np.flatnonzero(bad)[-1]])
@@ -771,35 +778,94 @@ class FirstPassage1D:
         return lam, info, np.asarray(logc)
 
     @staticmethod
-    def _root_error(lam: float, logc: Array, eta: Array) -> float:
-        """Relative change of the smallest root when each c_n may be off by a relative eta_n.
+    def _series(lam: float, logc: Array, eta: Array) -> tuple[float, float]:
+        """Smallest and largest value of F(lam) when each c_n may be off by a relative eta_n.
 
-        With dF = sum_n lambda^n c_n eta_n and the derivatives of F at the root, the
-        root can move by h where |F'| h + |F''| h^2 / 2 = dF: linear in dF for a simple,
-        well-separated root and its square root for a (near-)double one.
+        Both are scaled by the same positive factor, so only their signs are meaningful.
         """
         n = np.arange(logc.size)
         lt = n * np.log(lam) + logc
-        top = float(np.max(lt))
-        t = np.exp(lt - top)
-        sign = (-1.0) ** n
-        d1 = abs(float(np.sum(sign * n * t)))  # |lambda F'| / s
-        d2 = abs(float(np.sum(sign * n * (n - 1) * t)))  # |lambda^2 F''| / s
-        dF = float(np.sum(t * eta))
-        return 2.0 * dF / (d1 + np.sqrt(d1 * d1 + 2.0 * d2 * dF))
+        t = np.exp(lt - np.max(lt))
+        F = float(np.sum((-1.0) ** n * t))
+        # the coefficients' errors, and the rounding of this alternating sum itself
+        spread = float(np.sum(t * (eta + 4.0 * np.finfo(float).eps * (n + 2))))
+        return F - spread, F + spread
+
+    def _rayleigh_upper(self, iterations: int = 40) -> float:
+        """An upper bound on lambda_1: the reciprocal of a Rayleigh quotient of the Green's operator.
+
+        Power iteration from a positive vector; every Rayleigh quotient of the positive
+        self-adjoint Green's operator is at most its largest eigenvalue 1/lambda_1.
+        """
+        pts = np.array([], dtype=float)
+        a, b, _ = self._effective_domain(pts)
+        g = self._grid(a, b, pts, self._order + 8)
+        P = g.panels
+        logf = np.zeros_like(g.phi)
+        best = -np.inf
+        for _ in range(iterations):
+            logg = self._green_log(g, logf)
+            num = _cheb.log_integral(P, g.logw + logf + logg)
+            den = _cheb.log_integral(P, g.logw + 2 * logf)
+            best = max(best, num - den)
+            logf = logg - 0.5 * _cheb.log_integral(P, g.logw + 2 * logg)
+        return float(np.exp(-best))
+
+    def _bracket(self, lam: float, logc: Array, eta: Array) -> tuple[float, float]:
+        """An interval for lambda_1 from the coefficient intervals c_n (1 +- eta_n).
+
+        Every F with coefficients in those intervals lies between the two bounds of
+        ``_series``. Below the first zero of the lower bound, every such F is positive,
+        so lambda_1 is at least that zero. At a point where the upper bound is not
+        positive, every such F has had a root, so lambda_1 is at most that point; when
+        the upper bound stays positive (two roots too close to separate), the
+        Rayleigh bound is used instead.
+        """
+        def sign_change(which: int, lo: float, hi: float) -> tuple[float, float]:
+            """Bisection keeping the bound positive at lo and not positive at hi."""
+            for _ in range(200):
+                mid = 0.5 * (lo + hi)
+                if self._series(mid, logc, eta)[which] > 0.0:
+                    lo = mid
+                else:
+                    hi = mid
+                if hi - lo <= 2.0 * np.finfo(float).eps * hi:
+                    break
+            return lo, hi
+
+        top = lam
+        while self._series(top, logc, eta)[0] > 0.0:  # the lower bound must change sign by here
+            top *= 1.0 + 1e-6
+            if top > 1.01 * lam:
+                raise RuntimeError("the decay-rate bracket failed; the series is too inaccurate")
+        # the lower bound is decreasing up to lambda_1 and negative from there to lambda_2,
+        # so its sign change below ``top`` is its first zero
+        lower = sign_change(0, 0.0, top)[0]
+        upper = np.inf
+        grid = lam * (1.0 + np.concatenate([[0.0], np.geomspace(1e-15, 1e-2, 131)]))
+        previous = 0.0
+        for x in grid:
+            if self._series(float(x), logc, eta)[1] <= 0.0:
+                upper = sign_change(1, previous, float(x))[1] if previous > 0.0 else float(x)
+                break
+            previous = float(x)
+        if not np.isfinite(upper):
+            upper = self._rayleigh_upper()
+        return lower, upper
 
     def decay_rate(self, max_terms: int = 4000) -> Result:
         """Smallest eigenvalue of -L: the long-time decay rate of the survival probability.
 
         Computed as the smallest root of the characteristic function (see
         ``_decay_once``), which keeps full relative accuracy however small the rate is.
-        The error combines the difference between two discretisations with the movement
-        of the root that the coefficients' own errors can cause; it is estimated from the
-        difference of each coefficient between the two discretisations, with a floor of
-        a few units in the last place of its logarithm (a coefficient near e^500 is then
-        known to about 1e-13). When the two smallest eigenvalues nearly coincide
-        (two equal wells far apart) the root is accurate only to about the square root of
-        the coefficients' accuracy, typically 1e-7, and the error says so.
+        Each coefficient is given an error interval: the difference between two
+        discretisations, with a floor of a few units in the last place of its logarithm
+        (a coefficient near e^500 is known to about 1e-13). The root is then bracketed:
+        below by the first zero of the smallest series those intervals allow, above by
+        the first zero of the largest one or, when two roots are too close for that, by a
+        Rayleigh quotient. The error is the half-width of that bracket (plus the
+        difference between the discretisations). When the two smallest eigenvalues nearly
+        coincide (two equal wells far apart) the bracket is about 1e-6 wide.
         """
         lo, info_lo, logc_lo = self._decay_once(self._order, max_terms)
         hi, info, logc_hi = self._decay_once(self._order + 8, max_terms)
@@ -812,7 +878,8 @@ class FirstPassage1D:
         # a coefficient held as its logarithm carries an absolute error of a few units in
         # the last place of that logarithm, which no change of discretisation reveals
         eta = np.maximum(eta, 32.0 * eps * (n + 1) * np.maximum(1.0, np.abs(logc_hi)))
-        root = self._root_error(hi, logc_hi, eta)
-        info["root_error"] = root
-        error = abs(hi - lo) + max(root, info["rounding_error"], info_lo["rounding_error"]) * abs(hi)
-        return Result(hi, error, "smallest root of the characteristic function (quadrature)", info)
+        lower, upper = self._bracket(hi, logc_hi, eta)
+        value = min(max(hi, lower), upper)
+        info["bracket"] = (lower, upper)
+        error = max(value - lower, upper - value) + abs(hi - lo)
+        return Result(value, error, "smallest root of the characteristic function (quadrature)", info)

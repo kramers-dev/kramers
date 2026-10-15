@@ -153,8 +153,12 @@ def build_panels(
             with np.errstate(all="ignore"):
                 fs = np.asarray(func(xs), dtype=float)
             if np.all(np.isfinite(fs)):
-                # each panel spans at most max_range of variation: a lower bound on the count
-                if np.sum(np.abs(np.diff(fs))) / max_range > max_panels:
+                # bisection from the initial panels gives each stretch a dyadic width with at
+                # most max_range of variation: estimate the count that needs
+                width0 = (b - a) / max(1, int(min_panels))
+                slope = np.abs(np.diff(fs)) / np.diff(xs)
+                levels = np.ceil(np.log2(np.maximum(1.0, width0 * slope / max_range)))
+                if float(np.sum(np.diff(xs) * 2.0**levels)) / width0 > max_panels:
                     raise RuntimeError("panel refinement did not converge; the log-weight varies too fast")
                 d = np.sign(np.diff(fs))
                 turn = np.flatnonzero(d[1:] * d[:-1] < 0) + 1  # sign change of the slope
@@ -180,7 +184,9 @@ def build_panels(
                 split = True
                 break
         tiny = (hi - lo) <= 1e-13 * max(1.0, abs(lo), abs(hi))
-        if split and not tiny:
+        if split and tiny:  # still unresolved at the width of rounding: a singularity
+            raise ValueError(f"log-weight is singular near {0.5 * (lo + hi):.15g}")
+        if split:
             mid = (lo + hi) / 2.0
             stack.append((mid, hi))
             stack.append((lo, mid))

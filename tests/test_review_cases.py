@@ -172,3 +172,47 @@ def test_duality_entry_at_extreme_drifts():
 def test_rupture_force_moments_refuse_slow_loading():
     with pytest.raises(OutsideDomain):
         dhs_rupture_force_moments(1.0, 1.0, 1.0, 20.0, 2.0 / 3.0)
+
+
+# --------------------------------------------------------------- third round (15 October)
+
+def test_root_bracket_covers_a_perturbed_double_root():
+    # F(x) = 1 - (1 + q) x + q x^2 with q = 1 / (1 + g): roots 1 and 1 + g. Perturbing the
+    # coefficients by (1 + eta, 1 - eta, 1 + eta) moves the first root up to 1.0000027639536881
+    # (g = 1e-5, eta = 5e-12); the bracket must contain both
+    g, eta = 1e-5, 5e-12
+    q = 1.0 / (1.0 + g)
+    fp = FirstPassage1D(lambda x: 0 * x, domain=(0.0, 1.0), left="absorbing", right="absorbing")
+    lower, upper = fp._bracket(1.0, np.log(np.array([1.0, 1.0 + q, q])), np.full(3, eta))
+    assert lower <= 1.0 and upper >= 1.0000027639536881
+
+
+def test_a_tail_that_levels_off_is_refused():
+    # phi -> -40 as x -> -infinity: the speed density is not integrable, the mean time infinite
+    from scipy.special import expit
+
+    def phi(x):
+        s = expit(-(np.asarray(x) + 100.0))
+        return (1 - s) * (-np.asarray(x) ** 2) + s * (-40.0)
+
+    with pytest.raises(OutsideDomain):
+        FirstPassage1D(log_psi=phi, domain=(-np.inf, 0.0), left="natural", right="absorbing").mean_time(-1.0)
+
+
+def test_a_zero_of_D_between_samples_is_refused():
+    c = np.sqrt(2.0) / 10.0  # D(c) = 0: 1/D is not integrable and the mean time is infinite
+    fp = FirstPassage1D(log_psi=lambda x: 0 * x, D=lambda x: (np.asarray(x) - c) ** 2, domain=(0.0, 1.0),
+                        left="absorbing", right="absorbing")
+    with pytest.raises(OutsideDomain):
+        fp.mean_time(0.5)
+
+
+def test_an_impossible_panel_count_is_refused_at_once():
+    import time
+
+    from kramers.solvers import _cheb
+
+    start = time.perf_counter()
+    with pytest.raises(RuntimeError):
+        _cheb.build_panels(lambda x: 599999.0 * np.asarray(x), 0.0, 1.0)
+    assert time.perf_counter() - start < 2.0

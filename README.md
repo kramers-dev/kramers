@@ -61,9 +61,13 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
   rebound the scan finds; an exit end with structure beyond the cut is refused. A
   feature narrower than about 0.1% of its distance from the cut can escape the scan.
   Ends that are reached in finite time ("exit") need a constant D.
-- Decay rates are accurate to about 1e-13 relative, except when the two slowest rates
-  nearly coincide (two equal wells far apart): then to about 1e-6, and the returned
-  error says so.
+- Decay rates are returned with a bracket built from error intervals on the
+  coefficients of the characteristic function: about 1e-13 wide normally, about 1e-6
+  when the two slowest rates nearly coincide (two equal wells far apart). The intervals
+  are estimates (two discretisations and a rounding floor), not interval arithmetic.
+- A D that vanishes, or a potential that is singular, inside the domain is refused when
+  the panels cannot resolve it; this is found by sampling, so it is not a proof that D
+  is positive everywhere.
 - The Fokker-Planck solver does not keep the density positive at large early time
   steps, and its Richardson extrapolation can give survival slightly above one when the
   coarse grid is under-resolved; `info["richardson_change"]` reports the correction.

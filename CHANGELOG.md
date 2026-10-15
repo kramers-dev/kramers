@@ -35,3 +35,10 @@
   conditional times carry a floor of a few units in the last place of their logarithm;
   Newton's method stops at the rounding floor; K0012/K0013 no longer overflow at
   extreme drift; a domain that would need more than 200,000 panels is refused at once.
+- After the third round (15 October): the decay rate is bracketed, not given a
+  heuristic error: below by the first zero of the smallest series the coefficient
+  intervals allow, above by the first zero of the largest or by a Rayleigh quotient,
+  and the reported value lies in the bracket; a natural tail must also have a
+  vanishing mass per decade (a tail that levels off is refused); a weight still
+  unresolved at the width of rounding is treated as a singularity and refused (a zero
+  of D between sample points); the early panel-count refusal accounts for bisection.
