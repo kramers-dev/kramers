@@ -63,4 +63,4 @@ through zero (the fold) at scaled rate Sigma, in P2's potential and with the D r
     Negative tilt: past the fold. The quasi-static column integrates the frozen escape rate (K0024 with K0008).
     The tilted potentials were not calibrated in P2; whether the trap can sweep the tilt this way is untested.
 
-Figure: /Users/Alexalex/Desktop/kramers/cases/brno_cubic_trap/figure.png
+Figure: figure.png (next to this script)

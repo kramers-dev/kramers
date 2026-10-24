@@ -210,8 +210,8 @@ are useful as second sources only.
 | Neurons | Fourcaud-Trocmé et al., J. Neurosci. 23, 11628 (2003) |
 
 **Garg, PRB 51, 15592 (1995), doi:10.1103/PhysRevB.51.15592.** NOT OPENED; there is no
-arXiv version. The earlier research note (`software_build/research/2026-10-14_sources_A_escape_ramps.md`,
-item 6) found that the open restatement (Wernsdorfer, arXiv:cond-mat/0101104, Eq. 3.9)
+arXiv version. The maintainer's research note of 14 October 2026 on escape under ramps
+(item 6) found that the open restatement (Wernsdorfer, arXiv:cond-mat/0101104, Eq. 3.9)
 misses the computed mean by 5-11%. That is a computed check, recorded there. Do not
 list Garg's mean and width until the original is read.
 
@@ -219,9 +219,8 @@ list Garg's mean and width until the original is read.
 
 - **Areas and quotas.** The maintainer's brief of 14 October 2026.
 - **Exclusions.** The handbook's entries K0001-K0030 and `RESERVED_FOR_AUTHOR.md`.
-- **Leads and known traps.** The research notes `2026-10-14_sources_A_escape_ramps.md`
-  and `2026-10-14_sources_B_targets_resetting_transport.md` in
-  `~/Desktop/geoews/software_build/research/`.
+- **Leads and known traps.** The maintainer's research notes of 14 October 2026 (escape
+  and ramps; targets, resetting and transport), kept outside this repository.
 - **Finding papers.** arXiv API title search (`export.arxiv.org/api/query`).
 - **Reading equations.** ar5iv HTML (LaTeX alttext), and arXiv PDF page images read
   through the fetch tool.

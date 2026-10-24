@@ -111,6 +111,30 @@ These are tested in `tests/` with the inputs that first exposed them.
 | [K0011](docs/handbook/K0011.md) | Variance of the passage time through a noisy saddle-node, any bias and thresholds | exact | B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003) |
 <!-- entries:end -->
 
+## Related software
+
+Other open tools for first passage and escape, each worth using for what it does best. kramers' own
+contribution is a sourced, independently checked collection of results; where these tools overlap
+with an entry, the entry's page says so.
+
+- [stochkin](https://github.com/giuseppe-stefano-basile/stochkin): mean first-passage times, exit
+  times and committors from one- and two-dimensional free-energy surfaces (reads PLUMED output).
+- [PyFPT](https://github.com/Jacks0nJ/PyFPT): first-passage-time distributions by importance
+  sampling, built for stochastic inflation (Jackson, Harry and Krawczyk, JOSS 2023).
+- [deeptime](https://github.com/deeptime-ml/deeptime): Markov-state models and transfer operators;
+  its `prinz_potential` example is an overdamped one-dimensional diffusion like those here.
+- [fplanck](https://github.com/johnaparker/fplanck): a Fokker-Planck solver.
+- [py-pde](https://github.com/zwicker-group/py-pde): partial differential equations, including
+  Fokker-Planck problems.
+- [kramersmoyal](https://github.com/LRydin/KramersMoyal): Kramers-Moyal coefficients estimated
+  from data (Rydin Gorjão and Meirinhos, JOSS 2019).
+- [stochrare](https://github.com/cbherbert/stochrare): rare events in stochastic dynamics
+  (Herbert), including the escape law behind the ramp entries.
+- [PyEscape](https://github.com/AoifeHughes/PyEscape): narrow-escape simulations (Hughes, Morris
+  and Tomkins, JOSS 2020).
+- [ForceSpectroscopyMLE](https://github.com/bio-phys/ForceSpectroscopyMLE): maximum-likelihood
+  fits of force-spectroscopy models, including Dudko-Hummer-Szabo (Julia).
+
 ## Take part
 
 | You have | You can |

@@ -188,6 +188,6 @@ try:
     fig.tight_layout()
     out = Path(__file__).with_name("figure.png")
     fig.savefig(out, dpi=150)
-    print(f"\nFigure: {out}")
+    print(f"\nFigure: {out.name} (next to this script)")
 except ImportError:
     print("\n(matplotlib not installed: no figure)")
