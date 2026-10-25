@@ -9,3 +9,4 @@ build/
 dist/
 reports/*.tmp
 .DS_Store
+site/

@@ -1,0 +1,34 @@
+site_name: kramers
+site_description: An open handbook of first-passage and escape results in statistical physics. Every formula is a function, tied to its paper, and checked against an independent solver.
+site_url: https://kramers-dev.github.io/kramers/
+repo_url: https://github.com/kramers-dev/kramers
+repo_name: kramers-dev/kramers
+edit_uri: ""
+docs_dir: docs
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: {icon: material/weather-night, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: {icon: material/weather-sunny, name: Light mode}
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+nav:
+  - Home: index.md
+  - The handbook: handbook/index.md
+  - Questions for authors: errata.md

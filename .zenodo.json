@@ -1,0 +1,9 @@
+{
+  "title": "kramers: an open handbook of first-passage and escape results",
+  "upload_type": "software",
+  "description": "An open Python library and handbook of first-passage and escape results in statistical physics. Each published formula is a function tied to its paper, equation and page, and is checked against an independent numerical solver (quadrature, time-dependent Fokker-Planck, simulation).",
+  "creators": [{"name": "Sokol, Alexander", "affiliation": "Independent researcher, Limassol, Cyprus"}],
+  "license": "MIT",
+  "keywords": ["first passage", "escape rate", "Kramers", "Fokker-Planck", "stochastic resetting", "statistical physics"],
+  "notes": "Written largely with AI tools (Claude, by Anthropic) under the author's direction and reviewed by a second AI model; every number is recomputed by the test suite and the nightly verification. See HOW_THIS_IS_MADE.md."
+}
