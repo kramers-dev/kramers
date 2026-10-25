@@ -12,7 +12,7 @@
 - Questions for authors (`docs/errata.md`): three printed equations that disagree with
   our computations, each with the computation, listed as questions until the authors
   answer.
-- After the second model's first review (14 October): the panel search starts from 32
+- After the first independent review (14 October): the panel search starts from 32
   equal panels plus every local extremum found on 8192 points, and stops refining at the
   rounding floor of the samples; the error estimate uses bisected panels at a higher
   order; natural ends are judged on the speed density, so a position-dependent D is

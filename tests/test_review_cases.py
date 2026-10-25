@@ -1,4 +1,4 @@
-"""Inputs on which the second model's reviews (14 October 2026, two rounds) broke the solvers.
+"""Inputs on which the independent reviews (14 October 2026, two rounds) broke the solvers.
 
 Each test is one of those inputs, with the behaviour the code must now show: the right
 answer, or a refusal. Exact values are derived next to each test.

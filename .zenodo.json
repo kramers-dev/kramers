@@ -17,5 +17,5 @@
     "stochastic resetting",
     "statistical physics"
   ],
-  "notes": "Developed with AI-assisted tools; every number is recomputed by the test suite and the nightly verification. See HOW_THIS_IS_MADE.md."
+  "notes": "Developed with AI-assisted tools; every number reruns (the test suite and the nightly verification recompute every value)."
 }

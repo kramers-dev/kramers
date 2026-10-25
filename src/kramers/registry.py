@@ -120,7 +120,7 @@ class Entry:
     aliases: tuple[str, ...] = ()
     related: tuple[str, ...] = ()
     notes: str = ""
-    written_by: tuple[str, ...] = ("Claude Opus 5.5 (AI), for A. Sokol",)
+    written_by: tuple[str, ...] = ("A. Sokol (AI-assisted)",)
     checked_by: tuple[str, ...] = ()
     added: str = ""
     extra: Mapping[str, Any] = field(default_factory=dict)

@@ -149,9 +149,9 @@ contributes is named on the release. The original paper is always cited first.
 
 ## How it is made
 
-kramers is developed with AI-assisted tools. Nothing here asks to be trusted: every
-equation's source was opened and its location recorded, and no entry is accepted unless
-an independent numerical check passes. Details, and what we will and will not do: [HOW_THIS_IS_MADE.md](HOW_THIS_IS_MADE.md).
+kramers is developed with AI-assisted tools; every number reruns. Nothing here asks to
+be trusted: every equation's source was opened and its location recorded, and no entry
+is accepted unless an independent numerical check passes. Details, and what we will and will not do: [HOW_THIS_IS_MADE.md](HOW_THIS_IS_MADE.md).
 
 ## Status
 

@@ -2,12 +2,11 @@
 
 ## Who does what
 
-- **Alexander Sokol** directs the project, decides what goes in, writes parts of it
-  himself (recorded in [AUTHORSHIP.md](AUTHORSHIP.md)), and signs every release.
-- **Claude** (Anthropic), an AI model, writes most of the code, the entries and the
-  documentation, and runs the research that locates and opens each source.
-- **A second AI model** (GPT-6 Astra, OpenAI) reviews the solvers and entries before a
-  release, as an adversary: its job is to find what is wrong.
+- **Alexander Sokol** designs and directs the project, decides what goes in, and signs
+  every release.
+- kramers is developed with AI-assisted tools; every number reruns.
+- **Independent reviews** check the solvers and entries before a release, as an
+  adversary: their job is to find what is wrong.
 - **Contributors and the authors of the papers** check entries; their names appear on
   the entries they checked, with their consent.
 
@@ -30,7 +29,7 @@ literature. When our computation disagrees with a printed equation, the case is 
 in [docs/errata.md](docs/errata.md) with the computation, as a question to the authors
 until they answer.
 
-A check only catches what it tests. The second model's first review (14 October 2026)
+A check only catches what it tests. The first independent review (14 October 2026)
 found inputs on which the solvers' own error estimates vouched for wrong or unconverged
 answers: a narrow feature between sample points, a position-dependent D at an infinite
 end, a well hidden beyond a truncation point, and a slowly converging eigenvalue

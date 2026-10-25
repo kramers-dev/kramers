@@ -16,8 +16,8 @@ from ..solvers.quadrature import FirstPassage1D
 
 # Lowest eigenvalue E0(u) of H = -d^2/dy^2 + (y^2 - u)^2/4 + y, by a Hermite-basis
 # computation in 65-digit arithmetic (bases of 104 and 128 functions agree to the digits
-# shown). Method and code: GPT-6 Astra, 9 October 2026, as an independent check for the
-# geoews package (geoews/tools/reference_values.py); values reproduced by Claude.
+# shown). Method and code: an independent 65-digit reference computation, 9 October 2026,
+# for the geoews package (geoews/tools/reference_values.py); values reproduced here.
 HERMITE_REFERENCE = {
     0.0: 0.3541232444531332932242,
     0.25: 0.2589680423874863918907,

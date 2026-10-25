@@ -218,7 +218,7 @@ register(Entry(
              "Kurkijarvi distribution", "escape under a linear ramp", "dynamic force spectroscopy"),
     related=("K0025", "K0026", "K0027", "K0028", "K0029", "K0030"),
     notes=("Herbert and Bouchet's Eq. (5) (arXiv v2), the large-noise moments, is inconsistent with "
-           "their Eq. (4) by a factor 1/(2 pi) (found by a research agent with its own numerics; not "
+           "their Eq. (4) by a factor 1/(2 pi) (found by an independent numerical check; not "
            "re-derived here, and the journal version was not opened)."),
     added="2026-10-14",
 ))

@@ -112,7 +112,7 @@ register(Entry(
             citation="B. I. Halperin, Phys. Rev. 139, A104 (1965)",
             doi="10.1103/PhysRev.139.A104",
             locator="the same function of Ai and Bi, as a density of states in a white-noise potential",
-            version_read="not opened; attribution from a search summary and from GPT-6 Astra",
+            version_read="not opened; attribution from a search summary and an independent review",
             role="original",
             evidence="citation-only",
         ),

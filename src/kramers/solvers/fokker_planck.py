@@ -30,6 +30,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
@@ -204,7 +205,7 @@ def _solve_once(
     if D <= 0:
         raise OutsideDomain("D must be positive")
     h = (b - a) / n_cells
-    x = a + h * (np.arange(n_cells) + 0.5)
+    x = np.asarray(a + h * (np.arange(n_cells) + 0.5), dtype=np.float64)
     faces = a + h * np.arange(1, n_cells)
     if p0 is None:
         if x0 is None or not a <= x0 <= b:
@@ -218,7 +219,7 @@ def _solve_once(
         p[i] += (1.0 - theta) / h
         p[i + 1] += theta / h
     else:
-        p = np.asarray(p0(x) if callable(p0) else p0, dtype=float).copy()
+        p = np.array(p0(x) if callable(p0) else p0, dtype=np.float64)  # a copy
         p /= h * p.sum()
     dt_max = float(dt) if dt is not None else t_end / 2000.0
     dt_min = min(dt_max, float(dt_min) if dt_min is not None else 1e-3 * dt_max)
@@ -290,7 +291,7 @@ def _solve_once(
     absorbed_r = np.cumsum(abs_r)
     return FPSolution(
         t=t_grid, survival=surv, flux_left=fl, flux_right=fr,
-        absorbed_left=absorbed_l, absorbed_right=absorbed_r, x=x,
+        absorbed_left=absorbed_l, absorbed_right=absorbed_r, x=np.asarray(x, dtype=np.float64),
         density=np.array(snaps) if snaps else None,
         snapshots=snaps_idx if snaps else None,
         info={"n_cells": n_cells, "dt_max": dt_max, "dt_min": dt_min, "steps": n_steps, "h": h,
@@ -337,7 +338,7 @@ def solve(
         closure is first order in the cell width; this removes that term. The
         difference between the two grids is returned in ``info["richardson_change"]``.
     """
-    kw = dict(left=left, right=right, t_end=t_end, x0=x0, p0=p0, dt=dt, dt_min=dt_min,
+    kw: dict[str, Any] = dict(left=left, right=right, t_end=t_end, x0=x0, p0=p0, dt=dt, dt_min=dt_min,
               growth=growth, time_dependent=time_dependent, be_start=be_start)
     coarse = _solve_once(drift, D, domain, n_cells=n_cells, n_snapshots=0 if richardson else n_snapshots, **kw)
     if not richardson:

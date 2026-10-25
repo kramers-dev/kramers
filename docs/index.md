@@ -13,7 +13,7 @@ unless an independent numerical check passes.
 
 ## How it is made
 
-kramers is developed with AI-assisted tools. Nothing here asks to be trusted: every equation's
+kramers is developed with AI-assisted tools; every number reruns. Nothing here asks to be trusted: every equation's
 source was opened and its location recorded, and every number is recomputed by the checks each
 night.
 

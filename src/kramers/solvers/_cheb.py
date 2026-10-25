@@ -51,7 +51,8 @@ def _build(s: Array, bary: Array) -> Reference:
     # integral from s_j to 1 = total - cumulative; built from the mirror image so that
     # no subtraction happens when it is applied
     cum_rev = cum[::-1, ::-1].copy() if np.allclose(s, -s[::-1]) else weights[None, :] - cum
-    return Reference(s=s, cum=cum, cum_rev=cum_rev, weights=weights, bary=bary, to_coeffs=to_coeffs)
+    return Reference(s=s, cum=cum, cum_rev=cum_rev, weights=weights, bary=bary,
+                     to_coeffs=np.asarray(to_coeffs, dtype=np.float64))
 
 
 @lru_cache(maxsize=16)
@@ -63,7 +64,7 @@ def lobatto(n: int) -> Reference:
     bary = (-1.0) ** k
     bary[0] *= 0.5
     bary[-1] *= 0.5
-    return _build(s, bary)
+    return _build(np.asarray(s, dtype=np.float64), np.asarray(bary, dtype=np.float64))
 
 
 @lru_cache(maxsize=16)
@@ -73,7 +74,7 @@ def gauss(n: int) -> Reference:
     theta = (2 * k + 1) * np.pi / (2 * n)
     s = -np.cos(theta)
     bary = (-1.0) ** k * np.sin(theta)
-    return _build(s, bary)
+    return _build(np.asarray(s, dtype=np.float64), np.asarray(bary, dtype=np.float64))
 
 
 @dataclass(frozen=True)
@@ -125,7 +126,7 @@ def build_panels(
     phi: Callable[[Array], Array] | Sequence[Callable[[Array], Array]],
     a: float,
     b: float,
-    breakpoints: Sequence[float] = (),
+    breakpoints: Sequence[float] | Array = (),
     n: int = 17,
     max_range: float = 3.0,
     coeff_tol: float = 1e-12,
@@ -242,7 +243,7 @@ def log_integral(panels: Panels, logg: Array) -> float:
     parts = panels.half[finite, 0] * (v @ ref.weights)
     with np.errstate(divide="ignore"):
         logs = np.log(np.maximum(parts, 0.0)) + shift[finite]
-    return float(np.logaddexp.reduce(logs))
+    return float(np.logaddexp.reduce(logs))  # type: ignore[call-overload]  # numpy stubs miss this overload
 
 
 def interpolate(panels: Panels, values: Array, x: Array) -> Array:

@@ -51,6 +51,7 @@ import warnings
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from functools import cached_property
+from typing import Any, cast
 
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
@@ -77,14 +78,14 @@ def _numerical_derivative(f: Func) -> Func:
     try:
         with np.errstate(all="ignore"), warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            val = np.asarray(f(probe + 1e-30j))
+            val = np.asarray(cast(Any, f)(probe + 1e-30j))
         complex_ok = np.iscomplexobj(val) and np.all(np.isfinite(val))
     except Exception:  # noqa: BLE001 - any failure means: no complex step
         complex_ok = False
     if complex_ok:
         def d(x: Array) -> Array:
             x = np.asarray(x, dtype=float)
-            return np.imag(f(x + 1e-30j)) / 1e-30
+            return np.imag(cast(Any, f)(x + 1e-30j)) / 1e-30
         return d
 
     def d_fd(x: Array) -> Array:
@@ -774,8 +775,8 @@ class FirstPassage1D:
             rounding = 4.0 * np.finfo(float).eps * size / abs(lamFp)
             lam *= 1.0 + step
             # done when the step is at the rounding level, or has stopped shrinking there
-            stalled = abs(step) < 1e-10 and abs(step) > 0.9 * previous
-            converged = abs(step) <= max(16.0 * np.finfo(float).eps, 4.0 * rounding) or stalled
+            stalled = bool(abs(step) < 1e-10 and abs(step) > 0.9 * previous)
+            converged = bool(abs(step) <= max(16.0 * np.finfo(float).eps, 4.0 * rounding)) or stalled
             if stalled:
                 rounding = max(rounding, abs(step))
             previous = abs(step)

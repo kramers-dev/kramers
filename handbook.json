@@ -54,7 +54,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -134,7 +134,7 @@
       ],
       "notes": "Question for the authors (Haenggi, Talkner and Borkovec). In Eq. (7.7) as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential cannot reveal the difference. We read this as a misprint but may have misread the notation: on the author-hosted scan we read, a speck sits on the sign, so the printed sign must be confirmed on a clean copy before the authors are asked. No erratum or comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026).",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -206,7 +206,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -267,7 +267,7 @@
           "citation": "B. I. Halperin, Phys. Rev. 139, A104 (1965)",
           "doi": "10.1103/PhysRev.139.A104",
           "locator": "the same function of Ai and Bi, as a density of states in a white-noise potential",
-          "version_read": "not opened; attribution from a search summary and from GPT-6 Astra",
+          "version_read": "not opened; attribution from a search summary and an independent review",
           "printed": "",
           "notation": "",
           "role": "original",
@@ -291,7 +291,7 @@
       ],
       "notes": "This is the mean passage time. Its reciprocal is the firing rate of the quadratic integrate-and-fire neuron (K0009) but not the quasi-stationary decay rate (K0008); the two differ by 43% at the bifurcation point.",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -363,7 +363,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -427,7 +427,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -481,7 +481,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -525,7 +525,7 @@
       ],
       "notes": "The quasi-stationary decay rate and the reciprocal mean passage time are different observables: at the fold they differ by 43% (0.354 against 0.201).",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -597,7 +597,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -676,7 +676,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -739,7 +739,7 @@
       ],
       "notes": "Questions for the authors (Lindner, Longtin and Bulsara), both from computations. (1) Eq. (3.2) as printed has the prefactor (9/D)^(2/3); with it, Eq. (3.2) gives exactly half of the paper's own Eq. (3.5) at beta = 0 (computed ratio 2.0000 at beta = 0, -0.5 and 0.8), and with 2 (9/D)^(2/3) the two agree. (2) In Eq. (A.3) as printed the middle integrand is exp(-V(z)/D); for a linear potential V = -mu x that gives 8.3e3 instead of the exact 2 D L / mu^3 = 0.728 (mu = 1.3, D = 0.4, L = 2), while exp(+V(z)/D) reproduces it. Eqs. (A.1), (A.2) and (A.4) are consistent with each other and with this entry. We read both as misprints but may have misread the notation. The bare prefactor of Eq. (3.2) reappears in Vilela and Lindner, J. Theor. Biol. 257, 90 (2009), Eq. (38) of the arXiv version (journal version not checked). No erratum or comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026).",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -817,7 +817,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -893,7 +893,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -959,7 +959,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1017,7 +1017,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1081,7 +1081,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1148,7 +1148,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1227,7 +1227,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1286,7 +1286,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1357,7 +1357,7 @@
       "related": [],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1426,7 +1426,7 @@
       ],
       "notes": "Dagdug and Berezhkovskii (2009) restate I+- with the opposite overall sign in the exponent; the sign here is the PRL's, confirmed by the free-drift check.",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1493,7 +1493,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1546,7 +1546,7 @@
       "related": [],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1634,9 +1634,9 @@
         "K0029",
         "K0030"
       ],
-      "notes": "Herbert and Bouchet's Eq. (5) (arXiv v2), the large-noise moments, is inconsistent with their Eq. (4) by a factor 1/(2 pi) (found by a research agent with its own numerics; not re-derived here, and the journal version was not opened).",
+      "notes": "Herbert and Bouchet's Eq. (5) (arXiv v2), the large-noise moments, is inconsistent with their Eq. (4) by a factor 1/(2 pi) (found by an independent numerical check; not re-derived here, and the journal version was not opened).",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1708,7 +1708,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1775,7 +1775,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1845,7 +1845,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1907,7 +1907,7 @@
       ],
       "notes": "",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -1976,7 +1976,7 @@
       ],
       "notes": "Often cited to Evans and Ritchie (1997), who derive it (their Eq. 13 with the Bell rate) but print only that condition and the scaling; the closed form is printed in Liu et al. (2020), among others.",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",
@@ -2026,7 +2026,7 @@
       ],
       "notes": "Replaces the lag coefficient fitted to simulations in geoews 0.3 (dev branch). A prototype of 12 October 2026 matched the author's simulated medians (0.748, 0.611, 0.487, 0.338 at Sigma = 0.08, 0.10, 0.122, 0.15; statistical errors 0.003 to 0.005) to within 0.005 after converting between the two escape criteria.",
       "written_by": [
-        "Claude Opus 5.5 (AI), for A. Sokol"
+        "A. Sokol (AI-assisted)"
       ],
       "checked_by": [],
       "added": "2026-10-14",

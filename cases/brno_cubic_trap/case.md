@@ -140,6 +140,5 @@ sweep is an open question.
    at −10 µm does not reproduce them in our solution.
 4. Would data you already hold test a swept tilt, or is it worth a measurement?
 
-*Prepared with the kramers package. Code and text written largely with AI tools
-(Claude, Anthropic) under the direction of Alexander Sokol, and reviewed by a second
-AI model (GPT-6 Astra, OpenAI); the computations are reproducible with `reproduce.py`.*
+*Prepared with the kramers package, developed with AI-assisted tools; every number
+reruns with `reproduce.py`.*

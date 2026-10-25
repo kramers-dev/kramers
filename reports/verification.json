@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated": "2026-10-15T07:48:35+00:00",
+  "generated": "2026-10-25T11:53:51+00:00",
   "kramers": "0.1.0.dev0",
   "python": "3.12.13",
   "numpy": "2.5.3",
@@ -10,7 +10,7 @@
   "entries": 30,
   "checks_run": 66,
   "failed": 0,
-  "seconds": 644.2
+  "seconds": 289.9
  },
  "results": [
   {
@@ -23,7 +23,7 @@
    "worst": 0.8608571039509627,
    "tolerance": 1.0,
    "detail": "              case              entry  exact decay rate (quadrature)  rel. diff\n cubic well, 40 kT  4.20188926269e-18              4.17204594845e-18    7.2e-03\n cubic well, 80 kT  2.24909944557e-35               2.2412037493e-35    3.5e-03\ncubic well, 160 kT  5.11438524084e-70              5.10545768241e-70    1.7e-03\n\n                                     case          160 kT           80 kT  rel. diff\ncubic well: error x barrier, 160 vs 80 kT  0.279780861403  0.281837696235    7.3e-03\n\n                       case              entry  exact decay rate (quadrature)  rel. diff\n quartic double well, 40 kT  1.52994506114e-16              1.51529376301e-16    9.7e-03\n quartic double well, 80 kT  1.29994972217e-33              1.29379262266e-33    4.8e-03\nquartic double well, 160 kT  4.69243212039e-68              4.68137763381e-68    2.4e-03\n\n                                              case          160 kT           80 kT  rel. diff\nquartic double well: error x barrier, 160 vs 80 kT  0.377819947695  0.380716316185    7.6e-03\n\n               case              entry  exact decay rate (quadrature)  rel. diff\n cosine well, 40 kT  2.70458631894e-17              2.67010760247e-17    1.3e-02\n cosine well, 80 kT  2.29800815937e-34              2.28350715465e-34    6.4e-03\ncosine well, 160 kT  8.29512643146e-69               8.2690809706e-69    3.1e-03\n\n                                      case          160 kT           80 kT  rel. diff\ncosine well: error x barrier, 160 vs 80 kT  0.503958511373  0.508025724981    8.0e-03\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 0.58
+   "seconds": 0.33
   },
   {
    "entry": "K0001",
@@ -35,7 +35,7 @@
    "worst": 0.0017035008677872554,
    "tolerance": 0.01,
    "detail": "                      case  overestimate now  stored map  rel. diff\n          cubic well, 5 kT   0.0700463969944        0.07    6.6e-04\n         cubic well, 10 kT   0.0318954948464      0.0319    1.4e-04\n         cubic well, 20 kT   0.0147764501835      0.0148    1.6e-03\n quartic double well, 5 kT   0.0996117808087      0.0996    1.2e-04\nquartic double well, 10 kT   0.0433422933018      0.0433    9.8e-04\nquartic double well, 20 kT   0.0200007340176        0.02    3.7e-05\n         cosine well, 5 kT    0.133771730884       0.134    1.7e-03\n        cosine well, 10 kT   0.0582138087701      0.0582    2.4e-04\n        cosine well, 20 kT   0.0267580562873      0.0268    1.6e-03",
-   "seconds": 0.22
+   "seconds": 0.12
   },
   {
    "entry": "K0002",
@@ -47,7 +47,7 @@
    "worst": 6.661338147750939e-16,
    "tolerance": 1e-12,
    "detail": "                              case           entry    closed forms  rel. diff\n flat, reflecting/absorbing, x=0.0   2.85714285714   2.85714285714    3.3e-16\n flat, reflecting/absorbing, x=0.6             2.6             2.6    2.2e-16\n flat, reflecting/absorbing, x=1.9  0.278571428571  0.278571428571    4.4e-16\n       flat, both absorbing, x=0.3  0.364285714286  0.364285714286    5.6e-16\n       flat, both absorbing, x=1.0  0.714285714286  0.714285714286    4.4e-16\ndrift v=1.0, both absorbing, x=0.5  0.583123288324  0.583123288324    6.7e-16\ndrift v=1.0, both absorbing, x=1.0  0.613357260395  0.613357260395    0.0e+00",
-   "seconds": 0.04
+   "seconds": 0.02
   },
   {
    "entry": "K0002",
@@ -59,7 +59,7 @@
    "worst": 4.3303039573006075e-06,
    "tolerance": 2e-05,
    "detail": "                                             case           entry  integral of the survival, time-dependent Fokker-Planck  rel. diff\nU = x^3/3 - x on [-2, 1], reflecting at -2, x0=-1   3.13774166692                                            3.1377446643    9.6e-07\n U = x^3/3 - x on [-2, 1], absorbing at -2, x0=-1  0.692265177428                                           0.69226817516    4.3e-06",
-   "seconds": 5.43
+   "seconds": 3.63
   },
   {
    "entry": "K0002",
@@ -71,7 +71,7 @@
    "worst": 0.09882544550241447,
    "tolerance": 1.0,
    "detail": "                  case          entry  simulation       std. error  deviation / s.e.\ndouble well, -1 to 0.8  4.90021141184  4.88740876  0.0323870329608              0.40\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 34.47
+   "seconds": 20.56
   },
   {
    "entry": "K0003",
@@ -83,7 +83,7 @@
    "worst": 3.1086244689504383e-15,
    "tolerance": 1e-11,
    "detail": "            case              entry      Redner (4.12)  rel. diff\n   F=-30, x0=0.1  1.78595258685e-12  1.78595258685e-12    3.1e-15\n   F=-30, x0=0.5  3.05902226926e-07  3.05902226926e-07    5.6e-16\n  F=-30, x0=0.97     0.406569659741     0.406569659741    1.6e-15\n    F=-2, x0=0.1    0.0346534378055    0.0346534378055    4.4e-16\n    F=-2, x0=0.5      0.26894142137      0.26894142137    2.2e-16\n   F=-2, x0=0.97     0.932649655656     0.932649655656    2.2e-16\n  F=-0.1, x0=0.1    0.0955603247367    0.0955603247367    0.0e+00\n  F=-0.1, x0=0.5     0.487502603516     0.487502603516    0.0e+00\n F=-0.1, x0=0.97     0.968522244407     0.968522244407    2.2e-16\n F=1e-07, x0=0.1       0.1000000045       0.1000000045    1.1e-16\n F=1e-07, x0=0.5       0.5000000125       0.5000000125    0.0e+00\nF=1e-07, x0=0.97     0.970000001455     0.970000001455    0.0e+00\n   F=0.5, x0=0.1     0.123950129033     0.123950129033    4.4e-16\n   F=0.5, x0=0.5     0.562176500886     0.562176500886    2.2e-16\n  F=0.5, x0=0.97     0.976703300326     0.976703300326    2.2e-16\n     F=4, x0=0.1      0.33583091167      0.33583091167    2.2e-16\n     F=4, x0=0.5     0.880797077978     0.880797077978    2.2e-16\n    F=4, x0=0.97     0.997621245295     0.997621245295    2.2e-16\n    F=40, x0=0.1     0.981684361111     0.981684361111    0.0e+00\n    F=40, x0=0.5     0.999999997939     0.999999997939    3.3e-16\n   F=40, x0=0.97                  1                  1    0.0e+00",
-   "seconds": 0.08
+   "seconds": 0.05
   },
   {
    "entry": "K0003",
@@ -95,7 +95,7 @@
    "worst": 2.220446049250313e-16,
    "tolerance": 1e-10,
    "detail": "   case           entry  adaptive quadrature of Eq. (6)  rel. diff\nx0=-0.7  0.204618766575                  0.204618766575    0.0e+00\n x0=0.0  0.600852162132                  0.600852162132    0.0e+00\n x0=0.9  0.804272193817                  0.804272193817    2.2e-16",
-   "seconds": 0.03
+   "seconds": 0.02
   },
   {
    "entry": "K0003",
@@ -107,7 +107,7 @@
    "worst": 1.6381207995867628,
    "tolerance": 4.0,
    "detail": "                case           entry  simulation        std. error  deviation / s.e.\ndouble well, x0=-0.3  0.224247622847     0.22085  0.00207409786112              1.64\n double well, x0=0.2  0.700534860017    0.702075  0.00228673180749              0.67",
-   "seconds": 32.15
+   "seconds": 19.18
   },
   {
    "entry": "K0004",
@@ -119,7 +119,7 @@
    "worst": 3.1530333899354446e-14,
    "tolerance": 1e-11,
    "detail": "                  case              entry  quadrature solver (independent: Green's function, entrance and exit tails)  rel. diff\n epsilon0=-3.0, g0=1.0      1931116.91526                                                               1931116.91526    6.2e-15\n epsilon0=-1.0, g0=0.5      138773.179151                                                               138773.179151    3.3e-15\n  epsilon0=0.0, g0=1.3      5.26339759153                                                               5.26339759153    8.9e-16\n  epsilon0=0.5, g0=1.0       4.0204517751                                                                4.0204517751    3.2e-14\n  epsilon0=2.0, g0=0.7       2.2189024273                                                                2.2189024273    0.0e+00\nepsilon0=-20.0, g0=2.0  5.55920578409e+25                                                           5.55920578409e+25    9.5e-15",
-   "seconds": 0.52
+   "seconds": 0.31
   },
   {
    "entry": "K0004",
@@ -155,7 +155,7 @@
    "worst": 3.26405569239796e-14,
    "tolerance": 1e-11,
    "detail": "            case          entry  quadrature solver (entrance at -inf, exit at +inf)  rel. diff\n    mean, D=0.05  13.5070885059                                       13.5070885059    2.2e-16\nvariance, D=0.05  60.8138133019                                       60.8138133019    3.1e-15\n     mean, D=1.0  4.97605395106                                       4.97605395106    2.2e-16\n variance, D=1.0  8.25370430795                                       8.25370430795    1.9e-15\n     mean, D=7.0  2.60127180521                                       2.60127180521    3.3e-14\n variance, D=7.0  2.25553833487                                       2.25553833487    4.1e-15",
-   "seconds": 0.21
+   "seconds": 0.11
   },
   {
    "entry": "K0005",
@@ -227,7 +227,7 @@
    "worst": 2.1538326677728037e-14,
    "tolerance": 1e-12,
    "detail": "  case              entry  Hermite basis, 65 digits  rel. diff\n u=0.0     0.354123244453            0.354123244453    2.2e-15\nu=0.25     0.258968042387            0.258968042387    1.7e-15\n u=0.5     0.183351383909            0.183351383909    1.1e-15\n u=1.0    0.0820749685574           0.0820749685574    1.1e-15\n u=2.0   0.00953406439313          0.00953406439313    8.9e-16\n u=4.0  1.44124933726e-05         1.44124933726e-05    3.3e-16\n u=4.5  1.95615459651e-06         1.95615459651e-06    2.7e-15\n u=8.0  7.04105074707e-14         7.04105074707e-14    2.2e-14",
-   "seconds": 0.28
+   "seconds": 0.16
   },
   {
    "entry": "K0008",
@@ -239,7 +239,7 @@
    "worst": 1.6475709685437323e-13,
    "tolerance": 1e-12,
    "detail": "  case              entry  1/T, T = pi^2 (Ai^2 + Bi^2) (K0004)  rel. diff\n u=8.0  7.04105074707e-14                    7.04105074707e-14    1.6e-13\nu=12.0  9.31493699331e-25                    9.31493699331e-25    1.7e-14\nu=20.0  2.28931620798e-52                    2.28931620798e-52    1.5e-14",
-   "seconds": 0.13
+   "seconds": 0.07
   },
   {
    "entry": "K0008",
@@ -251,7 +251,7 @@
    "worst": 9.212597753549545e-07,
    "tolerance": 0.002,
    "detail": " case            entry  slope of log-survival, time-dependent Fokker-Planck  rel. diff\nu=0.0   0.354123244453                                       0.354122918214    9.2e-07\nu=1.0  0.0820749685574                                      0.0820749213602    5.8e-07",
-   "seconds": 2.1
+   "seconds": 1.32
   },
   {
    "entry": "K0009",
@@ -263,7 +263,7 @@
    "worst": 1.4099832412739488e-14,
    "tolerance": 1e-10,
    "detail": "                          case              entry  quadrature solver, passage -inf to +inf  rel. diff\nmu=-1.0, sigma=1.0, tau_m=10.0   0.00190226769129                         0.00190226769129    1.2e-15\n  mu=0.0, sigma=0.5, tau_m=1.0     0.100481225669                           0.100481225669    6.7e-15\n  mu=0.7, sigma=2.0, tau_m=5.0    0.0667233314854                          0.0667233314854    1.4e-14\n mu=-3.0, sigma=1.5, tau_m=2.0  0.000550677830656                        0.000550677830656    0.0e+00",
-   "seconds": 0.31
+   "seconds": 0.17
   },
   {
    "entry": "K0009",
@@ -287,7 +287,7 @@
    "worst": 5.773159728050814e-15,
    "tolerance": 1e-10,
    "detail": "              case              entry  quadrature solver, Ornstein-Uhlenbeck to threshold  rel. diff\nmu=15.0, sigma=5.0   0.00964326582056                                    0.00964326582056    2.2e-16\nmu=25.0, sigma=2.0    0.0468659932187                                     0.0468659932187    1.9e-15\n mu=5.0, sigma=3.0  3.83585660149e-12                                   3.83585660149e-12    5.8e-15",
-   "seconds": 0.04
+   "seconds": 0.02
   },
   {
    "entry": "K0010",
@@ -311,7 +311,7 @@
    "worst": 0.5957552797083849,
    "tolerance": 4.0,
    "detail": "                         case          entry  simulation      std. error  deviation / s.e.\nmean interspike interval (ms)  103.699308783  104.063437  0.611204348022              0.60",
-   "seconds": 13.68
+   "seconds": 7.9
   },
   {
    "entry": "K0011",
@@ -323,7 +323,7 @@
    "worst": 1.9984014443252818e-15,
    "tolerance": 1e-09,
    "detail": "                             case          entry  Eq. (A.4) evaluated directly  rel. diff\nbeta=-0.4, D=0.5, x-=-1.5, x+=2.0  70.9131664566                 70.9131664566    1.2e-15\n beta=0.3, D=1.0, x-=-2.0, x+=1.5  3.69118956386                 3.69118956386    4.4e-16\nbeta=-1.0, D=0.3, x-=-1.2, x+=3.0  83124.7290727                 83124.7290727    2.0e-15",
-   "seconds": 0.12
+   "seconds": 0.07
   },
   {
    "entry": "K0011",
@@ -335,7 +335,7 @@
    "worst": 1.3322676295501878e-15,
    "tolerance": 1e-11,
    "detail": "         case          entry  Lindner et al. Eq. (3.5): <T>^2 / 3  rel. diff\nbeta=0, D=0.2  24.1339778024                        24.1339778024    6.7e-16\nbeta=0, D=1.0  8.25370430795                        8.25370430795    1.3e-15",
-   "seconds": 0.14
+   "seconds": 0.08
   },
   {
    "entry": "K0012",
@@ -347,7 +347,7 @@
    "worst": 1.6653345369377348e-14,
    "tolerance": 1e-09,
    "detail": "                        case            entry  quadrature solver  rel. diff\n       p_right, x=0.5, v=1.0   0.455054233923     0.455054233923    0.0e+00\n          mean, x=0.5, v=1.0   0.410108467847     0.410108467847    2.2e-16\n  mean | right, x=0.5, v=1.0   0.584576488462     0.584576488462    6.7e-16\n   mean | left, x=0.5, v=1.0   0.264419820632     0.264419820632    4.4e-16\n       p_right, x=1.0, v=1.0    0.73105857863      0.73105857863    2.2e-16\n          mean, x=1.0, v=1.0    0.46211715726      0.46211715726    2.2e-16\n  mean | right, x=1.0, v=1.0    0.46211715726      0.46211715726    6.7e-16\n   mean | left, x=1.0, v=1.0    0.46211715726      0.46211715726    6.7e-16\n      p_right, x=0.3, v=-4.0   0.003363529427     0.003363529427    2.2e-16\n         mean, x=0.3, v=-4.0  0.0741591176432    0.0741591176432    4.4e-16\n mean | right, x=0.3, v=-4.0   0.160202471786     0.160202471786    4.4e-16\n  mean | left, x=0.3, v=-4.0  0.0738687315675    0.0738687315675    2.2e-16\n     p_right, x=0.7, v=1e-07     0.7000000105       0.7000000105    1.1e-16\n        mean, x=0.7, v=1e-07     0.1049999993       0.1049999993    2.2e-16\nmean | right, x=0.7, v=1e-07            0.085              0.085    8.9e-16\n mean | left, x=0.7, v=1e-07   0.151666666667     0.151666666667    1.6e-15\n      p_right, x=0.2, v=25.0   0.993262053001     0.993262053001    1.6e-14\n         mean, x=0.2, v=25.0    0.11119144636      0.11119144636    1.7e-14\n mean | right, x=0.2, v=25.0   0.111891461521     0.111891461521    2.9e-15\n  mean | left, x=0.2, v=25.0            0.008              0.008    1.6e-14",
-   "seconds": 4.33
+   "seconds": 2.38
   },
   {
    "entry": "K0012",
@@ -395,7 +395,7 @@
    "worst": 1.2219034222514934e-06,
    "tolerance": 0.002,
    "detail": "                                 case              entry  0 (time-dependent Fokker-Planck at +v and -v)  abs. diff\n left end, max |f(v) - f(-v)| / max f  1.22190342225e-06                                              0    1.2e-06\nright end, max |f(v) - f(-v)| / max f  6.71678354477e-07                                              0    6.7e-07",
-   "seconds": 2.05
+   "seconds": 1.21
   },
   {
    "entry": "K0013",
@@ -407,7 +407,7 @@
    "worst": 0.001478625993809472,
    "tolerance": 1.0,
    "detail": "                                    case              entry  0 (Dagdug and Berezhkovskii, Eq. 1)  abs. diff\nmidpoint: max |f_left - f_right| / max f  2.95725198762e-06                                    0    3.0e-06\n\n                                                     case  entry  1 = yes  abs. diff\nstart at 0.3: the two ends must differ (difference > 0.1)      1        1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 1.93
+   "seconds": 1.2
   },
   {
    "entry": "K0014",
@@ -419,7 +419,7 @@
    "worst": 3.3306690738754696e-15,
    "tolerance": 1e-07,
    "detail": "                     case              entry  quadrature on the radial (Bessel) process  rel. diff\n         d=1, r=0.0: mean     0.384615384615                             0.384615384615    1.1e-15\nd=1, r=0.0: second moment     0.246548323471                             0.246548323471    2.7e-15\n         d=1, r=0.4: mean     0.323076923077                             0.323076923077    2.2e-15\nd=1, r=0.4: second moment     0.200473372781                             0.200473372781    3.1e-15\n         d=1, r=0.9: mean    0.0730769230769                            0.0730769230769    2.0e-15\nd=1, r=0.9: second moment    0.0392554240631                            0.0392554240631    3.1e-15\n         d=2, r=0.0: mean     0.192307692308                             0.192307692308    2.2e-16\nd=2, r=0.0: second moment    0.0554733727811                            0.0554733727811    8.9e-16\n         d=2, r=0.4: mean     0.161538461538                             0.161538461538    3.3e-16\nd=2, r=0.4: second moment    0.0441124260355                            0.0441124260355    3.3e-16\n         d=2, r=0.9: mean    0.0365384615385                            0.0365384615385    2.2e-16\nd=2, r=0.9: second moment   0.00769415680473                           0.00769415680473    4.4e-16\n         d=3, r=0.0: mean     0.128205128205                             0.128205128205    1.6e-15\nd=3, r=0.0: second moment    0.0230111768573                            0.0230111768573    2.9e-15\n         d=3, r=0.4: mean     0.107692307692                             0.107692307692    2.2e-16\nd=3, r=0.4: second moment    0.0180039447732                            0.0180039447732    2.2e-16\n         d=3, r=0.9: mean     0.024358974359                             0.024358974359    4.4e-16\nd=3, r=0.9: second moment    0.0028543721236                            0.0028543721236    1.1e-16\n         d=5, r=0.0: mean    0.0769230769231                            0.0769230769231    8.9e-16\nd=5, r=0.0: second moment   0.00760777683855                           0.00760777683855    3.3e-15\n         d=5, r=0.4: mean    0.0646153846154                            0.0646153846154    0.0e+00\nd=5, r=0.4: second moment    0.0058224852071                            0.0058224852071    1.3e-15\n         d=5, r=0.9: mean    0.0146153846154                            0.0146153846154    8.9e-16\nd=5, r=0.9: second moment  0.000795012679628                          0.000795012679628    6.7e-16",
-   "seconds": 0.18
+   "seconds": 0.08
   },
   {
    "entry": "K0014",
@@ -431,7 +431,7 @@
    "worst": 1.7187540295616655,
    "tolerance": 4.0,
    "detail": "           case  entry   simulation         std. error  deviation / s.e.\nd=3, r=0.5, R=1  0.125  0.126257415  0.000731585193908              1.72",
-   "seconds": 7.36
+   "seconds": 3.92
   },
   {
    "entry": "K0015",
@@ -455,7 +455,7 @@
    "worst": 0.6417936331580117,
    "tolerance": 4.0,
    "detail": "              case          entry  simulation        std. error  deviation / s.e.\nx0=1.0, r=1.0, D=1  1.71828182846  1.71211918  0.00960222747696              0.64\nx0=1.0, r=2.5, D=1  1.54419517218  1.54692354  0.00774451217843              0.35",
-   "seconds": 46.5
+   "seconds": 29.46
   },
   {
    "entry": "K0016",
@@ -503,7 +503,7 @@
    "worst": 3.1748971934919545e-05,
    "tolerance": 0.0001,
    "detail": "              case           entry  formula with the closed-form transform  rel. diff\n      T~(r) itself  0.507279504024                          0.507271568336    1.6e-05\nmean under restart   1.21412478739                           1.21416333583    3.2e-05",
-   "seconds": 5.08
+   "seconds": 3.34
   },
   {
    "entry": "K0017",
@@ -515,7 +515,7 @@
    "worst": 0.5001921942407208,
    "tolerance": 4.0,
    "detail": "         case          entry    simulation        std. error  deviation / s.e.\n         mean  1.44821815353   1.443987975  0.00845710624402              0.50\nsecond moment  4.94797946148  4.9459355902   0.0677675858352              0.03",
-   "seconds": 22.0
+   "seconds": 13.84
   },
   {
    "entry": "K0018",
@@ -539,7 +539,7 @@
    "worst": 5.688782778179302e-13,
    "tolerance": 1e-06,
    "detail": "                      case          entry  Pal, Kundu and Evans (2016) Eq. (66)  rel. diff\nmean at the optimal period  1.33588566955                         1.33588566955    5.7e-13",
-   "seconds": 0.01
+   "seconds": 0.0
   },
   {
    "entry": "K0019",
@@ -551,7 +551,7 @@
    "worst": 0.6039384902664134,
    "tolerance": 4.0,
    "detail": "              case          entry   simulation        std. error  deviation / s.e.\nx0=1.0, period=0.8   1.4241506051  1.428440595  0.00710335566355              0.60\nx0=1.0, period=2.0  1.88217447494  1.878280175   0.0103070586224              0.38",
-   "seconds": 37.76
+   "seconds": 23.55
   },
   {
    "entry": "K0020",
@@ -575,7 +575,7 @@
    "worst": 1.122128702765322,
    "tolerance": 4.5,
    "detail": "                      case           entry  simulation         std. error  deviation / s.e.\n             Gaussian, n=1             0.5    0.499865     0.001118033948              0.12\n             Gaussian, n=4       0.2734375     0.27292  0.000996078996867              0.52\n            Gaussian, n=12  0.161180257797     0.16102  0.000821865437891              0.19\n              uniform, n=1             0.5    0.501025   0.00111803163948              0.92\n              uniform, n=4       0.2734375    0.273585  0.000996835612764              0.15\n             uniform, n=12  0.161180257797    0.162105  0.000824096380817              1.12\n Cauchy (Levy flight), n=1             0.5    0.500875   0.00111803227676              0.78\n Cauchy (Levy flight), n=4       0.2734375    0.274155  0.000997481919573              0.72\nCauchy (Levy flight), n=12  0.161180257797    0.162005  0.000823891315572              1.00\n              Laplace, n=1             0.5    0.499295   0.00111803287737              0.63\n              Laplace, n=4       0.2734375     0.27321  0.000996409293162              0.23\n             Laplace, n=12  0.161180257797    0.161425  0.000822699730689              0.30",
-   "seconds": 0.33
+   "seconds": 0.23
   },
   {
    "entry": "K0021",
@@ -599,7 +599,7 @@
    "worst": 5.551115123125783e-16,
    "tolerance": 1e-09,
    "detail": "                     case            entry  L / mean time over one period (quadrature solver)  rel. diff\nV = 2.0 cos 2 pi x, F=1.0   0.196957959002                                     0.196957959002    3.3e-16\nV = 4.0 cos 2 pi x, F=3.0  0.0311468889661                                    0.0311468889661    5.6e-16\nV = 1.0 cos 2 pi x, F=0.5    0.31270315489                                      0.31270315489    0.0e+00",
-   "seconds": 0.13
+   "seconds": 0.08
   },
   {
    "entry": "K0022",
@@ -611,7 +611,7 @@
    "worst": 9.992007221626409e-16,
    "tolerance": 1e-11,
    "detail": "      case  entry   D0  rel. diff\nV=0, F=0.2    0.7  0.7    0.0e+00\nV=0, F=3.0    0.7  0.7    1.0e-15",
-   "seconds": 0.01
+   "seconds": 0.0
   },
   {
    "entry": "K0022",
@@ -623,7 +623,7 @@
    "worst": 7.882583474838611e-15,
    "tolerance": 1e-08,
    "detail": "                       case           entry  (L^2/2) var t / <t>^3 (quadrature solver)  rel. diff\n    V = 2.0 cos 2 pi x, F=1  0.210729595256                             0.210729595256    2.2e-16\n  V = 1.0 cos 2 pi x, F=0.5  0.631008513765                             0.631008513765    2.2e-16\nV = 4.0 cos 2 pi x, F=23.88   2.31874267702                              2.31874267702    7.9e-15",
-   "seconds": 0.12
+   "seconds": 0.07
   },
   {
    "entry": "K0023",
@@ -635,7 +635,7 @@
    "worst": 0.584731270882603,
    "tolerance": 4.0,
    "detail": "                    case          entry     simulation        std. error  deviation / s.e.\n L=1.0, v=1.0, alpha=2.0              2  1.99809331593  0.00446456845592              0.43\n L=2.0, v=0.5, alpha=0.3            6.4   6.4009699471   0.0129873956463              0.07\nL=1.0, v=3.0, alpha=20.0  1.44444444444  1.44234024679   0.0035985721265              0.58",
-   "seconds": 0.3
+   "seconds": 0.21
   },
   {
    "entry": "K0024",
@@ -647,7 +647,7 @@
    "worst": 1.3322676295501878e-15,
    "tolerance": 1e-06,
    "detail": "   case              entry  closed form for the Bell rate  rel. diff\n p(F=5)  0.000608443925417              0.000608443925417    1.3e-15\np(F=10)   0.00731207002285               0.00731207002285    2.2e-16\np(F=14)    0.0491415255018                0.0491415255018    2.2e-16\np(F=18)     0.180198556336                 0.180198556336    0.0e+00",
-   "seconds": 0.08
+   "seconds": 0.05
   },
   {
    "entry": "K0024",
@@ -659,7 +659,7 @@
    "worst": 2.631228568361621e-14,
    "tolerance": 1e-06,
    "detail": "              case              entry  Dudko, Hummer and Szabo (2006), Eq. (4)  rel. diff\nnu=0.667, F=0.5 Fc    0.0262851110211                          0.0262851110211    4.4e-16\nnu=0.667, F=0.7 Fc    0.0106566166384                          0.0106566166384    5.0e-15\nnu=0.500, F=0.5 Fc    0.0721868830615                          0.0721868830615    4.4e-16\nnu=0.500, F=0.7 Fc  4.72033976162e-09                        4.72033976162e-09    2.6e-14",
-   "seconds": 0.17
+   "seconds": 0.1
   },
   {
    "entry": "K0024",
@@ -671,7 +671,7 @@
    "worst": 4.785739582402471e-10,
    "tolerance": 1e-09,
    "detail": "    case          entry  Gumbel law (exact for an exponential rate)  rel. diff\n    mean  18.9376638157                               18.9376638157    1.0e-12\nvariance  0.80601769237                              0.806017692756    4.8e-10",
-   "seconds": 0.11
+   "seconds": 0.05
   },
   {
    "entry": "K0025",
@@ -683,7 +683,7 @@
    "worst": 2.5691497771426346,
    "tolerance": 4.0,
    "detail": "      case       true rate       recovered       std. error  deviation / s.e.\nI = 0.5983  0.239284955986  0.248518635425   0.012170012169              0.76\nI = 0.6067  0.325843519627  0.315421064583  0.0137269439468              0.76\nI = 0.6152  0.442101140758  0.441684536863  0.0162696684512              0.03\nI = 0.6236  0.597630061301   0.59168776095  0.0188719283353              0.31\nI = 0.6321  0.804859436413  0.787063629407  0.0218292576481              0.82\nI = 0.6405   1.07984669691   1.10829777704  0.0260075908664              1.09\nI = 0.6489   1.44322921585   1.47769910522  0.0301950719058              1.14\nI = 0.6574   1.92138904484   1.93163475939  0.0347721755872              0.29\nI = 0.6658   2.54786626494   2.64186234641  0.0410600068497              2.29\nI = 0.6743   3.36505829233   3.37081503953  0.0469727476808              0.12\nI = 0.6827   4.42624269269   4.45746996228  0.0549166834103              0.57\nI = 0.6912   5.79795892019   5.96480334003  0.0649414920552              2.57\nI = 0.6996   7.56277894596    7.4906567475  0.0748741407836              0.96\nI = 0.7080   9.82248680972   10.0325655556  0.0899228302606              2.34\nI = 0.7165   12.7016713368   12.8288531808   0.106722478944              1.19\nI = 0.7249   16.3517130336   16.2795482313   0.127858988099              0.56\nI = 0.7334   20.9551137634   21.2318626936    0.15809210323              1.75\nI = 0.7418   26.7300743729   26.9193173043   0.197135248885              0.96\nI = 0.7503   33.9351691461   34.0717778815   0.252418125846              0.54\nI = 0.7587   42.8738951388   42.7956058044   0.333056493157              0.24\nI = 0.7671   53.8987877832    54.144506983   0.460433557114              0.53\nI = 0.7756   67.4146909854   67.8863501322   0.668685680602              0.71\nI = 0.7840   83.8806505956   83.3585988057    1.02317405754              0.51\nI = 0.7925   103.809766304   105.649262102    1.72725877415              1.06\nI = 0.8009   127.766192246   126.588835917    3.10884314583              0.38\nI = 0.8094   156.358326714   153.392464849    6.24725037211              0.47",
-   "seconds": 0.09
+   "seconds": 0.07
   },
   {
    "entry": "K0026",
@@ -707,7 +707,7 @@
    "worst": 0.48600691586090006,
    "tolerance": 1.0,
    "detail": "                case          k(F)/k(0)  exact decay-rate ratio  rel. diff\n linear-cubic, dG=40      13192800.0116           13123231.2009    5.3e-03\nlinear-cubic, dG=120  3.28029496365e+21        3.2748018402e+21    1.7e-03\n\n        case          k(F)/k(0)  exact decay-rate ratio  rel. diff\n cusp, dG=40      506646994.664           499366132.841    1.5e-02\ncusp, dG=120  2.65411864257e+26       2.64225143928e+26    4.5e-03\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 0.33
+   "seconds": 0.19
   },
   {
    "entry": "K0027",
@@ -719,7 +719,7 @@
    "worst": 0.011227259459731687,
    "tolerance": 0.02,
    "detail": "                     case          entry  moments of the exact quasi-static distribution (K0024 with K0026)  rel. diff\n    mean, nu=0.667, dG=20  43.7644587083                                                      43.9491984246    4.2e-03\nvariance, nu=0.667, dG=20   23.299391787                                                      23.3625691989    2.7e-03\n    mean, nu=0.667, dG=60  38.2350407435                                                      38.2514101156    4.3e-04\nvariance, nu=0.667, dG=60    12.29777362                                                      12.2607742765    3.0e-03\n    mean, nu=0.500, dG=20  48.1569158623                                                      48.5001966148    7.1e-03\nvariance, nu=0.500, dG=20  35.0753990122                                                      35.4736711218    1.1e-02\n    mean, nu=0.500, dG=60  39.1109122276                                                      39.1365899295    6.6e-04\nvariance, nu=0.500, dG=60  13.4500991279                                                      13.3915458908    4.4e-03",
-   "seconds": 0.35
+   "seconds": 0.2
   },
   {
    "entry": "K0028",
@@ -743,7 +743,7 @@
    "worst": 2.160993916084617,
    "tolerance": 4.0,
    "detail": "      case  true lifetime      recovered       std. error  deviation / s.e.\n F = 6.535  38.1028294051  36.6357542534    1.54264197659              0.95\n F = 7.057  29.3530437765  28.1737268051    1.04204114093              1.13\n F = 7.579  22.6125249068  23.2021788272   0.780371749603              0.76\n F = 8.100  17.4198725882  18.6369542584   0.563204579681              2.16\n F = 8.622  13.4196407628  13.3538357046   0.342741606151              0.19\n F = 9.144  10.3380066238   10.699640337   0.246897232084              1.46\n F = 9.666   7.9640269693  7.91432887448   0.157967517643              0.31\nF = 10.187  6.13519877438  6.01982078499    0.10559067513              1.09\nF = 10.709    4.726335577  4.65873666357   0.072602318156              0.93\nF = 11.231  3.64099824764  3.62040096168   0.050375392762              0.41\nF = 11.753  2.80489356359  2.78656765163  0.0345810070146              0.53\nF = 12.275  2.16078870902  2.15375246937  0.0240037052502              0.29\nF = 12.796  1.66459358945  1.65876604042  0.0166773009574              0.35\nF = 13.318  1.28234278829  1.27142149662   0.011598592371              0.94",
-   "seconds": 0.02
+   "seconds": 0.01
   },
   {
    "entry": "K0029",
@@ -755,7 +755,7 @@
    "worst": 0.0,
    "tolerance": 0.0002,
    "detail": "                         case          entry  mode of the exact density (K0024)  rel. diff\n   k0=0.001, x=0.5, rate=20.0   18.420680744                       18.420680744    0.0e+00\nk0=1e-06, x=0.2, rate=10000.0  107.082065088                      107.082065088    0.0e+00\n      k0=0.1, x=1.0, rate=1.0  2.30258509299                      2.30258509299    0.0e+00",
-   "seconds": 2.68
+   "seconds": 1.54
   },
   {
    "entry": "K0029",
@@ -779,7 +779,7 @@
    "worst": 4.870769790166207e-06,
    "tolerance": 0.001,
    "detail": "                        case             entry  twice the cells and twice the time steps  abs. diff\nu at 0.1 escaped, sigma=0.02     2.14641681948                             2.14641194871    4.9e-06\nu at 0.5 escaped, sigma=0.02     1.43938344446                             1.43938289055    5.5e-07\nu at 0.9 escaped, sigma=0.02    0.900519847338                            0.900521600767    1.8e-06\n u at 0.1 escaped, sigma=0.1     1.46278035099                             1.46277862721    1.7e-06\n u at 0.5 escaped, sigma=0.1    0.609335724743                            0.609336994555    1.3e-06\n u at 0.9 escaped, sigma=0.1  -0.0878483208736                          -0.0878480734675    2.5e-07\n u at 0.1 escaped, sigma=0.3    0.781739299497                            0.781740257516    9.6e-07\n u at 0.5 escaped, sigma=0.3   -0.218683903511                            -0.21868048711    3.4e-06\n u at 0.9 escaped, sigma=0.3    -1.07928517829                            -1.07928133628    3.8e-06",
-   "seconds": 100.47
+   "seconds": 49.94
   },
   {
    "entry": "K0030",
@@ -791,7 +791,7 @@
    "worst": 1.6627652731938671,
    "tolerance": 4.0,
    "detail": "                        case           entry      simulation        std. error  deviation / s.e.\nu at 0.25 escaped, sigma=0.1   1.03559277409   1.05464999999   0.0136000000001              1.40\nu at 0.50 escaped, sigma=0.1  0.609335724743  0.615099999988  0.00825000000004              0.70\nu at 0.75 escaped, sigma=0.1    0.2263833569  0.240599999986  0.00855000000004              1.66",
-   "seconds": 64.89
+   "seconds": 26.81
   },
   {
    "entry": "K0030",
@@ -803,7 +803,7 @@
    "worst": 0.0022535564721928303,
    "tolerance": 0.01,
    "detail": "                 case          entry  quasi-static median from the decay rate (K0008)  abs. diff\nmedian u, sigma=0.002  2.30816421463                                     2.3104177711    2.3e-03",
-   "seconds": 254.51
+   "seconds": 76.58
   }
  ]
 }

@@ -70,7 +70,7 @@ def test_variance_at_the_fold_is_one_third_of_the_mean_squared():
     (4.5, 1.956154596511083624017e-06), (8.0, 7.04105074706691e-14),
 ])
 def test_decay_rate_against_65_digit_values(u, reference):
-    # Hermite-basis eigenvalues in 65-digit arithmetic (GPT-6 Astra's method, geoews tools/reference_values.py)
+    # Hermite-basis eigenvalues in 65-digit arithmetic (the independent 65-digit method, geoews tools/reference_values.py)
     fp = FirstPassage1D(lambda y: u * y - y**3 / 3, D=1.0, left="natural", right="exit", dlog_psi=lambda y: y * y - u)
     assert float(fp.decay_rate().value) == pytest.approx(reference, rel=1e-13)
 

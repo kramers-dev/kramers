@@ -28,7 +28,7 @@ def saddle_node_passage_variance(beta: float, D: float, x_minus: float = -np.inf
         fp = FirstPassage1D(log_psi=logpsi, D=D, domain=(-np.inf, x_plus), left="natural", right="absorbing")
     else:
         fp = FirstPassage1D(log_psi=logpsi, D=D, left="natural", right="exit", dlog_psi=dlogpsi)
-    m = fp.moments(x_minus, n=2).value
+    m = np.atleast_1d(fp.moments(x_minus, n=2).value)
     return float(m[1] - m[0] ** 2)
 
 

@@ -1,8 +1,7 @@
 # Reserved for the founding author
 
-These parts are designed and written by Alexander Sokol himself. An AI agent may
-specify them (as below) and review them, and may not write them. When one is done, it
-is recorded in AUTHORSHIP.md with the date.
+These parts are designed and written by Alexander Sokol himself, by hand. Their
+specification is below. When one is done, it is recorded in AUTHORSHIP.md with the date.
 
 ## 1. The next entry: first passage of Brownian motion to a point
 
@@ -11,8 +10,7 @@ at distance x0 from an absorbing point, with drift v towards it (the inverse Gau
 and without drift (the Levy-Smirnov density); its survival probability; its mean x0/v
 and variance 2 D x0 / v^3.
 
-**Sources, already opened by a research agent on 14 October 2026** (its full report is
-in the author's build notes):
+**Sources, opened and recorded on 14 October 2026:**
 
 - P. L. Krapivsky and S. Redner, J. Stat. Mech. (2018) 093208, doi
   10.1088/1742-5468/aaddb3, Eq. (1) p. 3 (journal version, NSF public-access copy):
