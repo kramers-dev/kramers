@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -106,7 +107,7 @@ def main() -> None:
               "computations in the papers, and we found no published erratum for them. If you are an "
               "author, please tell us in an issue; we will correct this page and credit you.", ""]
     for e in entries:
-        if "question for the authors" in e.notes.lower():
+        if re.search(r"questions? for the authors", e.notes, re.IGNORECASE):
             errata += [f"## {e.id}. {e.title}", "", e.notes, ""]
     (ROOT / "docs" / "errata.md").write_text("\n".join(errata))
     (ROOT / "handbook.json").write_text(kramers.to_json())

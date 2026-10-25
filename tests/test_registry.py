@@ -44,3 +44,11 @@ def test_formulas_namespace():
     from kramers import formulas
     assert formulas.passage_time_saddle_node is kramers.get("K0004").function
     assert "kramers_rate_overdamped" in dir(formulas)
+
+
+def test_every_question_for_authors_is_listed():
+    from pathlib import Path
+    page = (Path(__file__).parent.parent / "docs" / "errata.md").read_text()
+    for e in kramers.entries():
+        if re.search(r"questions? for the authors", e.notes, re.IGNORECASE):
+            assert f"## {e.id}." in page, f"{e.id} asks the authors a question but is not on docs/errata.md"
