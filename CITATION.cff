@@ -8,7 +8,10 @@ authors:
   - family-names: Sokol
     given-names: Alexander
 license: MIT
-version: 0.1.0.dev0
+version: 0.1.0
+date-released: 2026-10-25
+repository-code: "https://github.com/kramers-dev/kramers"
+url: "https://kramers-dev.github.io/kramers/"
 keywords:
   - first passage
   - escape rate

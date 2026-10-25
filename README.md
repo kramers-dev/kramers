@@ -155,14 +155,20 @@ is accepted unless an independent numerical check passes. Details, and what we w
 
 ## Status
 
-Early (0.1.0.dev0), not yet released. The verification report of the latest full run
-is in [reports/verification.md](reports/verification.md). Nothing here is new
+Version 0.1.0, the first public version (25 October 2026). The verification report of
+the latest full run is in [reports/verification.md](reports/verification.md). Nothing here is new
 physics: each page gives the history of its result.
 
 ## Install
 
 ```bash
-pip install -e .            # from a clone; NumPy and SciPy are the only dependencies
+pip install kramers         # NumPy and SciPy are the only dependencies
+```
+
+From a clone, with the checks:
+
+```bash
+pip install -e ".[dev]"
 python -m pytest            # the fast checks
 python tools/verify_all.py --slow   # everything, including simulations
 ```

@@ -1,8 +1,8 @@
 # Verification report
 
-Generated 2026-10-25T11:53:51+00:00 with kramers 0.1.0.dev0, Python 3.12.13, NumPy 2.5.3, SciPy 1.18.1.
+Generated 2026-10-25T15:44:50+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.5.3, SciPy 1.18.1.
 
-**66 of 66 checks passed** across 30 entries (including the slow simulation checks; 289.9 s).
+**66 of 66 checks passed** across 30 entries (including the slow simulation checks; 311.0 s).
 
 | Entry | Check | Reference | Worst | Tolerance | Result |
 |---|---|---|---|---|---|

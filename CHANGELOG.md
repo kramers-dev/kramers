@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased (0.1.0.dev0)
+## 0.1.0 (25 October 2026)
+
+The first public version: on PyPI (`pip install kramers`), with the handbook at
+https://kramers-dev.github.io/kramers/.
 
 - Reference solvers: quadrature (first-passage moments, splitting probabilities and
   decay rates at any barrier height, with entrance and exit tails), time-dependent
