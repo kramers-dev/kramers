@@ -149,11 +149,9 @@ contributes is named on the release. The original paper is always cited first.
 
 ## How it is made
 
-The code and the text are written largely with AI tools (Claude, by Anthropic),
-directed by a person who signs every release, and reviewed by a second AI model. That
-is why nothing here asks to be trusted: every equation's source was opened and its
-location recorded, and no entry is accepted unless an independent numerical check
-passes. Details, and what we will and will not do: [HOW_THIS_IS_MADE.md](HOW_THIS_IS_MADE.md).
+kramers is developed with AI-assisted tools. Nothing here asks to be trusted: every
+equation's source was opened and its location recorded, and no entry is accepted unless
+an independent numerical check passes. Details, and what we will and will not do: [HOW_THIS_IS_MADE.md](HOW_THIS_IS_MADE.md).
 
 ## Status
 
