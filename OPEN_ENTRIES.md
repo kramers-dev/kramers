@@ -10,6 +10,8 @@ conventions, and the check that defines "done".
 and follow CONTRIBUTING.md. The entry is done when the check described in its item
 passes at the stated tolerance. Claims lapse after two weeks without a pull request.
 
+**Status (13 November 2026).** O001–O003 are now entries K0031–K0033; the items below are kept as the record.
+
 **Status of this list (14 October 2026).** This is a partial list: the first research
 pass stopped after three items. Only items whose source was opened, and whose equation
 was seen, are listed as open entries; the other candidates are under "Could not open"
@@ -49,6 +51,7 @@ No item reached OPENED in this pass. Candidates are under "Could not open".
 ## Stochastic resetting
 
 ### O001. Mean first-passage time to a sphere under resetting in d dimensions
+- **Done (13 November 2026): now entry K0031.** The item is kept below as the record of what was opened and checked.
 - **Paper.** Martin R Evans; Satya N Majumdar, "Diffusion with resetting in arbitrary
   spatial dimension", *Journal of Physics A: Mathematical and Theoretical* 47, 285001
   (2014). doi:10.1088/1751-8113/47/28/285001. Crossref ✓.
@@ -86,6 +89,7 @@ No item reached OPENED in this pass. Candidates are under "Could not open".
     (65) equals (67) at d = 3.
 
 ### O002. Mean first-passage time under resetting in an interval with two absorbing ends
+- **Done (13 November 2026): now entry K0032.** The item is kept below as the record of what was opened and checked.
 - **Paper.** Arnab Pal; V. V. Prasad, "First passage under stochastic resetting in an
   interval", *Physical Review E* 99, 032123 (2019). doi:10.1103/PhysRevE.99.032123.
   Crossref ✓.
@@ -117,6 +121,7 @@ No item reached OPENED in this pass. Candidates are under "Could not open".
 ## Active and anomalous motion
 
 ### O003. Universal survival probability of a run-and-tumble particle in d dimensions
+- **Done (13 November 2026): now entry K0033.** The item is kept below as the record of what was opened and checked.
 - **Paper.** Francesco Mori; Pierre Le Doussal; Satya N. Majumdar; Grégory Schehr,
   "Universal Survival Probability for a d-Dimensional Run-and-Tumble Particle",
   *Physical Review Letters* 124, 090603 (2020). doi:10.1103/PhysRevLett.124.090603.

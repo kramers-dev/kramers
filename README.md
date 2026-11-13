@@ -101,8 +101,11 @@ These are tested in `tests/` with the inputs that first exposed them.
 | [K0017](docs/handbook/K0017.md) | Any first-passage process under Poissonian restart: mean and second moment | exact | S. Reuveni, Phys. Rev. Lett. 116, 170601 (2016) |
 | [K0018](docs/handbook/K0018.md) | Restart helps at small rates exactly when the coefficient of variation exceeds one | exact | A. Pal and S. Reuveni, Phys. Rev. Lett. 118, 030603 (2017) |
 | [K0019](docs/handbook/K0019.md) | Mean completion time under sharp (periodic) restart | exact | A. Pal, A. Kundu and M. R. Evans, J. Phys. A 49, 225001 (2016) |
+| [K0031](docs/handbook/K0031.md) | Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere | exact | M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 47, 285001 (2014) |
+| [K0032](docs/handbook/K0032.md) | Diffusion with resetting in an interval: mean exit time through either end | exact | A. Pal and V. V. Prasad, Phys. Rev. E 99, 032123 (2019) |
 | [K0020](docs/handbook/K0020.md) | Sparre Andersen theorem: universal survival probability of a symmetric random walk | exact | A. J. Bray, S. N. Majumdar and G. Schehr, Adv. Phys. 62, 225 (2013) |
 | [K0023](docs/handbook/K0023.md) | Mean exit time of a run-and-tumble particle from an interval | exact | L. Angelani, R. Di Leonardo and M. Paoluzzi, Eur. Phys. J. E 37, 59 (2014) |
+| [K0033](docs/handbook/K0033.md) | Run-and-tumble particle in d dimensions: universal survival probability | exact | F. Mori, P. Le Doussal, S. N. Majumdar and G. Schehr, Phys. Rev. Lett. 124, 090603 (2020) |
 | [K0021](docs/handbook/K0021.md) | Mean velocity in a tilted periodic potential (Stratonovich's formula) | exact | P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001) |
 | [K0022](docs/handbook/K0022.md) | Effective diffusion in a tilted periodic potential | exact | P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001) |
 | [K0007](docs/handbook/K0007.md) | Rate near a saddle-node to first order in the bias | asymptotic | B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003) |

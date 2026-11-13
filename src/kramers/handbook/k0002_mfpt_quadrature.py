@@ -125,9 +125,9 @@ register(Entry(
         "exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for "
         "U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With "
         "exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential "
-        "cannot reveal the difference. We read this as a misprint but may have misread the "
-        "notation: on the author-hosted scan we read, a speck sits on the sign, so the printed "
-        "sign must be confirmed on a clean copy before the authors are asked. No erratum or "
+        "cannot reveal the difference. A clean copy of p. 291 (Augsburg library, read 28 Oct 2026) "
+        "confirms that the sign is printed as exp[U(z)/kBT]. We read this as a misprint but may have "
+        "misread the notation, so it stays a question until the authors answer. No erratum or "
         "comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026)."
     ),
     added="2026-10-14",

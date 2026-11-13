@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Three entries from the open list, each with an exact cross-check and a simulation:
+  K0031 (diffusion with resetting in d dimensions: mean time to reach an absorbing
+  sphere; Evans and Majumdar 2014), K0032 (diffusion with resetting in an interval with
+  two absorbing ends; Pal and Prasad 2019), K0033 (universal survival probability of a
+  run-and-tumble particle in d dimensions; Mori, Le Doussal, Majumdar and Schehr 2020).
+- Questions for authors: the K0002 question now records that a clean copy of p. 291
+  (read 28 October) confirms the printed sign.
+
 ## 0.1.0 (25 October 2026)
 
 The first public version: on PyPI (`pip install kramers`), with the handbook at

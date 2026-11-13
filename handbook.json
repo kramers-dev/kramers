@@ -132,7 +132,7 @@
         "K0003",
         "K0012"
       ],
-      "notes": "Question for the authors (Haenggi, Talkner and Borkovec). In Eq. (7.7) as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential cannot reveal the difference. We read this as a misprint but may have misread the notation: on the author-hosted scan we read, a speck sits on the sign, so the printed sign must be confirmed on a clean copy before the authors are asked. No erratum or comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026).",
+      "notes": "Question for the authors (Haenggi, Talkner and Borkovec). In Eq. (7.7) as printed (journal scan, p. 291), the inner integral in the numerator of the first term has exp[U(z)/kBT]. With that sign the formula does not vanish at the absorbing end: for U = x^3/3 - x on [-2, 1] with kT = D = 1 it gives t(b) = 2.511 instead of 0. With exp[-U(z)/kBT] it vanishes there and agrees with this entry to 1e-10. A flat potential cannot reveal the difference. A clean copy of p. 291 (Augsburg library, read 28 Oct 2026) confirms that the sign is printed as exp[U(z)/kBT]. We read this as a misprint but may have misread the notation, so it stays a question until the authors answer. No erratum or comment was found in Crossref, PubMed or an OpenAlex search of citing works (15 Oct 2026).",
       "written_by": [
         "A. Sokol (AI-assisted)"
       ],
@@ -2045,6 +2045,191 @@
         {
           "name": "slow ramp: approaches the quasi-static median",
           "reference": "decay rate of the frozen fold (K0008)",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0031",
+      "slug": "resetting-sphere",
+      "title": "Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A particle diffusing in d dimensions and reset to its start at rate r reaches an absorbing sphere of radius a, from distance R, after a finite mean time given by a ratio of modified Bessel functions of order |1 - d/2|. In d = 1 it is the one-dimensional resetting result; in d >= 2 it diverges as a -> 0.",
+      "model": "\\partial_t q = D\\nabla^2 q - r\\,q + r\\,\\delta(\\mathbf{x}-\\mathbf{X}_r),\\ \\text{absorbing on } |\\mathbf{x}|=a,\\ |\\mathbf{X}_r|=R",
+      "formula": "T=\\frac{1}{r}\\left[\\left(\\frac{a}{R}\\right)^{\\nu}\\frac{K_{|\\nu|}(\\alpha_0a)}{K_{|\\nu|}(\\alpha_0R)}-1\\right],\\quad \\nu=1-\\frac{d}{2},\\ \\alpha_0=\\sqrt{r/D}",
+      "parameters": {
+        "R": "distance of the start and reset point from the centre",
+        "a": "radius of the absorbing sphere",
+        "r": "resetting rate",
+        "D": "diffusion coefficient (<x_i^2> = 2Dt)",
+        "d": "dimension"
+      },
+      "sources": [
+        {
+          "citation": "M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 47, 285001 (2014)",
+          "doi": "10.1088/1751-8113/47/28/285001",
+          "locator": "Eq. (65), scaled form Eq. (67), limits Eqs. (70) and (75); symbols Eqs. (9), (11), (15), (16) (arXiv:1404.4574v1 numbering)",
+          "version_read": "arXiv:1404.4574v1 HTML (ar5iv), opened 14 Oct and 13 Nov 2026; journal numbering not checked",
+          "printed": "T(R_r)=\\frac{1}{r}\\left[\\left(\\frac{a}{R_r}\\right)^{\\nu}\\frac{K_\\nu(\\alpha_0 a)}{K_\\nu(\\alpha_0 R_r)}-1\\right]",
+          "notation": "R_r -> R; the paper writes K_nu in Eq. (65) and K_|nu| in Eq. (67): K is even in its order (their Eq. 66)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Free diffusion in d dimensions, Poissonian instantaneous resetting to the starting point, perfectly absorbing sphere. Exact. In d >= 2 the target must have a > 0.",
+      "aliases": [
+        "resetting in higher dimensions",
+        "search with restart in 3D",
+        "Bessel process with resetting"
+      ],
+      "related": [
+        "K0014",
+        "K0015",
+        "K0016",
+        "K0017"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-13",
+      "function": "kramers.handbook.k0031_resetting_sphere.resetting_sphere_mean_time",
+      "checks": [
+        {
+          "name": "d = 1 against the one-dimensional result",
+          "reference": "entry K0015 at distance R - a",
+          "slow": false
+        },
+        {
+          "name": "d = 3 against the renewal formula",
+          "reference": "Reuveni (2016) Eq. (7) with the elementary d = 3 transform (entry K0017)",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama for the radial (Bessel) process with Poissonian resetting, 40,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0032",
+      "slug": "resetting-interval",
+      "title": "Diffusion with resetting in an interval: mean exit time through either end",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A Brownian particle in an interval with two absorbing ends, reset to its start x0 at rate r, leaves after a mean time [sinh((b-a)alpha0)/(sinh((b-x0)alpha0)+sinh((x0-a)alpha0)) - 1]/r. Unlike the half-line, the mean is finite without resetting, so resetting can raise it or lower it.",
+      "model": "\\partial_t Q_r = D\\,\\partial_x^2 Q_r - r\\,Q_r + r\\,Q_r(x_0,t),\\ Q_r(a,t)=Q_r(b,t)=0",
+      "formula": "\\langle T_r(x_0)\\rangle=\\frac{1}{r}\\left[\\frac{\\sinh((b-a)\\alpha_0)}{\\sinh((b-x_0)\\alpha_0)+\\sinh((x_0-a)\\alpha_0)}-1\\right],\\quad \\alpha_0=\\sqrt{r/D}",
+      "parameters": {
+        "x0": "start and reset position",
+        "a": "left absorbing end",
+        "b": "right absorbing end",
+        "r": "resetting rate",
+        "D": "diffusion coefficient (<x^2> = 2Dt between resets)"
+      },
+      "sources": [
+        {
+          "citation": "A. Pal and V. V. Prasad, Phys. Rev. E 99, 032123 (2019)",
+          "doi": "10.1103/PhysRevE.99.032123",
+          "locator": "Eq. (15), with alpha0 from Eq. (16); model Eq. (1) (arXiv:1812.03009 numbering)",
+          "version_read": "arXiv:1812.03009 HTML (ar5iv), opened 14 Oct and 13 Nov 2026; journal numbering not checked",
+          "printed": "\\langle T_{r}(x_{0})\\rangle=\\frac{1}{r}\\left[\\frac{\\sinh(b-a)\\alpha_{0}}{\\sinh(b-x_{0})\\alpha_{0}+\\sinh(x_{0}-a)\\alpha_{0}}-1\\right]",
+          "notation": "sinh(b-a)alpha0 is read as sinh((b-a) alpha0); the paper's figures use D = 1/2",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, free diffusion, Poissonian instantaneous resetting to the start, both ends absorbing. Exact.",
+      "aliases": [
+        "resetting in a box",
+        "restart with two exits",
+        "first passage under resetting in an interval"
+      ],
+      "related": [
+        "K0012",
+        "K0015",
+        "K0016",
+        "K0017"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-13",
+      "function": "kramers.handbook.k0032_resetting_interval.resetting_interval_mean_time",
+      "checks": [
+        {
+          "name": "against the renewal formula",
+          "reference": "Reuveni (2016) Eq. (7) with the interval's Laplace transform (entry K0017)",
+          "slow": false
+        },
+        {
+          "name": "the limit without resetting",
+          "reference": "entry K0012 with zero drift",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with Poissonian resetting and crossing correction, 100,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0033",
+      "slug": "run-and-tumble-survival",
+      "title": "Run-and-tumble particle in d dimensions: universal survival probability",
+      "area": "active",
+      "kind": "exact",
+      "statement": "For a run-and-tumble particle that starts at the origin in any dimension, tumbles at constant rate gamma into an isotropic new direction and runs at any speed distribution, the probability that its x-component has stayed positive up to t is exp(-gamma t/2)[I0(gamma t/2) + I1(gamma t/2)]/2: independent of d and of the speed, starting at 1/2 and decaying as 1/sqrt(pi gamma t).",
+      "model": "\\dot{\\mathbf{x}}=v\\,\\mathbf{n}(t),\\ \\mathbf{n}\\ \\text{redrawn isotropically at rate}\\ \\gamma,\\ \\mathbf{x}(0)=0;\\ S(t)=\\Pr[x_1(t')>0\\ \\forall t'\\le t]",
+      "formula": "S(t)=\\frac{1}{2}e^{-\\gamma t/2}\\left[I_0\\!\\left(\\frac{\\gamma t}{2}\\right)+I_1\\!\\left(\\frac{\\gamma t}{2}\\right)\\right]",
+      "parameters": {
+        "t": "time",
+        "gamma": "tumble rate (each tumble draws a new isotropic direction)"
+      },
+      "sources": [
+        {
+          "citation": "F. Mori, P. Le Doussal, S. N. Majumdar and G. Schehr, Phys. Rev. Lett. 124, 090603 (2020)",
+          "doi": "10.1103/PhysRevLett.124.090603",
+          "locator": "Eq. (1) (arXiv:2001.01492v1 numbering)",
+          "version_read": "arXiv:2001.01492v1 HTML (ar5iv), opened 14 Oct and 13 Nov 2026; journal numbering not checked",
+          "printed": "S(t)=\\frac{1}{2}e^{-\\gamma t/2}\\left(I_{0}\\left(\\gamma t/2\\right)+I_{1}\\left(\\gamma t/2\\right)\\right)",
+          "notation": "same symbols; in d = 1 gamma is the tumble rate with a fresh random direction, not the reversal rate",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Exponential run times (constant tumble rate), isotropic new directions, start at the origin with a random direction, no translational diffusion. Exact in every dimension and for any speed distribution.",
+      "aliases": [
+        "active particle persistence",
+        "run-and-tumble first passage",
+        "universal survival"
+      ],
+      "related": [
+        "K0020",
+        "K0023"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-13",
+      "function": "kramers.handbook.k0033_run_and_tumble_survival.run_and_tumble_survival",
+      "checks": [
+        {
+          "name": "S(0) = 1/2 and the large-time law",
+          "reference": "the limits stated with Eq. (1)",
+          "slow": false
+        },
+        {
+          "name": "against event-driven simulation",
+          "reference": "exact piecewise-straight runs in d = 1, 2, 3, 200,000 particles each",
           "slow": true
         }
       ]
