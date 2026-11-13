@@ -7,6 +7,8 @@
   sphere; Evans and Majumdar 2014), K0032 (diffusion with resetting in an interval with
   two absorbing ends; Pal and Prasad 2019), K0033 (universal survival probability of a
   run-and-tumble particle in d dimensions; Mori, Le Doussal, Majumdar and Schehr 2020).
+- Documentation: "The false-alarm clock", reading K0010 (Siegert) as the mean time to a false alarm of a
+  threshold alarm on an Ornstein-Uhlenbeck indicator, with a table and its assumptions. No new result.
 - Questions for authors: the K0002 question now records that a clean copy of p. 291
   (read 28 October) confirms the printed sign.
 
