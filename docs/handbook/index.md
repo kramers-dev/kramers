@@ -1,6 +1,6 @@
 # The handbook
 
-33 entries. Each page gives the result, where it is printed, when it holds, and how it is checked.
+35 entries. Each page gives the result, where it is printed, when it holds, and how it is checked.
 
 ## Escape over a barrier
 
@@ -45,6 +45,8 @@
 | [K0019](K0019.md) | Mean completion time under sharp (periodic) restart | exact | A. Pal, A. Kundu and M. R. Evans, J. Phys. A 49, 225001 (2016) |
 | [K0031](K0031.md) | Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere | exact | M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 47, 285001 (2014) |
 | [K0032](K0032.md) | Diffusion with resetting in an interval: mean exit time through either end | exact | A. Pal and V. V. Prasad, Phys. Rev. E 99, 032123 (2019) |
+| [K0034](K0034.md) | Drift-diffusion to a target under restart: mean, spread and the Peclet transition | exact | S. Ray, D. Mondal and S. Reuveni, J. Phys. A: Math. Theor. 52, 255002 (2019) |
+| [K0035](K0035.md) | Resetting in a logarithmic potential: mean and spread of the time to the origin | exact | S. Ray and S. Reuveni, J. Chem. Phys. 152, 234110 (2020) |
 
 ## Active and anomalous motion
 

@@ -2233,6 +2233,151 @@
           "slow": true
         }
       ]
+    },
+    {
+      "id": "K0034",
+      "slug": "drift-diffusion-restart",
+      "title": "Drift-diffusion to a target under restart: mean, spread and the Peclet transition",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A particle that diffuses with drift V towards a target at distance L, and is returned to its start at rate r, reaches the target after a mean time (e^z - 1)/r with z = L(sqrt(V^2 + 4Dr) - V)/(2D). Restart can shorten the mean only when the Peclet number LV/(2D) is below 1; above it the best rate is zero.",
+      "model": "\\partial_t p=-V\\partial_x p+D\\partial_x^2 p-r\\,p+r\\,\\delta(x)\\,Q(t),\\ x\\in(-\\infty,L),\\ p(L,t)=0,\\ x(0)=0",
+      "formula": "\\langle T_r\\rangle=\\frac{e^{z}-1}{r},\\quad \\sigma(T_r)=\\frac{1}{r}\\sqrt{e^{2z}-2e^{z}\\frac{Lr}{\\sqrt{V^2+4Dr}}-1},\\quad z=\\frac{L}{2D}\\left(\\sqrt{V^2+4Dr}-V\\right)",
+      "parameters": {
+        "L": "distance from the start (and restart point) to the target",
+        "V": "drift towards the target (negative: away)",
+        "D": "diffusion coefficient (<x^2> = 2Dt)",
+        "r": "restart rate"
+      },
+      "sources": [
+        {
+          "citation": "S. Ray, D. Mondal and S. Reuveni, J. Phys. A: Math. Theor. 52, 255002 (2019)",
+          "doi": "10.1088/1751-8121/ab1fcc",
+          "locator": "Eq. (6) p. 3 (mean); Eq. (23) p. 6 with Eq. (13) (standard deviation); Eq. (17) p. 4 with Eqs. (12), (14) (optimal rate); model Eq. (1) (arXiv:1811.08239v4 numbering)",
+          "version_read": "arXiv:1811.08239v4 TeX source and PDF, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\left<T_r\\right>=\\frac{\\exp{\\left[{\\frac{L}{2D}\\left(\\sqrt{V^2+4Dr}-V\\right)}\\right]}-1}{r};\\ \\sigma(T_r)=\\frac{\\sqrt{\\exp{(2z)}-2\\exp{(z)}\\frac{Lr}{\\sqrt{4 Dr+V^2}}-1}}{r};\\ \\left[\\left(z-1\\right)\\exp{(z)}+1\\right]Pe=\\left[\\left(1-\\frac{z}{2}\\right)\\exp{(z)}-1\\right]z",
+          "notation": "same symbols; Pe = LV/(2D); the target is at x = L, the start and restart point at x = 0",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, constant drift and diffusion, an absorbing target and no other boundary, Poissonian instantaneous restart to the start. Exact. V < 0 (drift away) is allowed for r > 0.",
+      "aliases": [
+        "restart with drift",
+        "Peclet transition",
+        "stochastic resetting with bias",
+        "first passage under restart with drift"
+      ],
+      "related": [
+        "K0015",
+        "K0016",
+        "K0017",
+        "K0018"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0034_drift_diffusion_restart.drift_diffusion_restart",
+      "checks": [
+        {
+          "name": "against the renewal formula",
+          "reference": "Reuveni (2016) Eq. (7) with the drift-diffusion transform (entry K0017)",
+          "slow": false
+        },
+        {
+          "name": "the limits V = 0 and r -> 0",
+          "reference": "entry K0015; the quadrature solver without restart",
+          "slow": false
+        },
+        {
+          "name": "the optimal rate and the transition at Pe = 1",
+          "reference": "numerical minimisation of the mean",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with Poissonian restart, 100,000 paths, drift towards and away",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0035",
+      "slug": "log-potential-restart",
+      "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A particle diffusing in the potential U0 ln|x| and reset to x0 at rate r reaches the origin after a mean time [2^(nu-1) Gamma(nu)/(y^nu K_nu(y)) - 1]/r, with nu = (1 + beta U0)/2 and y = sqrt(r/D) x0. Resetting shortens the mean only for beta U0 < 5, where the spread of the time without resetting exceeds its mean.",
+      "model": "\\partial_t p=\\partial_x\\!\\left[\\frac{U_0}{\\zeta x}p\\right]+D\\,\\partial_x^2p-r\\,p+r\\,\\delta(x-x_0)\\,Q(t),\\ p(0,t)=0,\\ D=k_BT/\\zeta",
+      "formula": "\\langle T_r\\rangle=\\frac{1}{r}\\left[\\frac{2^{\\nu-1}\\Gamma(\\nu)}{(\\alpha_0x_0)^{\\nu}K_\\nu(\\alpha_0x_0)}-1\\right],\\quad \\nu=\\frac{1+\\beta U_0}{2},\\ \\alpha_0=\\sqrt{r/D}",
+      "parameters": {
+        "x0": "start and reset position (> 0)",
+        "beta_U0": "strength of the potential U0 ln|x| in units of kT (> -1)",
+        "D": "diffusion coefficient (<x^2> = 2Dt for U0 = 0)",
+        "r": "resetting rate"
+      },
+      "sources": [
+        {
+          "citation": "S. Ray and S. Reuveni, J. Chem. Phys. 152, 234110 (2020)",
+          "doi": "10.1063/5.0010549",
+          "locator": "Eq. (29) p. 6 (mean); Eq. (31) p. 7 (standard deviation); Eq. (2) (nu); Eq. (25) (transform); Eqs. (32)-(34) (no resetting) (arXiv:2004.01898v2 numbering)",
+          "version_read": "arXiv:2004.01898v2 TeX source and PDF, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\left<T_r\\right>=\\frac{1}{r}\\left[\\frac{2^{\\nu-1}\\Gamma(\\nu)}{(\\alpha_0 x_0)^{\\nu}K_{\\nu}(\\alpha_0 x_0 )}-1\\right];\\ \\sigma(T_r)=\\frac{1}{r}\\sqrt{\\frac{2^{\\nu-1}\\Gamma(\\nu)\\left[2^{\\nu-1}\\Gamma(\\nu)-(\\alpha_0 x_0)^{1+\\nu}K_{\\nu-1}(\\alpha_0 x_0 )\\right]}{(\\alpha_0 x_0)^{2\\nu}[K_{\\nu}(\\alpha_0 x_0 )]^2}-1}",
+          "notation": "same symbols; beta U0 enters through nu only. The optimal rate is found here by minimising the mean numerically, not from the paper's Eq. (37): as printed in arXiv v2, the root of Eq. (37) does not match the numerical minimum (at nu = 1/2 it gives z0 = 0.60 against 1.594); a factor K_nu(z0)^2 on its first term restores agreement. Read as a question for the authors until the journal version is checked",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, the half-line x > 0 with the origin absorbing, potential U0 ln|x| with beta U0 > -1, Poissonian instantaneous resetting to the start. Exact. Without resetting the mean is finite only for beta U0 > 1 and the spread only for beta U0 > 3.",
+      "aliases": [
+        "resetting in a log potential",
+        "Bessel process with resetting",
+        "resetting transition",
+        "restart with a central force"
+      ],
+      "related": [
+        "K0015",
+        "K0016",
+        "K0017",
+        "K0018"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0035_log_potential_restart.log_potential_restart",
+      "checks": [
+        {
+          "name": "against the renewal formula",
+          "reference": "Reuveni (2016) Eq. (7) with the transform of Eq. (25) (entry K0017)",
+          "slow": false
+        },
+        {
+          "name": "free diffusion",
+          "reference": "entry K0015 at beta U0 = 0",
+          "slow": false
+        },
+        {
+          "name": "the limit without resetting",
+          "reference": "quadrature solver with the logarithmic potential",
+          "slow": false
+        },
+        {
+          "name": "the optimal rate and the transition at beta U0 = 5",
+          "reference": "numerical minimisation; entry K0016's condition",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with the 1/x drift (attractive), and exact event-driven sampling of the Bessel hitting law with exponential resets (repulsive and weakly attractive)",
+          "slow": true
+        }
+      ]
     }
   ]
 }

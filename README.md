@@ -103,6 +103,8 @@ These are tested in `tests/` with the inputs that first exposed them.
 | [K0019](docs/handbook/K0019.md) | Mean completion time under sharp (periodic) restart | exact | A. Pal, A. Kundu and M. R. Evans, J. Phys. A 49, 225001 (2016) |
 | [K0031](docs/handbook/K0031.md) | Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere | exact | M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 47, 285001 (2014) |
 | [K0032](docs/handbook/K0032.md) | Diffusion with resetting in an interval: mean exit time through either end | exact | A. Pal and V. V. Prasad, Phys. Rev. E 99, 032123 (2019) |
+| [K0034](docs/handbook/K0034.md) | Drift-diffusion to a target under restart: mean, spread and the Peclet transition | exact | S. Ray, D. Mondal and S. Reuveni, J. Phys. A: Math. Theor. 52, 255002 (2019) |
+| [K0035](docs/handbook/K0035.md) | Resetting in a logarithmic potential: mean and spread of the time to the origin | exact | S. Ray and S. Reuveni, J. Chem. Phys. 152, 234110 (2020) |
 | [K0020](docs/handbook/K0020.md) | Sparre Andersen theorem: universal survival probability of a symmetric random walk | exact | A. J. Bray, S. N. Majumdar and G. Schehr, Adv. Phys. 62, 225 (2013) |
 | [K0023](docs/handbook/K0023.md) | Mean exit time of a run-and-tumble particle from an interval | exact | L. Angelani, R. Di Leonardo and M. Paoluzzi, Eur. Phys. J. E 37, 59 (2014) |
 | [K0033](docs/handbook/K0033.md) | Run-and-tumble particle in d dimensions: universal survival probability | exact | F. Mori, P. Le Doussal, S. N. Majumdar and G. Schehr, Phys. Rev. Lett. 124, 090603 (2020) |

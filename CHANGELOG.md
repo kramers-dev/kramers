@@ -7,6 +7,12 @@
   sphere; Evans and Majumdar 2014), K0032 (diffusion with resetting in an interval with
   two absorbing ends; Pal and Prasad 2019), K0033 (universal survival probability of a
   run-and-tumble particle in d dimensions; Mori, Le Doussal, Majumdar and Schehr 2020).
+- Two more resetting entries, each read from the TeX source and PDF by two readers: K0034 (drift-diffusion to
+  a target under restart: mean, spread and the Peclet transition; Ray, Mondal and Reuveni 2019) and K0035
+  (resetting in a logarithmic potential: mean and spread; Ray and Reuveni 2020). K0035 keeps full accuracy
+  at small resetting rates by writing the transform as an expectation over the Bessel hitting law. Its
+  repulsive cases are checked by exact event-driven sampling: there, Euler-Maruyama's bias falls only like
+  sqrt(dt).
 - Documentation: "The false-alarm clock", reading K0010 (Siegert) as the mean time to a false alarm of a
   threshold alarm on an Ornstein-Uhlenbeck indicator, with a table and its assumptions. No new result.
 - Questions for authors: the K0002 question now records that a clean copy of p. 291
