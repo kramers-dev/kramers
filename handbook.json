@@ -2378,6 +2378,547 @@
           "slow": true
         }
       ]
+    },
+    {
+      "id": "K0036",
+      "slug": "resetting-wall",
+      "title": "Resetting between an absorbing end and a reflecting wall: mean time and the critical start point",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A Brownian particle between an absorbing end at 0 and a reflecting wall at L, reset to its start x0 at rate r, is absorbed after a mean time [cosh(aL)/cosh(a(L - x0)) - 1]/r with a = sqrt(r/D). Resetting shortens the mean only when the particle starts closer to the target than x0/L = 1 - 1/sqrt(5) = 0.553.",
+      "model": "\\partial_t p=D\\,\\partial_x^2p-r\\,p+r\\,\\delta(x-x_0)\\,Q(t),\\ x\\in(0,L),\\ p(0,t)=0,\\ \\partial_xp(L,t)=0",
+      "formula": "\\langle T_r\\rangle=\\frac{1}{r}\\left[\\frac{\\cosh(\\sqrt{r/D}\\,L)}{\\cosh(\\sqrt{r/D}\\,(L-x_0))}-1\\right],\\quad \\frac{x_0}{L}<1-\\frac{1}{\\sqrt5}\\ \\text{for resetting to help}",
+      "parameters": {
+        "x0": "start and reset position, 0 < x0 < L",
+        "L": "position of the reflecting wall (target at 0)",
+        "D": "diffusion coefficient (<x^2> = 2Dt)",
+        "r": "resetting rate"
+      },
+      "sources": [
+        {
+          "citation": "S. Ahmad, I. Nayak, A. Bansal, A. Nandi and D. Das, Phys. Rev. E 99, 022130 (2019)",
+          "doi": "10.1103/PhysRevE.99.022130",
+          "locator": "Sec. III 3 (box potential, n = infinity): Eq. (26) p. 5 (mean), Eq. (25) (critical point), Eq. (27) (optimal rate), the transform and moments in the text above Eq. (25) (arXiv:1902.02955v1 numbering)",
+          "version_read": "arXiv:1902.02955v1 TeX source and PDF p. 5, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\langle T_r \\rangle = \\frac{1}{r}\\bigg[\\frac{\\cosh(\\sqrt{\\frac{r}{D}} L)}{\\cosh(\\sqrt{\\frac{r}{D}} (L - x_{0}))}-1\\bigg];\\ 5 K_c^2 - 10 K_c + 4 = 0 \\Rightarrow K_c = 1 - \\frac{1}{\\sqrt{5}}",
+          "notation": "same symbols; K = x0/L; the wall is the n -> infinity limit of the paper's potential k0 (x/L)^n",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, free diffusion between an absorbing end and a reflecting wall, Poissonian instantaneous resetting to the start. Exact. Not the two-absorbing-end interval of K0032.",
+      "aliases": [
+        "resetting with a reflecting wall",
+        "resetting in a box",
+        "critical start point 1 - 1/sqrt 5",
+        "vanishing of the optimal resetting rate"
+      ],
+      "related": [
+        "K0015",
+        "K0016",
+        "K0017",
+        "K0032"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0036_resetting_wall.resetting_wall_mean_time",
+      "checks": [
+        {
+          "name": "against the renewal formula",
+          "reference": "Reuveni (2016) Eq. (7) with the wall transform (entry K0017)",
+          "slow": false
+        },
+        {
+          "name": "no resetting, and the critical start point",
+          "reference": "quadrature solver: mean, variance, and variance = mean^2",
+          "slow": false
+        },
+        {
+          "name": "the optimal rate",
+          "reference": "numerical minimisation of the mean",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with a reflecting wall and resetting, 100,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0037",
+      "slug": "ou-resetting-centre",
+      "title": "Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A particle in a harmonic trap, dx = -kappa x dt + sqrt(2D) dW, reset to x0 at rate r, reaches the centre of the trap after a mean time given in closed form by a parabolic cylinder function. Resetting shortens the mean only when the start is close enough to the centre: x0 sqrt(kappa/D) < 1.0455, where the spread of the time without resetting equals its mean.",
+      "model": "dx=-\\kappa x\\,dt+\\sqrt{2D}\\,dW,\\ \\text{absorbing at } x=0,\\ \\text{reset to } x_0 \\text{ at rate } r",
+      "formula": "\\langle T_r\\rangle=\\frac{\\sqrt{\\pi}\\,2^{-\\nu/2}e^{-z^2/4}}{r\\,\\Gamma\\!\\left(\\frac{\\nu+1}{2}\\right)D_{-\\nu}(z)}-\\frac1r,\\quad \\nu=\\frac{r}{\\kappa},\\ z=x_0\\sqrt{\\kappa/D}",
+      "parameters": {
+        "x0": "start and reset position (> 0); the target is the trap centre",
+        "kappa": "trap stiffness (drift -kappa x)",
+        "D": "diffusion coefficient",
+        "r": "resetting rate"
+      },
+      "sources": [
+        {
+          "citation": "A. Dubey and A. Pal, J. Phys. A: Math. Theor. 56, 435002 (2023)",
+          "doi": "10.1088/1751-8121/acf748",
+          "locator": "Eq. (41) p. 12; critical stiffness k* = 0.174895 at x_R = 2.5 (Fig. 4 caption) (arXiv:2304.05226v1 numbering)",
+          "version_read": "arXiv:2304.05226v1 TeX source and PDF text layer, opened 22 Nov 2026; journal numbering not checked",
+          "printed": "\\langle t_f(r) \\rangle = \\frac{\\sqrt{\\pi}2^{-\\frac{r}{2k}}e^{-kx_R^2/4}}{r\\Gamma(\\frac{r+k}{2k})D_{-\\frac{r}{k}}(\\sqrt{k}x_R)}-\\frac{1}{r}",
+          "notation": "their k is kappa and D = 1; for other D replace x_R by x0/sqrt(D) (a rescaling, not printed). The quadrature solver puts the critical stiffness at k* = 0.174898 for x_R = 2.5, against the printed 0.174895",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "S. Ahmad, I. Nayak, A. Bansal, A. Nandi and D. Das, Phys. Rev. E 99, 022130 (2019)",
+          "doi": "10.1103/PhysRevE.99.022130",
+          "locator": "Eqs. (21)-(22) p. 4 (mean, Kummer functions); K_c = 0.7393 (p. 4, Fig. 2 caption); Eq. (6) (transition)",
+          "version_read": "arXiv:1902.02955v1 TeX source and PDF p. 4, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\langle T_r \\rangle= \\frac{1}{r}\\bigg[\\frac{1}{G(x_{0},s=0)}-1\\bigg],\\ G =F_{1}\\Big(\\frac{\\alpha^2}{4\\gamma};\\frac{1}{2};\\frac{kx^{2}}{D}\\Big)-2\\frac{\\Gamma(\\frac{\\alpha^2}{4\\gamma}+\\frac{1}{2})}{\\Gamma(\\frac{\\alpha^2}{4\\gamma})} x \\sqrt{\\gamma} F_{1}\\Big(\\frac{\\alpha^2}{4\\gamma}+\\frac{1}{2};\\frac{3}{2};\\frac{kx^{2}}{D}\\Big)",
+          "notation": "their potential is k x^2, so kappa = 2k and K = x0 sqrt(k/D) = z/sqrt(2); gamma = k/D. The text after their Eq. (2) prints alpha = sqrt(r + s/D); the equation follows with alpha^2 = (r + s)/D, which is what is used here (the two agree at D = 1; checked against this entry at D = 0.5)",
+          "role": "restatement",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, harmonic trap with the target at its centre, start and reset point on one side, Poissonian instantaneous resetting. Exact. A target away from the centre is a different problem.",
+      "aliases": [
+        "Ornstein-Uhlenbeck with resetting",
+        "harmonic trap with resetting",
+        "resetting transition in a potential",
+        "optical trap with stochastic resetting"
+      ],
+      "related": [
+        "K0010",
+        "K0015",
+        "K0017",
+        "K0036"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0037_ou_resetting.ou_resetting_mean_time",
+      "checks": [
+        {
+          "name": "two printed forms",
+          "reference": "Ahmad et al. Eqs. (21)-(22) and Dubey and Pal Eq. (41), evaluated as printed",
+          "slow": false
+        },
+        {
+          "name": "the limits r -> 0 and kappa -> 0",
+          "reference": "quadrature solver without resetting; entry K0015",
+          "slow": false
+        },
+        {
+          "name": "the transition where resetting stops helping",
+          "reference": "quadrature solver: spread = mean; both papers' printed values",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with resetting, 100,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0038",
+      "slug": "resetting-refractory",
+      "title": "Diffusion with resetting and a refractory period: mean time to the target",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "If after each reset the particle must wait a random refractory period before it moves again, the mean time to reach the target depends only on the mean of that period (given the time since the previous reset). With Poissonian resetting at rate r and a constant mean period, it is (1 + r a0) times the mean without the period.",
+      "model": "\\text{free diffusion from } X_r=L\\ \\text{to an absorbing target; resets at rate } r\\text{, each followed by a frozen period } \\tau,\\ \\langle\\tau|t\\rangle=a_0+a_1t",
+      "formula": "T=\\frac{\\tilde Q_0(r)+r\\left[a_0\\tilde Q_0(r)-a_1\\tilde Q_0'(r)\\right]}{1-r\\tilde Q_0(r)},\\quad \\tilde Q_0(s)=\\frac{1-e^{-L\\sqrt{s/D}}}{s}",
+      "parameters": {
+        "L": "distance from the reset point to the target",
+        "D": "diffusion coefficient (<x^2> = 2Dt)",
+        "r": "resetting rate",
+        "a0": "mean refractory period (constant part)",
+        "a1": "growth of the mean period with the time since the previous reset"
+      },
+      "sources": [
+        {
+          "citation": "M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 52, 01LT01 (2019)",
+          "doi": "10.1088/1751-8121/aaf080",
+          "locator": "Eq. (41) p. 12 (Poissonian reset); Eq. (36) p. 11 (general); Eq. (23) p. 8 (the correlated example <tau|t> = a1 t); definitions Eqs. (20)-(22) (arXiv:1809.01551v2 numbering)",
+          "version_read": "arXiv:1809.01551v2 PDF pp. 10-12 as page images and the TeX source, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "T(X_r)=\\frac{\\tilde{Q}_0(X_r,r)+r\\sum_{n=0}(-1)^na_n\\tilde{Q}_0^{(n)}(X_r,r)}{1-r\\tilde{Q}_0(X_r,r)}",
+          "notation": "<tau|t> = sum_n a_n t^n; this entry keeps n = 0, 1 and takes free diffusion between resets, with the survival transform of entry K0015 (the specialisation is done here). The second term of Eq. (38) is printed with the integration variable d tau; reading it as dt reproduces Eq. (36)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Free diffusion in one dimension between resets, target absorbing, Poissonian resetting, each reset followed by a refractory period during which the particle stays at the reset point; the process does not start with a period. Exact. Only the conditional mean of the period enters.",
+      "aliases": [
+        "refractory period",
+        "resetting with a waiting time",
+        "resetting with a home time",
+        "frozen after reset"
+      ],
+      "related": [
+        "K0015",
+        "K0017",
+        "K0036"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0038_resetting_refractory.refractory_resetting_mean_time",
+      "checks": [
+        {
+          "name": "against the time-domain formula",
+          "reference": "Eq. (36) by quadrature, no transforms",
+          "slow": false
+        },
+        {
+          "name": "without a refractory period",
+          "reference": "entry K0015",
+          "slow": false
+        },
+        {
+          "name": "against exact event-driven sampling",
+          "reference": "200,000 paths each; exponential and fixed periods; independent and correlated cases",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0039",
+      "slug": "levy-flight-exit",
+      "title": "Symmetric Levy flight: mean exit time from an interval",
+      "area": "active",
+      "kind": "exact",
+      "statement": "A symmetric alpha-stable Levy flight started at x0 leaves the interval (-L, L) after a mean time (L^2 - x0^2)^(alpha/2) / (Gamma(1 + alpha) sigma0^alpha). At alpha = 2 this is the Brownian result (L^2 - x0^2)/(2D); for alpha < 2 the flight can leave by jumping over an end.",
+      "model": "\\dot x=\\zeta_\\alpha(t),\\ \\langle e^{ik\\,\\Delta x}\\rangle=e^{-\\sigma_0^\\alpha|k|^\\alpha\\Delta t},\\ \\tau=\\min\\{t:|x(t)|\\ge L\\}",
+      "formula": "\\langle\\tau(x_0)\\rangle=\\frac{(L^2-x_0^2)^{\\alpha/2}}{\\Gamma(1+\\alpha)\\,\\sigma_0^{\\alpha}}",
+      "parameters": {
+        "x0": "start, -L < x0 < L",
+        "L": "half-width of the interval",
+        "alpha": "stability index, 0 < alpha <= 2",
+        "sigma0": "scale: increments have characteristic function exp(-sigma0^alpha |k|^alpha dt)"
+      },
+      "sources": [
+        {
+          "citation": "B. Dybiec, E. Gudowska-Nowak, E. Barkai and A. A. Dubkov, Phys. Rev. E 95, 052102 (2017)",
+          "doi": "10.1103/PhysRevE.95.052102",
+          "locator": "Eq. (8) p. 3 (mean exit time), Eq. (9) (uniform start), Eqs. (1)-(3), (6), (7) (model and definitions) (arXiv:1703.10199v1 numbering)",
+          "version_read": "arXiv:1703.10199v1 PDF p. 3 as a page image and the TeX source, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\langle \\tau (x_0) \\rangle =\\frac{1}{\\Gamma(1+\\alpha)} \\frac{(L^2-|x_0|^2)^{\\alpha/2}}{\\sigma_0^\\alpha}",
+          "notation": "same symbols; K_alpha = sigma0^alpha in their fractional equation; at alpha = 2, D = sigma0^2",
+          "role": "primary",
+          "evidence": "opened"
+        },
+        {
+          "citation": "R. K. Getoor, Trans. Amer. Math. Soc. 101, 75 (1961)",
+          "doi": "10.1090/s0002-9947-1961-0137148-5",
+          "locator": "the original result, cited as ref. [16] by Dybiec et al.",
+          "version_read": "not opened; citation only",
+          "printed": "",
+          "notation": "",
+          "role": "original",
+          "evidence": "citation-only"
+        }
+      ],
+      "validity": "Symmetric alpha-stable Levy flight (no finite speed), 0 < alpha <= 2, the whole exterior of the interval absorbing. Exact. Not a Levy walk, and not the local condition p(-L) = p(L) = 0 of older work.",
+      "aliases": [
+        "Levy flight in an interval",
+        "Getoor formula",
+        "stable process exit time",
+        "fractional Laplacian mean exit time"
+      ],
+      "related": [
+        "K0012",
+        "K0020"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0039_levy_flight_exit.levy_flight_exit_time",
+      "checks": [
+        {
+          "name": "the Brownian case and the uniform-start average",
+          "reference": "entry K0012 at alpha = 2; quadrature of Eq. (8)",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "alpha-stable steps by the Chambers-Mallows-Stuck method, 100,000 paths; the step bias shown falling",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0040",
+      "slug": "resetting-home-return",
+      "title": "Search with resetting and a return home at constant speed: mean time to the target",
+      "area": "resetting",
+      "kind": "exact",
+      "statement": "A searcher diffuses from home towards a target at distance L, gives up at rate r and walks home at speed v before searching again. The mean time is the search term of instantaneous resetting, (e^z - 1)/r, plus a return term (L/v)[2 sinh(z)/z - 1], z = L sqrt(r/D); the optimal rate falls as returns get slower.",
+      "model": "\\text{diffusion from } x=0 \\text{ to an absorbing target at } L;\\ \\text{at rate } r\\text{, return to } 0 \\text{ at speed } v_r \\text{ (time } |x|/v_r\\text{), blind to the target}",
+      "formula": "\\langle T_r\\rangle=\\frac{1}{r}\\left(e^{\\sqrt{\\tau_d r}}-1\\right)+\\tau_b\\left[\\frac{2\\sinh\\sqrt{\\tau_d r}}{\\sqrt{\\tau_d r}}-1\\right],\\quad \\tau_d=\\frac{L^2}{D},\\ \\tau_b=\\frac{L}{v_r}",
+      "parameters": {
+        "L": "distance from home to the target",
+        "D": "diffusion coefficient (<x^2> = 2Dt)",
+        "v_return": "speed of the walk home",
+        "r": "rate of giving up and returning"
+      },
+      "sources": [
+        {
+          "citation": "A. Pal, L. Kusmierz and S. Reuveni, Phys. Rev. Research 2, 043174 (2020)",
+          "doi": "10.1103/PhysRevResearch.2.043174",
+          "locator": "Eq. (9) p. 3 with Eq. (10) (mean); Eq. (6) (general form); Eq. (8) (propagator); Eq. (11) p. 4 (optimal rate) (arXiv:1906.06987v3 numbering)",
+          "version_read": "arXiv:1906.06987v3 PDF p. 3 as a page image and the TeX source, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "\\langle T_r  \\rangle =\\frac{1}{r}\\left( e^{\\sqrt{\\tau_d r}} -1 \\right)+ \\tau_b~\\left[ \\frac{2 \\sinh(\\sqrt{\\tau_d r})}{\\sqrt{\\tau_d r}} -1 \\right]",
+          "notation": "same symbols; the time spent at home is neglected (<W> = 0 in their Eq. 6)",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, free diffusion from home to an absorbing target, Poissonian giving-up, a ballistic return at constant speed that cannot find the target, no waiting at home. Exact.",
+      "aliases": [
+        "home returns",
+        "space-time coupled returns",
+        "resetting with a return time",
+        "returning searcher"
+      ],
+      "related": [
+        "K0015",
+        "K0016",
+        "K0038"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0040_resetting_home_return.home_return_mean_time",
+      "checks": [
+        {
+          "name": "against the general formula",
+          "reference": "Eq. (6) by quadrature with the propagator of Eq. (8)",
+          "slow": false
+        },
+        {
+          "name": "instant returns, and the optimal rate",
+          "reference": "entry K0015; numerical minimisation",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "Euler-Maruyama with a bridge-corrected target and timed returns home, 100,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0041",
+      "slug": "wedge-survival",
+      "title": "Brownian motion in a planar wedge of any angle: exact survival probability",
+      "area": "targets",
+      "kind": "exact",
+      "statement": "A Brownian particle in a wedge of opening angle alpha with absorbing edges survives up to time t with a probability that depends only on y = r0^2/(8Dt) and the starting angle. For any alpha it is a finite sum of error functions plus one integral; at long times it decays as t^(-pi/(2 alpha)).",
+      "model": "\\partial_tP=D\\Delta P,\\ P|_{\\varphi=0}=P|_{\\varphi=\\alpha}=0,\\ \\text{start at }(r_0,\\varphi_0)",
+      "formula": "S=\\mathrm{erf}(\\sqrt{2y}\\sin\\min(\\varphi_0,\\tfrac\\pi2))+\\sum_{j=1}^{k+1}(-1)^j[\\mathrm{erf}(\\sqrt{2y}\\sin\\min(j\\alpha+\\varphi_0,\\tfrac\\pi2))-\\mathrm{erf}(\\sqrt{2y}\\sin\\min(j\\alpha-\\varphi_0,\\tfrac\\pi2))]+I(y,\\varphi_0),\\ y=\\frac{r_0^2}{8Dt}",
+      "parameters": {
+        "t": "time",
+        "r0": "start distance from the apex",
+        "phi0": "start angle, 0 < phi0 < alpha",
+        "alpha": "opening angle of the wedge, 0 < alpha < 2 pi",
+        "D": "diffusion coefficient (<x^2> = 2Dt per coordinate)"
+      },
+      "sources": [
+        {
+          "citation": "M. Chupeau, O. Benichou and S. N. Majumdar, Phys. Rev. E 91, 032106 (2015)",
+          "doi": "10.1103/PhysRevE.91.032106",
+          "locator": "Eq. (27) p. 4 (any angle; condenses Eqs. 25 and 26); Eq. (5) p. 2 (Bessel series); Eq. (31) (right angle) (arXiv:1501.02274v1 numbering)",
+          "version_read": "arXiv:1501.02274v1 PDF p. 4 as a page image and the TeX source, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "S(y,\\varphi_0) = \\mathrm{erf}\\left(\\sqrt{2y}\\sin\\left(\\min\\left(\\varphi_0,\\frac{\\pi}{2}\\right) \\right)\\right) +\\sum\\limits_{j=1}^{k+1} (-1)^j \\left[\\ldots\\right] +\\left(\\frac{2}{\\pi}\\right)^{3/2} \\sqrt{y} \\; \\frac{\\mathrm{e}^{-y}}{2} \\int_0^{+\\infty} \\mathrm{d}u \\; \\mathrm{e}^{-y\\cosh u} \\sinh\\frac{u}{2} \\times \\left[\\arctan(\\ldots)+\\arctan(\\ldots)\\right]",
+          "notation": "same symbols; k = floor(pi/(2 alpha) - 1/2), which is -1 (no sum) for alpha > pi",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "Free two-dimensional diffusion, both edges of the wedge absorbing, any opening angle below 2 pi. Exact.",
+      "aliases": [
+        "wedge survival",
+        "Brownian motion in a cone (planar)",
+        "corner first passage",
+        "survival between two walls meeting at an angle"
+      ],
+      "related": [
+        "K0014",
+        "K0020"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0041_wedge_survival.wedge_survival",
+      "checks": [
+        {
+          "name": "two printed forms",
+          "reference": "the Bessel series Eq. (5), acute and obtuse wedges",
+          "slow": false
+        },
+        {
+          "name": "right angle and half-plane",
+          "reference": "product of two half-line survivals; erf of the distance to a line",
+          "slow": false
+        },
+        {
+          "name": "against simulation",
+          "reference": "two-dimensional Euler-Maruyama with a bridge correction on each edge, 100,000 paths",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0042",
+      "slug": "rtp-half-line-first-passage",
+      "title": "Run-and-tumble particle on a half-line: exact first-passage density to the origin",
+      "area": "active",
+      "kind": "exact",
+      "statement": "A particle that moves at speed v and reverses direction at rate gamma, started at x > 0, first reaches the origin with a density given by modified Bessel functions of sqrt(t^2 - x^2) (in units 1/gamma and v/gamma). If it starts towards the origin it arrives at t = x/v without reversing with probability e^(-gamma x/v); at long times the density decays as t^(-3/2), like Brownian motion.",
+      "model": "\\dot x=v\\,\\sigma(t),\\ \\sigma=\\pm1\\ \\text{reversing at rate}\\ \\gamma,\\ x(0)=x>0,\\ \\text{absorbing at}\\ 0",
+      "formula": "f_+=\\frac{e^{-\\tau}}{\\tau+\\xi}\\left[\\xi I_0(\\sqrt{\\tau^2-\\xi^2})+\\sqrt{\\tfrac{\\tau-\\xi}{\\tau+\\xi}}I_1(\\sqrt{\\tau^2-\\xi^2})\\right],\\ f_-=e^{-\\tau}\\frac{\\xi}{\\sqrt{\\tau^2-\\xi^2}}I_1(\\sqrt{\\tau^2-\\xi^2})+e^{-\\tau}\\delta(\\tau-\\xi)",
+      "parameters": {
+        "t": "time",
+        "x": "start distance from the origin",
+        "v": "speed",
+        "gamma": "reversal rate (the velocity flips sign at this rate)",
+        "initial": "'towards' (the paper's -v) or 'away' (+v) from the origin"
+      },
+      "sources": [
+        {
+          "citation": "K. Malakar, V. Jemseena, A. Kundu, K. V. Kumar, S. Sabhapandit, S. N. Majumdar, S. Redner and A. Dhar, J. Stat. Mech. (2018) 043215",
+          "doi": "10.1088/1742-5468/aab84f",
+          "locator": "Eq. (35) p. 15 (densities); Eq. (32) p. 14 (transforms); Eq. (36) (tails); model Eq. (1) (arXiv:1711.08474v3 numbering)",
+          "version_read": "arXiv:1711.08474v3 PDF pp. 15-16 as page images and the TeX source, opened 22 Nov 2026 (two readers); journal numbering not checked",
+          "printed": "f_+(x,t)=\\frac{e^{-t}}{t+x}\\left[ x ~I_0\\big( \\sqrt{t^2-x^2} \\big) + \\frac{\\sqrt{t-x}}{\\sqrt{t+x}}~I_1\\big( \\sqrt{t^2-x^2} \\big)\\right]\\theta(t-x);\\ f_-(x,t)=e^{- t} \\frac{ x}{\\sqrt{t^2-x^2}} \\,I_1 \\big( \\sqrt{t^2-x^2} \\big)~ \\theta(t-x)\\,+ e^{- t} \\delta(t-x)",
+          "notation": "their t and x are gamma t and gamma x / v; +v (moving away) and -v (towards) are the initial velocities; gamma is the reversal rate, half the tumble rate of K0033's convention in one dimension. The diffusive extension (their Eqs. 38-43) is not included",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, speed v, Poissonian reversals, no translational diffusion, the origin absorbing. Exact.",
+      "aliases": [
+        "persistent random walk first passage",
+        "telegraph process first passage",
+        "active particle first passage",
+        "RTP half-line"
+      ],
+      "related": [
+        "K0023",
+        "K0033"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0042_rtp_half_line.rtp_first_passage_density",
+      "checks": [
+        {
+          "name": "against the printed Laplace transforms",
+          "reference": "Eq. (32), with the atom for a start towards the origin",
+          "slow": false
+        },
+        {
+          "name": "total probability and the long-time tail",
+          "reference": "1; Eq. (36)",
+          "slow": false
+        },
+        {
+          "name": "against exact event-driven simulation",
+          "reference": "piecewise-linear runs, 200,000 particles per case",
+          "slow": true
+        }
+      ]
+    },
+    {
+      "id": "K0043",
+      "slug": "rtp-harmonic-trap",
+      "title": "Run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform and decay exponent",
+      "area": "active",
+      "kind": "exact",
+      "statement": "A run-and-tumble particle in a harmonic trap, dx/dt = -mu x + v0 sigma(t), absorbed when it reaches the trap centre, has a survival probability whose Laplace transform is a ratio of Gauss hypergeometric functions. At late times it decays as exp(-theta t), where theta solves a hypergeometric equation and lies between the reversal rate (slow reversals) and mu (fast reversals, the passive limit).",
+      "model": "\\dot x=-\\mu x+v_0\\sigma(t),\\ \\sigma=\\pm1\\ \\text{reversing at rate}\\ \\gamma,\\ 0<x_0<v_0/\\mu,\\ \\text{absorbed at}\\ x=0",
+      "formula": "\\tilde Q_-(x_0,s)=\\frac1s\\left[1-\\frac{F\\left(\\frac s\\mu,\\frac{s+2\\gamma}\\mu,\\frac{s+\\gamma}\\mu,\\frac12(1-\\frac{\\mu x_0}{v_0})\\right)}{F\\left(\\frac s\\mu,\\frac{s+2\\gamma}\\mu,\\frac{s+\\gamma}\\mu,\\frac12\\right)}\\right],\\quad F\\left(-\\tfrac\\theta\\mu,\\tfrac{2\\gamma-\\theta}\\mu,\\tfrac{\\gamma-\\theta}\\mu,\\tfrac12\\right)=0",
+      "parameters": {
+        "s": "Laplace variable",
+        "x0": "start position, 0 < x0 < v0/mu",
+        "v0": "self-propulsion speed",
+        "mu": "trap stiffness over friction (relaxation rate)",
+        "gamma": "reversal rate",
+        "initial": "'towards' (the paper's -v0) or 'away' (+v0) from the centre"
+      },
+      "sources": [
+        {
+          "citation": "A. Dhar, A. Kundu, S. N. Majumdar, S. Sabhapandit and G. Schehr, Phys. Rev. E 99, 032132 (2019)",
+          "doi": "10.1103/PhysRevE.99.032132",
+          "locator": "Eq. (84) p. 12 (start towards the centre); Eqs. (82), (83) and the shift (67) (start away); Eq. (88) (decay exponent); Eqs. (89)-(90) (limits) (arXiv:1811.03808v2 numbering)",
+          "version_read": "arXiv:1811.03808v2 PDF p. 12 as a page image and the TeX source, opened 22 Nov 2026 (two readers); v2 was revised in June 2022, after publication; journal text not checked",
+          "printed": "\\tilde{Q}_- (x_0,s) =\\frac{1}{s} \\left[1- \\frac{F\\left( \\frac{s}{\\mu}, \\frac{s+2\\gamma}{\\mu}, \\frac{s+\\gamma}{\\mu},\\frac{1}{2}(1-\\frac{\\mu x_0}{v_0})\\right)}{F\\left( \\frac{s}{\\mu}, \\frac{s+2\\gamma}{\\mu}, \\frac{s+\\gamma}{\\mu},\\frac{1}{2} \\right)}\\right];\\ \\tilde{q}_+(z,s)= -\\frac{\\gamma}{s} \\frac{F\\left( \\frac{s}{\\mu}, \\frac{s+2\\gamma}{\\mu}, \\frac{s+\\gamma+\\mu}{\\mu},z \\right)}{\\mathcal{D}(s,\\gamma,\\mu)}",
+          "notation": "same symbols; F = 2F1; gamma is the reversal rate. For a start away from the centre this entry uses Eqs. (82) and (67), Q~+ = 1/s - (gamma/s) F/D. Eq. (85) as printed in arXiv v2, (gamma/s)[1 - F/D], diverges as s -> 0 for gamma != 1 (a finite mean needs a finite limit) and misses the simulation; read as a question for the authors until the journal version is checked",
+          "role": "primary",
+          "evidence": "opened"
+        }
+      ],
+      "validity": "One dimension, harmonic trap, constant self-propulsion speed with Poissonian reversals, no translational diffusion, absorbing wall at the trap centre, start inside the reachable region 0 < x0 < v0/mu. Exact.",
+      "aliases": [
+        "active particle in a harmonic trap",
+        "run-and-tumble in a potential",
+        "persistence exponent of an active particle",
+        "first passage of a confined active particle"
+      ],
+      "related": [
+        "K0037",
+        "K0042",
+        "K0033"
+      ],
+      "notes": "",
+      "written_by": [
+        "A. Sokol (AI-assisted)"
+      ],
+      "checked_by": [],
+      "added": "2026-11-22",
+      "function": "kramers.handbook.k0043_rtp_harmonic_trap.rtp_harmonic_survival_transform",
+      "checks": [
+        {
+          "name": "the hypergeometric series",
+          "reference": "mpmath's 2F1 at 30 digits",
+          "slow": false
+        },
+        {
+          "name": "limits of the decay exponent and of the transform",
+          "reference": "Eq. (90); theta = 1/2 at gamma = mu = 1; s -> 0",
+          "slow": false
+        },
+        {
+          "name": "against exact event-driven simulation",
+          "reference": "piecewise-exponential runs, 200,000 to 400,000 particles; transform, mean and decay exponent",
+          "slow": true
+        }
+      ]
     }
   ]
 }

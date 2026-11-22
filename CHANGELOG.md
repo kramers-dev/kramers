@@ -13,6 +13,25 @@
   at small resetting rates by writing the transform as an expectation over the Bessel hitting law. Its
   repulsive cases are checked by exact event-driven sampling: there, Euler-Maruyama's bias falls only like
   sqrt(dt).
+- Five more entries, each read by two readers:
+  - K0036: resetting between an absorbing end and a reflecting wall, with the critical start point
+    1 - 1/sqrt 5 (Ahmad et al. 2019).
+  - K0037: an Ornstein-Uhlenbeck process with resetting and the target at the trap centre. Ahmad et al.'s
+    Kummer form and Dubey and Pal's parabolic-cylinder form agree to 2e-15. The critical stiffness computed
+    here is 0.174898, against the printed 0.174895.
+  - K0038: resetting with a refractory period (Evans and Majumdar 2019), checked against the paper's
+    time-domain formula and exact event-driven sampling.
+  - K0039: the mean exit time of a symmetric Levy flight from an interval (Getoor's formula as printed by
+    Dybiec et al. 2017).
+  - K0040: search with a return home at constant speed (Pal, Kusmierz and Reuveni 2020).
+  - K0041: Brownian survival in a planar wedge of any angle (Chupeau, Benichou and Majumdar 2015). The closed
+    form agrees with the Bessel series to 1e-14.
+  - K0042: exact first-passage densities of a run-and-tumble particle on a half-line (Malakar et al. 2018).
+  - K0043: a run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform, mean time
+    and decay exponent (Dhar et al. 2019). Its hypergeometric function is summed directly, because
+    scipy.special.hyp2f1 is wrong by thirty orders of magnitude at some of the parameters needed. For a start
+    away from the centre the entry follows Eqs. (82) and (67); Eq. (85) as printed in arXiv v2 does not match
+    them or the simulation, and is noted on the entry as a question.
 - Documentation: "The false-alarm clock", reading K0010 (Siegert) as the mean time to a false alarm of a
   threshold alarm on an Ornstein-Uhlenbeck indicator, with a table and its assumptions. No new result.
 - Questions for authors: the K0002 question now records that a clean copy of p. 291

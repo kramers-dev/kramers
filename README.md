@@ -96,6 +96,7 @@ These are tested in `tests/` with the inputs that first exposed them.
 | [K0012](docs/handbook/K0012.md) | Drift-diffusion on an interval: exit probability, mean and conditional exit times | exact | S. Redner, Physica A 631, 128545 (2023) |
 | [K0013](docs/handbook/K0013.md) | First-passage duality: conditional exit times do not depend on the sign of the drift | exact | P. L. Krapivsky and S. Redner, J. Stat. Mech. (2018) 093208 |
 | [K0014](docs/handbook/K0014.md) | Exit time of Brownian motion from a ball in d dimensions: mean and second moment | exact | H. Chen and F. Huang, Phys. Rev. E 105, 034109 (2022) |
+| [K0041](docs/handbook/K0041.md) | Brownian motion in a planar wedge of any angle: exact survival probability | exact | M. Chupeau, O. Benichou and S. N. Majumdar, Phys. Rev. E 91, 032106 (2015) |
 | [K0015](docs/handbook/K0015.md) | Diffusion with stochastic resetting: mean time to reach the target | exact | M. R. Evans and S. N. Majumdar, Phys. Rev. Lett. 106, 160601 (2011) |
 | [K0016](docs/handbook/K0016.md) | Optimal resetting rate for diffusion to a target | exact | M. R. Evans and S. N. Majumdar, Phys. Rev. Lett. 106, 160601 (2011) |
 | [K0017](docs/handbook/K0017.md) | Any first-passage process under Poissonian restart: mean and second moment | exact | S. Reuveni, Phys. Rev. Lett. 116, 170601 (2016) |
@@ -105,9 +106,16 @@ These are tested in `tests/` with the inputs that first exposed them.
 | [K0032](docs/handbook/K0032.md) | Diffusion with resetting in an interval: mean exit time through either end | exact | A. Pal and V. V. Prasad, Phys. Rev. E 99, 032123 (2019) |
 | [K0034](docs/handbook/K0034.md) | Drift-diffusion to a target under restart: mean, spread and the Peclet transition | exact | S. Ray, D. Mondal and S. Reuveni, J. Phys. A: Math. Theor. 52, 255002 (2019) |
 | [K0035](docs/handbook/K0035.md) | Resetting in a logarithmic potential: mean and spread of the time to the origin | exact | S. Ray and S. Reuveni, J. Chem. Phys. 152, 234110 (2020) |
+| [K0036](docs/handbook/K0036.md) | Resetting between an absorbing end and a reflecting wall: mean time and the critical start point | exact | S. Ahmad, I. Nayak, A. Bansal, A. Nandi and D. Das, Phys. Rev. E 99, 022130 (2019) |
+| [K0037](docs/handbook/K0037.md) | Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate | exact | A. Dubey and A. Pal, J. Phys. A: Math. Theor. 56, 435002 (2023) |
+| [K0038](docs/handbook/K0038.md) | Diffusion with resetting and a refractory period: mean time to the target | exact | M. R. Evans and S. N. Majumdar, J. Phys. A: Math. Theor. 52, 01LT01 (2019) |
+| [K0040](docs/handbook/K0040.md) | Search with resetting and a return home at constant speed: mean time to the target | exact | A. Pal, L. Kusmierz and S. Reuveni, Phys. Rev. Research 2, 043174 (2020) |
 | [K0020](docs/handbook/K0020.md) | Sparre Andersen theorem: universal survival probability of a symmetric random walk | exact | A. J. Bray, S. N. Majumdar and G. Schehr, Adv. Phys. 62, 225 (2013) |
 | [K0023](docs/handbook/K0023.md) | Mean exit time of a run-and-tumble particle from an interval | exact | L. Angelani, R. Di Leonardo and M. Paoluzzi, Eur. Phys. J. E 37, 59 (2014) |
 | [K0033](docs/handbook/K0033.md) | Run-and-tumble particle in d dimensions: universal survival probability | exact | F. Mori, P. Le Doussal, S. N. Majumdar and G. Schehr, Phys. Rev. Lett. 124, 090603 (2020) |
+| [K0039](docs/handbook/K0039.md) | Symmetric Levy flight: mean exit time from an interval | exact | B. Dybiec, E. Gudowska-Nowak, E. Barkai and A. A. Dubkov, Phys. Rev. E 95, 052102 (2017) |
+| [K0042](docs/handbook/K0042.md) | Run-and-tumble particle on a half-line: exact first-passage density to the origin | exact | K. Malakar, V. Jemseena, A. Kundu, K. V. Kumar, S. Sabhapandit, S. N. Majumdar, S. Redner and A. Dhar, J. Stat. Mech. (2018) 043215 |
+| [K0043](docs/handbook/K0043.md) | Run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform and decay exponent | exact | A. Dhar, A. Kundu, S. N. Majumdar, S. Sabhapandit and G. Schehr, Phys. Rev. E 99, 032132 (2019) |
 | [K0021](docs/handbook/K0021.md) | Mean velocity in a tilted periodic potential (Stratonovich's formula) | exact | P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001) |
 | [K0022](docs/handbook/K0022.md) | Effective diffusion in a tilted periodic potential | exact | P. Reimann, C. Van den Broeck, H. Linke, P. Haenggi, J. M. Rubi and A. Perez-Madrid, Phys. Rev. Lett. 87, 010602 (2001) |
 | [K0007](docs/handbook/K0007.md) | Rate near a saddle-node to first order in the bias | asymptotic | B. Lindner, A. Longtin and A. Bulsara, Neural Comput. 15, 1761 (2003) |
