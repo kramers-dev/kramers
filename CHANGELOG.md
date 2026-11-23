@@ -36,6 +36,11 @@
   threshold alarm on an Ornstein-Uhlenbeck indicator, with a table and its assumptions. No new result.
 - Questions for authors: the K0002 question now records that a clean copy of p. 291
   (read 28 October) confirms the printed sign.
+- Quadrature solver: a decay rate below the smallest normal double (about e^-708), or a passage-time moment
+  above the largest (about e^709), is now refused with an `OutsideDomain` error that says so. Before, the
+  decay rate reported a characteristic series that "did not converge" and the moments overflowed. For a
+  quartic double well the limit is near 700 kT. The values are computed in logarithms internally, but they are
+  returned as ordinary floats.
 
 ## 0.1.0 (25 October 2026)
 

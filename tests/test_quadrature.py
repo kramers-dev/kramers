@@ -94,3 +94,21 @@ def test_refusals():
     fp = FirstPassage1D(FLAT, domain=(0.0, 1.0), left="absorbing", right="absorbing")
     with pytest.raises(OutsideDomain):
         fp.mean_time(2.0)
+
+
+def test_results_beyond_the_double_range_are_refused_by_name():
+    # A quartic double well at 900 kT: the decay rate is about e^-893 and the mean time about e^893, outside what a
+    # float can hold. Both must say so (they once reported a series that "did not converge", or overflowed).
+    deep = FirstPassage1D(lambda x: 900.0 * (x * x - 1) ** 2, D=1.0, domain=(-np.inf, 1.0), left="natural",
+                          right="absorbing")
+    with pytest.raises(OutsideDomain, match="smallest normal double"):
+        deep.decay_rate()
+    with pytest.raises(OutsideDomain, match="largest double"):
+        deep.mean_time(-1.0)
+    # at 650 kT both are still in range (about e^-644 and e^644), the second moment (about e^1288) is not, and the
+    # decay rate equals 1/T to rounding (their difference is of order e^-650)
+    high = FirstPassage1D(lambda x: 650.0 * (x * x - 1) ** 2, D=1.0, domain=(-np.inf, 1.0), left="natural",
+                          right="absorbing")
+    assert high.decay_rate().value * high.mean_time(-1.0).value == pytest.approx(1.0, rel=1e-9)
+    with pytest.raises(OutsideDomain, match="largest double"):
+        high.moments(-1.0, n=2)

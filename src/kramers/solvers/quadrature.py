@@ -60,6 +60,9 @@ from scipy.special import roots_legendre
 from ..result import OutsideDomain, Result
 from . import _cheb
 
+_LOG_MAX = float(np.log(np.finfo(float).max))  # about 709.8: the largest value a returned float can hold
+_LOG_TINY = float(np.log(np.finfo(float).tiny))  # about -708.4: below it a float loses precision (subnormal)
+
 Array = NDArray[np.float64]
 Func = Callable[[Array], Array]
 
@@ -574,7 +577,13 @@ class FirstPassage1D:
         logT = [np.zeros_like(g.phi)]
         for m in range(1, nmom + 1):
             logT.append(self._green_log(g, np.log(m) + logT[m - 1]))
-        T = np.array([np.exp(self._at(g, logT[m], evaluate)) for m in range(1, nmom + 1)])
+        logs = [self._at(g, logT[m], evaluate) for m in range(1, nmom + 1)]
+        biggest = max(float(np.max(v)) for v in logs)
+        if biggest > _LOG_MAX:
+            raise OutsideDomain(f"a requested moment of the passage time is about e^{biggest:.0f}, above the largest "
+                                "double (about e^709); results are returned as ordinary floats. Lower the barrier "
+                                "or measure time in larger units")
+        T = np.array([np.exp(v) for v in logs])
         info: dict = {"domain": (a, b), "panels": g.panels.edges.size - 1, "order": order}
         if self.right == "exit":
             if nmom > 2:
@@ -760,7 +769,12 @@ class FirstPassage1D:
             return float(np.sum(sign * terms)), float(np.sum(sign * n * terms)), float(np.sum(terms))
 
         more()
-        lam = float(np.exp(logc[0] - logc[1]))  # the Newton step from lambda = 0
+        log_start = logc[0] - logc[1]  # the Newton step from lambda = 0, a lower bound on the root
+        if log_start < _LOG_TINY:
+            raise OutsideDomain(f"the decay rate is about e^{log_start:.0f}, below the smallest normal double (about "
+                                "e^-708); results are returned as ordinary floats. Lower the barrier or measure time "
+                                "in smaller units")
+        lam = float(np.exp(log_start))
         steps = 1
         rounding = np.inf
         converged = False
