@@ -1,8 +1,8 @@
 # Verification report
 
-Generated 2026-11-24T09:13:59+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.5.5, SciPy 1.18.1.
+Generated 2026-11-24T12:09:23+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.5.5, SciPy 1.18.1.
 
-**118 of 118 checks passed** across 43 entries and 5 validity maps (including the slow simulation checks; 1008.2 s).
+**118 of 118 checks passed** across 43 entries and 5 validity maps (including the slow simulation checks; 1820.0 s).
 
 | Entry or map | Check | Reference | Worst | Tolerance | Result |
 |---|---|---|---|---|---|

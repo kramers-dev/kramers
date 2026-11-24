@@ -220,7 +220,9 @@ _register(AtlasMap(
     entries=("K0001",),
     approximation="Kramers' overdamped escape rate (K0001)",
     reference=("the exact decay rate of the survival probability (the smallest eigenvalue of the backward "
-               "operator), from the quadrature solver; set-ups as in K0001's own checks"),
+               "operator), from the quadrature solver, with escape counted at: +infinity for the cubic well "
+               "U = u y - y^3/3; the bottom of the other well (x = +1) for the quartic double well B (x^2 - 1)^2; "
+               "the bottoms of the neighbouring wells (+-2 pi) for the cosine well (B/2)(1 - cos x)"),
     quantity="Kramers' rate / exact decay rate - 1, at each barrier (kT)",
     claim_template=("Kramers' overdamped rate is {sign} at every barrier from {bmin:g} to {bmax:g} kT on all three "
                     "wells. At 10 kT it is {e10c}%, {e10q}% and {e10k}% high (cubic well, quartic double well, "
@@ -229,15 +231,17 @@ _register(AtlasMap(
     compute=_m01_compute,
     facts=_m01_facts,
     recompute=_m01_recompute,
-    notes=("Barriers below 2 kT, and the comparison with the reciprocal mean passage time (which differs from "
-           "the decay rate at low barriers), are left out of this map for now. Cosine well: escape over either "
-           "of two barriers, so twice the one-sided Kramers rate."),
+    notes=("Below about 5 kT the numbers depend on where escape is counted: another convention (the relaxation "
+           "rate of the free double well, or the hopping rate of the periodic cosine potential) changes them "
+           "noticeably there, though not the sign; from about 10 kT the conventions agree. Barriers below 2 kT, and "
+           "the comparison with the reciprocal mean passage time, are left out of this map for now. Cosine well: "
+           "escape over either of two barriers, so twice the one-sided Kramers rate."),
     prior=(
         Prior("A. Edholm and O. Leimar, The accuracy of Kramers' theory of chemical kinetics, Physica A 98, 313 (1979)",
-              "10.1016/0378-4371(79)90182-1", "not opened (title and bibliographic record checked on Crossref)"),
+              "10.1016/0378-4371(79)90182-1", "not opened; possibly related, judged from the title (record checked on Crossref)"),
         Prior("J. J. Mazo, O. Y. Fajardo and D. Zueco, Thermal activation at moderate-to-high and high damping: "
               "finite barrier effects and force spectroscopy, J. Chem. Phys. 138, 104105 (2013)",
-              "10.1063/1.4793983", "not opened (bibliographic record checked on Crossref)"),
+              "10.1063/1.4793983", "not opened; possibly related, judged from the title (record checked on Crossref)"),
     ),
 ))
 
@@ -297,8 +301,19 @@ def _m02_facts(d: Mapping[str, Any]) -> dict[str, Any]:
     win = (b < 0) & (b > -4)
     j = int(np.nanargmax(np.where(win, weak, -np.inf)))
     f["weak_peak"], f["weak_peak_b"] = _r(100 * weak[j], 1), _r(b[j], 2)
-    f["gap10_lo"], f["gap10_hi"] = f["weak10"], f["lin10_lo"]
-    f["gap5_lo"], f["gap5_hi"] = f["weak5"], f["lin5_lo"]
+    # past its peak the weak-noise error falls through zero towards -100% at b = 0: a second window within 10%
+    after = (b > b[j]) & (b < 0)
+    cross = np.where(after[:-1] & after[1:] & (weak[:-1] > 0) & (weak[1:] <= 0))[0]
+    k = int(cross[0])
+    f["weak_zero"] = _r(b[k] - weak[k] * (b[k + 1] - b[k]) / (weak[k + 1] - weak[k]), 2)
+    again = after & (np.abs(weak) <= 0.10)
+    f["weak10b_lo"], f["weak10b_hi"] = _r(float(np.min(b[again])), 2), _r(float(np.max(b[again])), 2)
+    for tag, tol in (("10", 0.10), ("5", 0.05)):
+        lo, hi = f[f"weak{tag}"], f[f"lin{tag}_lo"]
+        inside = (b > lo) & (b < hi)
+        covered = inside & ((np.abs(np.nan_to_num(weak, nan=9.0)) <= tol) | (np.abs(lin) <= tol))
+        # the gap is reported only if no grid point inside it is covered by either formula
+        f[f"gap{tag}_lo"], f[f"gap{tag}_hi"] = (lo, hi) if not covered.any() else (float("nan"), float("nan"))
     from .handbook.k0007_saddle_node_linear_response import _C0, _C1
 
     f["lin_zero"] = _r(-_C0 / _C1, 2)
@@ -326,13 +341,15 @@ _register(AtlasMap(
                "the sources define the rate this way, as a firing rate"),
     quantity="formula / exact rate - 1, against the scaled bias b = beta / D^(2/3)",
     claim_template=("For dx/dt = beta + x^2 + sqrt(2D) xi both formulas depend only on b = beta/D^(2/3). The "
-                    "weak-noise rate is within 10% of the exact rate only for b <= {weak10:g} (a barrier of "
+                    "weak-noise rate is within 10% of the exact rate for b <= {weak10:g} (a barrier of "
                     "{weak10_barrier:g} noise units, 4|b|^(3/2)/3), within 5% for b <= {weak5:g} and within 1% for "
-                    "b <= {weak1:g} (barrier {weak1_barrier:g}); closer to the bifurcation it is up to "
-                    "{weak_peak}% too high (at b = {weak_peak_b:g}). The weak-bias line is within 10% for "
+                    "b <= {weak1:g} (barrier {weak1_barrier:g}). Closer to the bifurcation it is up to "
+                    "{weak_peak}% too high (at b = {weak_peak_b:g}), then crosses zero near b = {weak_zero:g} on its "
+                    "way to -100% at b = 0, so it is within 10% again, in passing, for "
+                    "{weak10b_lo:g} <= b <= {weak10b_hi:g}. The weak-bias line is within 10% for "
                     "{lin10_lo:g} <= b <= {lin10_hi:g}, within 1% for {lin1_lo:g} <= b <= {lin1_hi:g}, and gives a "
                     "negative rate below b = {lin_zero:g}. So for {gap10_lo:g} < b < {gap10_hi:g} neither formula "
-                    "is within 10% (within 5%: {gap5_lo:g} < b < {gap5_hi:g} is uncovered)."),
+                    "is within 10% at any grid point (within 5%: {gap5_lo:g} < b < {gap5_hi:g})."),
     compute=_m02_compute,
     facts=_m02_facts,
     recompute=_m02_recompute,
@@ -381,34 +398,61 @@ def _m03_point(nu: float, dG: float, f: float, lam0: float | None = None) -> flo
     return ratio / (_m03_exact(nu, dG, F) / lam0) - 1.0
 
 
+def _m03_refine(nu: float, dG: float, lam0: float, row: np.ndarray) -> dict[str, float]:
+    """Thresholds and the worst error between grid points, by root finding and a bounded search on exact rates.
+
+    left5 / left10: barrier left (kT) at the first force where |error| reaches 5% / 10% (bracketed on the grid,
+    then Brent's method), so every force below it is within. worst3: the largest |error| with at least 3 kT left
+    (bounded search plus the end point), with the barrier left there."""
+    from scipy.optimize import brentq, minimize_scalar
+
+    f = np.array(_M03_F)
+    err = lambda v: _m03_point(nu, dG, float(v), lam0)  # noqa: E731
+    out: dict[str, float] = {}
+    for tol, tag in ((0.05, "left5"), (0.10, "left10")):
+        j = int(np.argmax(np.abs(row) > tol))
+        if not np.abs(row[j]) > tol:
+            out[tag] = float("nan")  # never reached on this row
+            continue
+        fs = brentq(lambda v, tol=tol: abs(err(v)) - tol, f[j - 1], f[j], xtol=1e-7)
+        out[tag] = dG * (1.0 - fs) ** (1.0 / nu)
+    f3 = 1.0 - (3.0 / dG) ** nu
+    res = minimize_scalar(lambda v: -abs(err(v)), bounds=(0.0, f3), method="bounded", options={"xatol": 1e-6})
+    cands = [(abs(err(f3)), f3), (-res.fun, res.x)]
+    best, fb = max(cands)
+    out["worst3"] = float(np.sign(err(fb)) * best)
+    out["worst3_left"] = dG * (1.0 - fb) ** (1.0 / nu)
+    return out
+
+
 def _m03_compute() -> dict[str, Any]:
-    series = {}
+    series, refined = {}, {}
     for name, nu in _M03_NU.items():
         grid = np.empty((len(_M03_DG), len(_M03_F)))
+        ref = {"left5": [], "left10": [], "worst3": [], "worst3_left": []}
         for i, dG in enumerate(_M03_DG):
             lam0 = _m03_exact(nu, dG, 0.0)
             for j, f in enumerate(_M03_F):
                 grid[i, j] = _m03_point(nu, dG, f, lam0)
+            for k, v in _m03_refine(nu, dG, lam0, grid[i]).items():
+                ref[k].append(v)
         series[name] = [_clean(row) for row in grid]
-    return {"axes": {"barrier_kT": list(_M03_DG), "force_over_critical": list(_M03_F)}, "series": series}
+        refined[name] = {k: _clean(np.array(v)) for k, v in ref.items()}
+    return {"axes": {"barrier_kT": list(_M03_DG), "force_over_critical": list(_M03_F)}, "series": series,
+            "refined": refined}
 
 
 def _m03_facts(d: Mapping[str, Any]) -> dict[str, Any]:
     dG = _arr(d["axes"]["barrier_kT"])
-    f = _arr(d["axes"]["force_over_critical"])
     out: dict[str, Any] = {}
-    for name, nu, tag in (("linear-cubic (nu = 2/3)", 2.0 / 3.0, "c"), ("cusp (nu = 1/2)", 0.5, "p")):
-        g = np.array([_arr(row) for row in d["series"][name]])
-        left = dG[:, None] * (1.0 - f[None, :]) ** (1.0 / nu)  # barrier left at force F
-        region = left >= 3.0
-        k = np.unravel_index(int(np.nanargmax(np.where(region, np.abs(g), -np.inf))), g.shape)
-        out[f"worst3{tag}"] = _r(100 * g[k], 1)
-        out[f"worst3{tag}_left"] = _r(left[k], 1)
-        out[f"worst3{tag}_dG"] = _r(dG[k[0]], 0)
-        for tol, t in ((0.05, "5"), (0.10, "10")):
-            # the smallest barrier-left threshold above which every grid point is within tol
-            bad = left[~(np.abs(g) <= tol)]
-            out[f"left{t}{tag}"] = _r(float(np.max(bad)) if bad.size else 0.0, 1)
+    for name, tag in (("linear-cubic (nu = 2/3)", "c"), ("cusp (nu = 1/2)", "p")):
+        r = {k: _arr(v) for k, v in d["refined"][name].items()}
+        k = int(np.nanargmax(np.abs(r["worst3"])))
+        out[f"worst3{tag}"] = _r(100 * r["worst3"][k], 1)
+        out[f"worst3{tag}_left"] = _r(r["worst3_left"][k], 1)
+        out[f"worst3{tag}_dG"] = _r(dG[k], 0)
+        for t in ("5", "10"):
+            out[f"left{t}{tag}"] = _r(float(np.nanmax(r[f"left{t}"])), 1)
     return out
 
 
@@ -427,19 +471,20 @@ _register(AtlasMap(
     id="M03",
     title="Force-dependent rate of Dudko, Hummer and Szabo",
     entries=("K0026",),
-    approximation=("the force dependence k(F)/k(0) of the Dudko-Hummer-Szabo rate (K0026), with k(0) the exact "
-                   "zero-force rate, as when k0 is fitted"),
+    approximation=("the force dependence k(F)/k(0) of the Dudko-Hummer-Szabo rate (K0026), with k0 set to the "
+                   "exact zero-force rate and x and dG at their true values (a fit to data would adjust all three)"),
     reference=("the exact decay rate at each force, from the quadrature solver, for the landscapes the formula is "
                "derived for: the tilted linear-cubic surface (nu = 2/3) and a harmonic well cut off by a cusp, "
                "absorbing there (nu = 1/2)"),
     quantity=("[k_DHS(F)/k_DHS(0)] / [lambda(F)/lambda(0)] - 1, over the zero-force barrier dG (kT) and F as a "
               "fraction of the critical force dG/(nu x)"),
     claim_template=("Where at least 3 kT of barrier is left at the applied force (the formula warns below that), "
-                    "the largest error on the grid in the force dependence of the rate is {worst3c:+g}% for the linear-cubic "
+                    "the largest error in the force dependence of the rate is {worst3c:+g}% for the linear-cubic "
                     "surface (at {worst3c_left:g} kT left, dG = {worst3c_dG:g} kT) and {worst3p:+g}% for the cusp (at "
-                    "{worst3p_left:g} kT left, dG = {worst3p_dG:g} kT). Every grid point is within 10% where more "
-                    "than {left10c:g} kT (linear-cubic) or {left10p:g} kT (cusp) of barrier is left, and within 5% "
-                    "above {left5c:g} kT and {left5p:g} kT."),
+                    "{worst3p_left:g} kT left, dG = {worst3p_dG:g} kT). For every zero-force barrier mapped, the error "
+                    "is within 10% while more than {left10c:g} kT (linear-cubic) or {left10p:g} kT (cusp) of barrier "
+                    "is left, and within 5% while more than {left5c:g} kT and {left5p:g} kT is left (each threshold "
+                    "the first crossing as the force rises, found by root finding on exact rates)."),
     compute=_m03_compute,
     facts=_m03_facts,
     recompute=_m03_recompute,
@@ -454,7 +499,8 @@ _register(AtlasMap(
               "simulation were not reviewed for this map"),
         Prior("J. J. Mazo, O. Y. Fajardo and D. Zueco, Thermal activation at moderate-to-high and high damping: "
               "finite barrier effects and force spectroscopy, J. Chem. Phys. 138, 104105 (2013)",
-              "10.1063/1.4793983", "not opened; the closest earlier work by its title, to read before any claim of novelty"),
+              "10.1063/1.4793983", "not opened; possibly the closest earlier work, judged from the title; to read "
+              "before any claim of novelty"),
     ),
 ))
 
@@ -478,7 +524,8 @@ def _m04_rates(dG: float) -> tuple[CubicSpline, float, float]:
     return CubicSpline(F, ll), float(np.exp(ll[0])), Fc
 
 
-def _m04_point(dG: float, s: float, spl: CubicSpline, k0: float, Fc: float) -> tuple[float, float, float]:
+def _m04_point(dG: float, s: float, spl: CubicSpline, k0: float, Fc: float) -> tuple[float, float, float, bool]:
+    """(mean, spread, mode errors, beyond the cut-off) at one loading; errors are NaN where a formula refuses."""
     from .handbook.k0024_switching_distribution import switching_distribution
     from .handbook.k0027_dhs_rupture_force_moments import dhs_rupture_force_moments
     from .handbook.k0029_bell_evans_force import bell_evans_force
@@ -486,7 +533,7 @@ def _m04_point(dG: float, s: float, spl: CubicSpline, k0: float, Fc: float) -> t
     r = np.exp(s * dG) * k0  # loading rate: ln(r x / (k0 kT)) = s dG, x = kT = 1
     dist = switching_distribution(lambda v: np.exp(spl(v)), r, 1.3 * Fc, partial=True)
     if float(dist.survival(np.array([Fc]))[0]) > _M04_TAIL:
-        return (np.nan, np.nan, np.nan)
+        return (np.nan, np.nan, np.nan, True)
     try:
         m = dhs_rupture_force_moments(r, k0, 1.0, dG, 2.0 / 3.0)
         e_mean = m.mean / dist.mean - 1.0
@@ -497,29 +544,65 @@ def _m04_point(dG: float, s: float, spl: CubicSpline, k0: float, Fc: float) -> t
         e_mode = bell_evans_force(r, k0, 1.0) / dist.mode - 1.0
     except OutsideDomain:
         e_mode = np.nan
-    return (e_mean, e_sd, e_mode)
+    return (e_mean, e_sd, e_mode, False)
+
+
+def _m04_threshold(dG: float, spl: CubicSpline, k0: float, Fc: float, row: np.ndarray, which: int,
+                   tol: float = 0.05) -> float:
+    """The loading s above which |error| <= tol at every computed grid point, refined between the last failing
+    grid point and the next computed one by Brent's method on the exact distribution."""
+    from scipy.optimize import brentq
+
+    s = np.array(_M04_S)
+    fin = np.isfinite(row)
+    if not fin.any():
+        return float("nan")
+    bad = np.where(fin & (np.abs(row) > tol))[0]
+    if bad.size == 0:
+        return float(s[np.where(fin)[0][0]])
+    nxt = np.where(fin & (np.arange(s.size) > bad[-1]))[0]
+    if nxt.size == 0:
+        return float("nan")
+    return float(brentq(lambda v: abs(_m04_point(dG, float(v), spl, k0, Fc)[which]) - tol, s[bad[-1]], s[nxt[0]],
+                        xtol=1e-4))
 
 
 def _m04_compute() -> dict[str, Any]:
     grids = {k: np.full((len(_M04_DG), len(_M04_S)), np.nan) for k in _M04_SERIES}
+    cut = np.zeros((len(_M04_DG), len(_M04_S)), dtype=bool)
+    thresholds = {"mean_s5": [], "spread_s5": []}
     for i, dG in enumerate(_M04_DG):
         spl, k0, Fc = _m04_rates(dG)
         for j, s in enumerate(_M04_S):
-            for k, v in zip(_M04_SERIES, _m04_point(dG, s, spl, k0, Fc), strict=True):
+            *errs, cut[i, j] = _m04_point(dG, s, spl, k0, Fc)
+            for k, v in zip(_M04_SERIES, errs, strict=True):
                 grids[k][i, j] = v
+        thresholds["mean_s5"].append(_m04_threshold(dG, spl, k0, Fc, grids[_M04_SERIES[0]][i], 0))
+        thresholds["spread_s5"].append(_m04_threshold(dG, spl, k0, Fc, grids[_M04_SERIES[1]][i], 1))
     return {"axes": {"barrier_kT": list(_M04_DG), "log_loading": list(_M04_S)},
-            "series": {k: [_clean(row) for row in g] for k, g in grids.items()}}
+            "series": {k: [_clean(row) for row in g] for k, g in grids.items()},
+            "beyond_cutoff": [[bool(v) for v in row] for row in cut],
+            "thresholds": {k: _clean(np.array(v)) for k, v in thresholds.items()}}
+
+
+def _m04_bell_limit(s: np.ndarray) -> np.ndarray:
+    """Large-barrier limit of the Bell-Evans error on the linear-cubic surface (leading order): Bell's force
+    s dG / x against the force at which the barrier has fallen to (1 - s) dG, Fc [1 - (1 - s)^(2/3)], Fc = 1.5 dG / x."""
+    return s / (1.5 * (1.0 - (1.0 - s) ** (2.0 / 3.0))) - 1.0
 
 
 def _m04_facts(d: Mapping[str, Any]) -> dict[str, Any]:
     dG = _arr(d["axes"]["barrier_kT"])
     s = _arr(d["axes"]["log_loading"])
     g = {k: np.array([_arr(row) for row in d["series"][k]]) for k in _M04_SERIES}
+    cut = np.array(d["beyond_cutoff"], dtype=bool)
     out: dict[str, Any] = {}
 
     def from_s(row: np.ndarray, ok: Callable[[np.ndarray], np.ndarray]) -> float:
-        """The grid loading s from which every faster computed point satisfies ok."""
+        """The grid loading s from which every faster computed point satisfies ok (NaN if none computed)."""
         fin = np.isfinite(row)
+        if not fin.any():
+            return float("nan")
         bad = np.where(fin & ~ok(row))[0]
         if bad.size == 0:
             return float(s[np.where(fin)[0][0]])
@@ -527,19 +610,26 @@ def _m04_facts(d: Mapping[str, Any]) -> dict[str, Any]:
         return float(s[nxt[0]]) if nxt.size else float("nan")
 
     be = g["most probable force, Bell-Evans (K0029)"]
-    out["be_neg_from"] = _r(max(from_s(row, lambda v: v < 0) for row in be), 2)
+    out["be_neg_from"] = _r(float(np.nanmax([from_s(row, lambda v: v < 0) for row in be])), 2)
     j05 = int(np.argmin(np.abs(s - 0.5)))
-    out["be05_lo"], out["be05_hi"] = _r(-100 * np.nanmax(be[:, j05]), 0), _r(-100 * np.nanmin(be[:, j05]), 0)
+    col = be[:, j05][np.isfinite(be[:, j05])]
+    neg = bool(col.size and np.all(col < 0))
+    out["be05_lo"] = _r(-100 * float(np.max(col)), 0) if neg else float("nan")
+    out["be05_hi"] = _r(-100 * float(np.min(col)), 0) if neg else float("nan")
     out["be_most"] = _r(-100 * float(np.nanmin(be)), 0)
-    out["be_pos"] = _r(100 * float(np.nanmax(be)), 0)
-    mean, sd = g["mean force, DHS (K0027)"], g["spread of the force, DHS (K0027)"]
-    for b in (10.0, 20.0, 40.0, 80.0):
+    out["be_pos"] = _r(100 * max(float(np.nanmax(be)), 0.0), 0)
+    for b, tag in ((80.0, "be_dev"), (20.0, "be_dev20")):
         i = int(np.argmin(np.abs(dG - b)))
-        out[f"m5_{b:.0f}"] = _r(from_s(mean[i], lambda v: np.abs(v) <= 0.05), 2)
-        out[f"sd5_{b:.0f}"] = _r(from_s(sd[i], lambda v: np.abs(v) <= 0.05), 2)
+        sel = np.isfinite(be[i]) & (s >= 0.2)
+        out[tag] = float(f"{100 * float(np.max(np.abs(be[i, sel] - _m04_bell_limit(s[sel])))):.2g}")
+    th = {k: _arr(v) for k, v in d["thresholds"].items()}
+    for k, tag in (("mean_s5", "m"), ("spread_s5", "sd")):
+        L = th[k] * dG  # the threshold as ln(r x / k0 kT)
+        out[f"{tag}_lo"], out[f"{tag}_hi"] = _r(float(np.nanmin(L)), 1), _r(float(np.nanmax(L)), 1)
+    mean, sd = g["mean force, DHS (K0027)"], g["spread of the force, DHS (K0027)"]
     i10, j01 = int(np.argmin(np.abs(dG - 10.0))), int(np.argmin(np.abs(s - 0.1)))
     out["mean_slow"], out["sd_slow"] = _r(100 * mean[i10, j01], 0), _r(100 * sd[i10, j01], 0)
-    last = [float(np.max(s[np.isfinite(row)])) for row in be if np.any(np.isfinite(row))]
+    last = [float(np.max(s[~row])) for row in cut if (~row).any()]
     out["smax_lo"], out["smax_hi"] = _r(min(last), 2), _r(max(last), 2)
     return out
 
@@ -551,7 +641,7 @@ def _m04_recompute(d: Mapping[str, Any]) -> list[tuple[str, float, float]]:
     spl, k0, Fc = _m04_rates(20.0)
     rows = []
     for j in (3, 9, 15):
-        now = _m04_point(20.0, s[j], spl, k0, Fc)
+        now = _m04_point(20.0, s[j], spl, k0, Fc)[:3]
         for k, v in zip(_M04_SERIES, now, strict=True):
             stored = d["series"][k][i][j]
             if stored is not None and np.isfinite(v):
@@ -572,35 +662,33 @@ _register(AtlasMap(
     quantity=("formula / exact - 1 for the mean, the standard deviation and the most probable force, over the "
               "zero-force barrier dG (kT) and the scaled loading rate s = ln(r x / (k0 kT)) / (dG / kT)"),
     claim_template=("On the linear-cubic surface the Bell-Evans most probable force is too low wherever "
-                    "s >= {be_neg_from:g}, by an amount that grows with the loading rate and hardly depends on the "
-                    "barrier: {be05_lo:g}% to {be05_hi:g}% at s = 0.5, and up to {be_most:g}% at the fastest "
-                    "loading mapped. (Bell's model takes the distance to the barrier as fixed; on this surface it "
-                    "shrinks under force.) At the slowest loading on low barriers it is too high instead, by up to "
-                    "{be_pos:g}%. The Dudko-Hummer-Szabo mean force is within 5% of the exact mean for s >= "
-                    "{m5_10:g}, {m5_20:g}, {m5_40:g} and {m5_80:g} at zero-force barriers of 10, 20, 40 and 80 kT, "
-                    "and its spread within 5% for s >= {sd5_10:g}, {sd5_20:g}, {sd5_40:g} and {sd5_80:g} (grid "
-                    "values). At slower loading, where the force rises by only a few kT/x during the zero-force "
-                    "lifetime 1/k0, both fail: at "
-                    "10 kT and s = 0.1 the mean is off by {mean_slow:+g}% and the spread by {sd_slow:+g}%. Loading "
-                    "faster than s = {smax_lo:g} to {smax_hi:g} (depending on the barrier), where more than 0.1% "
-                    "of bonds would survive to the critical force, is left out: there the frozen-rate picture "
-                    "itself fails."),
+                    "s >= {be_neg_from:g}: by {be05_lo:g}% to {be05_hi:g}% at s = 0.5 across the barriers mapped, "
+                    "and by up to {be_most:g}% at the fastest loading mapped. At the slowest loading on low barriers "
+                    "it is too high instead, by up to {be_pos:g}%. At large barriers its error approaches "
+                    "s / [1.5 (1 - (1 - s)^(2/3))] - 1, Bell's force s dG / x divided by the force at which this "
+                    "surface's barrier has fallen to (1 - s) dG (leading order); for s >= 0.2 the 80 kT row follows "
+                    "that curve to within {be_dev:g} percentage points and the 20 kT row to within {be_dev20:g}. The "
+                    "Dudko-Hummer-Szabo mean force is within "
+                    "5% of the exact mean once ln(r x / (k0 kT)) exceeds {m_lo:g} to {m_hi:g}, depending on the "
+                    "barrier (7 to 80 kT), and its spread once it exceeds {sd_lo:g} to {sd_hi:g} (thresholds refined "
+                    "between grid points by root finding). At slower loading both fail: at 10 kT and s = 0.1 the "
+                    "mean is off by {mean_slow:+g}% and the spread by {sd_slow:+g}%. Loading faster than "
+                    "s = {smax_lo:g} to {smax_hi:g} (depending on the barrier), where more than 0.1% of bonds would "
+                    "survive to the critical force, is left out; the frozen-rate law itself is not tested by this map."),
     compute=_m04_compute,
     facts=_m04_facts,
     recompute=_m04_recompute,
-    notes=("Both sides use the quasi-static (frozen-rate) law of K0024, so the map isolates the error of the "
-           "closed forms; the frozen-rate law itself fails at fast loading (K0030 for the noisy fold). Points where "
-           "a formula refuses its input (OutsideDomain: loading so slow that the bond breaks before the force "
-           "matters) are blank. kT = D = x = 1."),
+    notes=("Both sides use the quasi-static (frozen-rate) law of K0024, so the map isolates the error of the closed "
+           "forms; whether the frozen-rate law holds is a separate question, not tested here. Points where a "
+           "formula refuses its input (OutsideDomain at the slowest loading) are blank, as are loadings beyond the "
+           "cut-off. kT = D = x = 1."),
     prior=(
         Prior("O. K. Dudko, G. Hummer and A. Szabo, Intrinsic rates and activation free energies from "
               "single-molecule pulling experiments, Phys. Rev. Lett. 96, 108101 (2006)", "10.1103/PhysRevLett.96.108101",
-              "published PDF (Zenodo record 1233953), read 14 Oct 2026 for Eqs. (1)-(6)"),
+              "published PDF (Zenodo record 1233953), read 14 Oct 2026 for Eqs. (1)-(6); its own comparisons were not "
+              "reviewed for this map"),
         Prior("J. T. Bullerjahn, S. Sturm and K. Kroy, Theory of rapid force spectroscopy, Nat. Commun. 5, 4463 (2014)",
-              "10.1038/ncomms5463", "not opened (bibliographic record checked on Crossref)"),
-        Prior("A. Maitra and G. Arya, Model accounting for the effects of pulling-device stiffness in the analyses "
-              "of single-molecule force measurements, Phys. Rev. Lett. 104, 108301 (2010)",
-              "10.1103/PhysRevLett.104.108301", "not opened (bibliographic record checked on Crossref)"),
+              "10.1038/ncomms5463", "not opened; possibly related, judged from the title (record checked on Crossref)"),
     ),
 ))
 
@@ -635,6 +723,36 @@ def _m05_cell(N: int, mu: float) -> tuple[float, float, float, float]:
     return mean / mu - 1.0, spread / mu, cover, p0
 
 
+_M05_COUNTS = (3, 5, 10, 20, 30, 50, 100, 200, 500, 1000)
+
+
+def _m05_scan() -> dict[str, Any]:
+    """Thresholds on a dense scan: every N from 10 to 400, 30 more up to 20,000, and 200 hazards from 0.003 to 5.
+    For each count c: the worst |bias| and the coverage range over the mapped cells in which at least c switches
+    are expected both inside the bin and after it; and the lowest coverage where fewer than one is expected."""
+    Ns = np.unique(np.concatenate([np.arange(10, 401), np.round(np.geomspace(400, 2e4, 31)).astype(int)]))
+    mus = np.geomspace(0.003, 5.0, 200)
+    worst = {c: [0.0, 1.0, 0.0] for c in _M05_COUNTS}  # max |bias|, min coverage, max coverage
+    few_min = 1.0
+    for N in Ns:
+        for mu in mus:
+            b, _, c, p0 = _m05_cell(int(N), float(mu))
+            if p0 > _M05_UNDEFINED:
+                continue
+            sw, sv = N * (1.0 - np.exp(-mu)), N * np.exp(-mu)
+            least = min(sw, sv)
+            if sw < 1.0:
+                few_min = min(few_min, c)
+            for cc in _M05_COUNTS:
+                if least >= cc:
+                    w = worst[cc]
+                    w[0], w[1], w[2] = max(w[0], abs(b)), min(w[1], c), max(w[2], c)
+    return {"counts": list(_M05_COUNTS), "max_abs_bias": [worst[c][0] for c in _M05_COUNTS],
+            "min_coverage": [worst[c][1] for c in _M05_COUNTS], "max_coverage": [worst[c][2] for c in _M05_COUNTS],
+            "min_coverage_below_one_switch": few_min,
+            "grid": "every N from 10 to 400 and 31 values to 20,000; 200 hazards, geometric, 0.003 to 5"}
+
+
 def _m05_compute() -> dict[str, Any]:
     grids = {k: np.full((len(_M05_N), len(_M05_MU)), np.nan) for k in _M05_SERIES}
     for i, N in enumerate(_M05_N):
@@ -644,33 +762,27 @@ def _m05_compute() -> dict[str, Any]:
                 for k, v in zip(_M05_SERIES, (b, s, c), strict=True):
                     grids[k][i, j] = v
     return {"axes": {"entering": list(_M05_N), "hazard_per_bin": list(_M05_MU)},
-            "series": {k: [_clean(row) for row in g] for k, g in grids.items()}}
+            "series": {k: [_clean(row) for row in g] for k, g in grids.items()}, "scan": _m05_scan()}
 
 
 def _m05_facts(d: Mapping[str, Any]) -> dict[str, Any]:
-    N = _arr(d["axes"]["entering"])
-    mu = _arr(d["axes"]["hazard_per_bin"])
-    g = {k: np.array([_arr(row) for row in d["series"][k]]) for k in _M05_SERIES}
-    switches = N[:, None] * (1.0 - np.exp(-mu[None, :]))  # expected switches in the bin
-    survivors = N[:, None] * np.exp(-mu[None, :])  # expected survivors past it
-    least = np.minimum(switches, survivors)
-    cov, bias = g["coverage of the reported standard error"], g["relative bias of the rate"]
-    out: dict[str, Any] = {}
+    sc = d["scan"]
+    counts = list(sc["counts"])
+    bias, lo, hi = (_arr(sc[k]) for k in ("max_abs_bias", "min_coverage", "max_coverage"))
+    out: dict[str, Any] = {"cov_ideal": 68.3}
 
-    def threshold(ok: np.ndarray) -> float:
-        """The smallest count c in the list such that every mapped cell with least >= c satisfies ok."""
-        for c in (3, 5, 10, 20, 30, 50, 100, 200, 500, 1000):
-            sel = (least >= c) & np.isfinite(cov)
-            if sel.any() and bool(np.all(ok[sel])):
-                return float(c)
-        return float("nan")
+    def smallest(ok: np.ndarray) -> float:
+        """The smallest count from which every larger listed count also satisfies ok."""
+        good = [counts[i] for i in range(len(counts)) if bool(np.all(ok[i:]))]
+        return float(min(good)) if good else float("nan")
 
-    out["cov_c"] = threshold((cov >= 0.60) & (cov <= 0.76))
-    out["bias1_c"] = threshold(np.abs(bias) <= 0.01)
-    out["bias5_c"] = threshold(np.abs(bias) <= 0.05)
-    few = (switches < 1.0) & np.isfinite(cov)
-    out["cov_few"] = _r(100 * float(np.nanmin(cov[few])), 0)
-    out["cov_ideal"] = 68.3
+    for c in (10, 30):
+        i = counts.index(c)
+        out[f"cov{c}_lo"], out[f"cov{c}_hi"] = _r(100 * lo[i], 1), _r(100 * hi[i], 1)
+    out["bias1_c"] = smallest(bias <= 0.01)
+    out["bias5_c"] = smallest(bias <= 0.05)
+    out["bias_at5"] = _r(100 * bias[counts.index(5)], 1)
+    out["cov_few"] = _r(100 * float(sc["min_coverage_below_one_switch"]), 0)
     return out
 
 
@@ -699,21 +811,25 @@ _register(AtlasMap(
     quantity=("relative bias and relative spread of the estimated rate, and the probability that the reported "
               "standard error covers the true rate (68.3% if it were a Gaussian one-sigma interval), over N and mu"),
     claim_template=("A one-sigma error bar should cover the true rate {cov_ideal:g}% of the time. The one kramers "
-                    "reports with each bin's rate does so roughly (60% to 76% on this grid) wherever at least "
-                    "{cov_c:g} switches are expected both inside the bin and after it, and as rarely as {cov_few:g}% "
-                    "for bins where fewer than one switch is expected: such a bin often reports a rate of zero with "
-                    "an error bar of zero. The estimate itself is biased by less than 1% where at least {bias1_c:g} "
-                    "switches are expected both inside the bin and after it, and by less than 5% where at least "
-                    "{bias5_c:g} are."),
+                    "reports with each bin's rate covers it {cov10_lo:g}% to {cov10_hi:g}% of the time wherever at "
+                    "least 10 switches are expected both inside the bin and after it, and {cov30_lo:g}% to "
+                    "{cov30_hi:g}% from 30; for bins where fewer than one switch is expected the coverage falls as "
+                    "low as {cov_few:g}%, because such a bin often reports a rate of zero with an error bar of zero. "
+                    "The estimate itself is biased by less than 5% where at least {bias5_c:g} switches are expected "
+                    "inside and after the bin (by up to {bias_at5:g}% at 5), and by less than 1% from {bias1_c:g}. "
+                    "These numbers come from a dense scan (every N from 10 to 400, 31 more to 20,000, 200 values of "
+                    "mu), not only the plotted grid; between scan points values can lie slightly outside them."),
     compute=_m05_compute,
     facts=_m05_facts,
     recompute=_m05_recompute,
     notes=("Counting statistics of a single bin only. Not included: the error from assigning the rate to the bin "
            "centre (second order in the bin width, K0025), correlations between bins (they share survivors), and "
-           "anything beyond a rate process under a ramp. Cells where no survivor is left with probability above "
-           "0.1% are not mapped; there the estimate is often undefined."),
+           "anything beyond a rate process under a ramp. As K0025 requires, every ramp is assumed to switch "
+           "inside the histogram. Cells where no survivor is left with probability above 0.1% are not mapped; there "
+           "the estimate is often undefined."),
     prior=(
         Prior("T. A. Fulton and L. N. Dunkleberger, Lifetime of the zero-voltage state in Josephson tunnel junctions, "
-              "Phys. Rev. B 9, 4760 (1974)", "10.1103/PhysRevB.9.4760", "not opened (closed access)"),
+              "Phys. Rev. B 9, 4760 (1974)", "10.1103/PhysRevB.9.4760",
+              "not opened (closed access); the origin of the estimator, as cited by K0025's source"),
     ),
 ))

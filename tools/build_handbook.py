@@ -90,8 +90,8 @@ ATLAS_INTRO = (
     "Where an approximate result of the handbook stops being accurate, computed. Each map is the error of "
     "one or more entries against an exact computation over a grid of their parameters, stored as data in "
     "the package (`kramers.atlas`), with a claim whose numbers are generated from that data. A map says "
-    "nothing outside its grid. Earlier work on the same questions is listed on each map, with whether we "
-    "have read it; no map claims to be the first.")
+    "nothing outside its grid. Earlier work that may bear on the same questions is listed on each map, with "
+    "what of it we have read (work not opened is judged from its title only); no map claims to be the first.")
 
 
 def atlas_page(m: atlas.AtlasMap, ver: dict) -> str:

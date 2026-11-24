@@ -6,7 +6,7 @@
   "K0001"
  ],
  "approximation": "Kramers' overdamped escape rate (K0001)",
- "reference": "the exact decay rate of the survival probability (the smallest eigenvalue of the backward operator), from the quadrature solver; set-ups as in K0001's own checks",
+ "reference": "the exact decay rate of the survival probability (the smallest eigenvalue of the backward operator), from the quadrature solver, with escape counted at: +infinity for the cubic well U = u y - y^3/3; the bottom of the other well (x = +1) for the quartic double well B (x^2 - 1)^2; the bottoms of the neighbouring wells (+-2 pi) for the cosine well (B/2)(1 - cos x)",
  "quantity": "Kramers' rate / exact decay rate - 1, at each barrier (kT)",
  "computed": "2026-11-24",
  "kramers": "0.1.0",

@@ -123,7 +123,7 @@ def fig_m03(d, path):
     f = _arr(d["axes"]["force_over_critical"])
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.9), sharey=True, constrained_layout=True)
     for ax, (name, rows), nu in zip(axes, d["series"].items(), (2.0 / 3.0, 0.5), strict=True):
-        pc = _heat(ax, f, dG, _grid(rows), 20, [-10, 5, 10])
+        pc = _heat(ax, f, dG, _grid(rows), 20, [-10, -5, 5, 10])
         left = dG[:, None] * (1 - f[None, :]) ** (1 / nu)
         ax.contour(f, dG, left, levels=[3.0], colors=INK, linewidths=1.1, linestyles="--")
         ax.set(yscale="log", xlabel="force / critical force")
@@ -165,10 +165,12 @@ def fig_m05(d, path):
     mu = _arr(d["axes"]["hazard_per_bin"])
     g = {k: _grid(v) for k, v in d["series"].items()}
     fig, axes = plt.subplots(1, 3, figsize=(11.5, 3.9), sharey=True, constrained_layout=True)
+    # red means "above the ideal" in both diverging panels (positive bias; coverage above 68.3%), and the coverage
+    # scale is symmetric about 68.3 so equal over- and under-coverage look equally strong
     panels = (("relative bias of the rate", DIVERGING, TwoSlopeNorm(vcenter=0.0, vmin=-20, vmax=20), "bias (%)", 100),
               ("relative spread of the rate", SEQUENTIAL, LogNorm(vmin=0.5, vmax=300), "relative s.d. (%)", 100),
-              ("coverage of the reported standard error", DIVERGING.reversed(),
-               TwoSlopeNorm(vcenter=68.3, vmin=0, vmax=100), "coverage (%); 68.3 is right", 100))
+              ("coverage of the reported standard error", DIVERGING,
+               TwoSlopeNorm(vcenter=68.3, vmin=68.3 - 40, vmax=68.3 + 40), "coverage (%); 68.3 is right", 100))
     switches = N[:, None] * (1 - np.exp(-mu[None, :]))
     survivors = N[:, None] * np.exp(-mu[None, :])
     for ax, (name, cmap, norm, label, scale) in zip(axes, panels, strict=True):
@@ -179,7 +181,8 @@ def fig_m05(d, path):
         ax.clabel(cs, fmt=lambda v: f"{v:g}", fontsize=7)
         ax.set(xscale="log", yscale="log", xlabel="expected hazard in the bin, mu")
         ax.set_title(name, loc="left", fontsize=9)
-        fig.colorbar(pc, ax=ax, orientation="horizontal", shrink=0.8, pad=0.02, aspect=30).set_label(label, fontsize=8)
+        fig.colorbar(pc, ax=ax, orientation="horizontal", shrink=0.8, pad=0.02, aspect=30,
+                     extend="both" if name != "relative spread of the rate" else "max").set_label(label, fontsize=8)
     axes[0].set_ylabel("switches still to come when the bin starts")
     fig.suptitle("Black contours: the expected number of switches inside the bin or after it, whichever is smaller",
                  x=0.01, ha="left", fontsize=8.5, color=INK)
