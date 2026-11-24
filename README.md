@@ -43,9 +43,13 @@ formula is from the exact escape rate at 5, 10 and 20 kT.
     (time-dependent) drifts;
   - simulation with boundary-crossing correction and resetting;
   - numerical Laplace inversion.
-- **Validity maps.** For approximate results, the error against the exact answer
-  across the parameter range: Kramers' rate, for example, is 3% to 6% too high at a
-  10 kT barrier, depending on the shape of the well.
+- **The validity atlas.** For approximate results, the error against an exact
+  computation across their parameters, stored as data (`kramers.atlas`) and drawn on
+  the website: Kramers' rate, for example, is 3% to 6% too high at a 10 kT barrier,
+  depending on the shape of the well. Five maps so far (Kramers' rate on three wells;
+  the saddle-node rate formulas; the Dudko-Hummer-Szabo rate; rupture forces under
+  loading; rates from switching histograms and their error bars), each with its claim
+  computed from its data and checked nightly.
 - **Questions for authors.** Implementing and checking a printed equation sometimes
   finds a disagreement. Each is listed with the computation, as a question to the
   authors until they answer, in [docs/errata.md](docs/errata.md).

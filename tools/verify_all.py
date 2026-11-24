@@ -25,6 +25,15 @@ import numpy  # noqa: E402
 import scipy  # noqa: E402
 
 import kramers  # noqa: E402
+from kramers import atlas  # noqa: E402
+
+
+def _units():
+    """Every entry with its checks, then every map of the validity atlas with its checks."""
+    for entry in kramers.entries():
+        yield entry.id, entry.title, entry.checks
+    for m in atlas.maps():
+        yield m.id, f"Validity map: {m.title}", m.checks()
 
 
 def main() -> int:
@@ -32,30 +41,30 @@ def main() -> int:
     started = time.time()
     results = []
     failed = 0
-    for entry in kramers.entries():
-        for check in entry.checks:
+    for uid, title, checks in _units():
+        for check in checks:
             if check.slow and not slow:
                 continue
             t0 = time.time()
             try:
                 outcome = check.run()
-                row = {"entry": entry.id, "title": entry.title, "check": check.name, "reference": check.reference,
+                row = {"entry": uid, "title": title, "check": check.name, "reference": check.reference,
                        "slow": check.slow, "passed": bool(outcome.passed), "worst": float(outcome.worst),
                        "tolerance": float(outcome.tolerance), "detail": outcome.detail}
             except Exception:  # noqa: BLE001 - a crash is a failed check, recorded with its trace
-                row = {"entry": entry.id, "title": entry.title, "check": check.name, "reference": check.reference,
+                row = {"entry": uid, "title": title, "check": check.name, "reference": check.reference,
                        "slow": check.slow, "passed": False, "worst": float("nan"), "tolerance": float("nan"),
                        "detail": traceback.format_exc()}
             row["seconds"] = round(time.time() - t0, 2)
             failed += not row["passed"]
             results.append(row)
             mark = "pass" if row["passed"] else "FAIL"
-            print(f"{entry.id} [{mark}] {check.name} ({row['seconds']} s)", flush=True)
+            print(f"{uid} [{mark}] {check.name} ({row['seconds']} s)", flush=True)
     meta = {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "kramers": kramers.__version__, "python": platform.python_version(), "numpy": numpy.__version__,
         "scipy": scipy.__version__, "platform": platform.platform(), "slow_checks_included": slow,
-        "entries": len(kramers.entries()), "checks_run": len(results), "failed": failed,
+        "entries": len(kramers.entries()), "maps": len(atlas.maps()), "checks_run": len(results), "failed": failed,
         "seconds": round(time.time() - started, 1),
     }
     out = ROOT / "reports"
@@ -65,8 +74,9 @@ def main() -> int:
              f"Generated {meta['generated']} with kramers {meta['kramers']}, Python {meta['python']}, "
              f"NumPy {meta['numpy']}, SciPy {meta['scipy']}.", "",
              f"**{meta['checks_run'] - failed} of {meta['checks_run']} checks passed** across {meta['entries']} entries "
+             f"and {meta['maps']} validity maps "
              f"({'including' if slow else 'without'} the slow simulation checks; {meta['seconds']} s).", "",
-             "| Entry | Check | Reference | Worst | Tolerance | Result |", "|---|---|---|---|---|---|"]
+             "| Entry or map | Check | Reference | Worst | Tolerance | Result |", "|---|---|---|---|---|---|"]
     for r in results:
         lines.append(f"| {r['entry']} | {r['check']} | {r['reference']} | {r['worst']:.2e} | {r['tolerance']:.0e} | "
                      f"{'pass' if r['passed'] else '**FAIL**'} |")

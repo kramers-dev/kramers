@@ -1,10 +1,10 @@
 # Verification report
 
-Generated 2026-10-25T15:44:50+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.5.3, SciPy 1.18.1.
+Generated 2026-11-24T09:13:59+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.5.5, SciPy 1.18.1.
 
-**66 of 66 checks passed** across 30 entries (including the slow simulation checks; 311.0 s).
+**118 of 118 checks passed** across 43 entries and 5 validity maps (including the slow simulation checks; 1008.2 s).
 
-| Entry | Check | Reference | Worst | Tolerance | Result |
+| Entry or map | Check | Reference | Worst | Tolerance | Result |
 |---|---|---|---|---|---|
 | K0001 | converges to the exact decay rate like 1/barrier | smallest eigenvalue, quadrature solver | 8.61e-01 | 1e+00 | pass |
 | K0001 | the stored validity map is current | the same computation | 1.70e-03 | 1e-02 | pass |
@@ -72,5 +72,57 @@ Generated 2026-10-25T15:44:50+00:00 with kramers 0.1.0, Python 3.12.13, NumPy 2.
 | K0030 | grid and time-step convergence | the same computation with twice the cells and steps | 4.87e-06 | 1e-03 | pass |
 | K0030 | quantiles against direct simulation | Euler-Maruyama, 6,000 paths, the same escape criterion | 1.66e+00 | 4e+00 | pass |
 | K0030 | slow ramp: approaches the quasi-static median | decay rate of the frozen fold (K0008) | 2.25e-03 | 1e-02 | pass |
+| K0031 | d = 1 against the one-dimensional result | entry K0015 at distance R - a | 0.00e+00 | 1e-12 | pass |
+| K0031 | d = 3 against the renewal formula | Reuveni (2016) Eq. (7) with the elementary d = 3 transform (entry K0017) | 6.66e-16 | 1e-12 | pass |
+| K0031 | against simulation | Euler-Maruyama for the radial (Bessel) process with Poissonian resetting, 40,000 paths | 3.71e-01 | 4e+00 | pass |
+| K0032 | against the renewal formula | Reuveni (2016) Eq. (7) with the interval's Laplace transform (entry K0017) | 8.88e-16 | 1e-12 | pass |
+| K0032 | the limit without resetting | entry K0012 with zero drift | 8.45e-11 | 1e-06 | pass |
+| K0032 | against simulation | Euler-Maruyama with Poissonian resetting and crossing correction, 100,000 paths | 7.90e-01 | 4e+00 | pass |
+| K0033 | S(0) = 1/2 and the large-time law | the limits stated with Eq. (1) | 1.92e-02 | 1e+00 | pass |
+| K0033 | against event-driven simulation | exact piecewise-straight runs in d = 1, 2, 3, 200,000 particles each | 1.82e+00 | 4e+00 | pass |
+| K0034 | against the renewal formula | Reuveni (2016) Eq. (7) with the drift-diffusion transform (entry K0017) | 1.39e-09 | 1e-08 | pass |
+| K0034 | the limits V = 0 and r -> 0 | entry K0015; the quadrature solver without restart | 6.92e-04 | 1e+00 | pass |
+| K0034 | the optimal rate and the transition at Pe = 1 | numerical minimisation of the mean | 1.07e-02 | 1e+00 | pass |
+| K0034 | against simulation | Euler-Maruyama with Poissonian restart, 100,000 paths, drift towards and away | 2.07e+00 | 4e+00 | pass |
+| K0035 | against the renewal formula | Reuveni (2016) Eq. (7) with the transform of Eq. (25) (entry K0017) | 2.48e-09 | 1e-08 | pass |
+| K0035 | free diffusion | entry K0015 at beta U0 = 0 | 4.44e-16 | 1e-12 | pass |
+| K0035 | the limit without resetting | quadrature solver with the logarithmic potential | 2.40e-01 | 1e+00 | pass |
+| K0035 | the optimal rate and the transition at beta U0 = 5 | numerical minimisation; entry K0016's condition | 1.01e-02 | 1e+00 | pass |
+| K0035 | against simulation | Euler-Maruyama with the 1/x drift (attractive), and exact event-driven sampling of the Bessel hitting law with exponential resets (repulsive and weakly attractive) | 6.91e-01 | 4e+00 | pass |
+| K0036 | against the renewal formula | Reuveni (2016) Eq. (7) with the wall transform (entry K0017) | 2.22e-15 | 1e-12 | pass |
+| K0036 | no resetting, and the critical start point | quadrature solver: mean, variance, and variance = mean^2 | 6.70e-03 | 1e+00 | pass |
+| K0036 | the optimal rate | numerical minimisation of the mean | 1.93e-02 | 1e+00 | pass |
+| K0036 | against simulation | Euler-Maruyama with a reflecting wall and resetting, 100,000 paths | 1.80e+00 | 4e+00 | pass |
+| K0037 | two printed forms | Ahmad et al. Eqs. (21)-(22) and Dubey and Pal Eq. (41), evaluated as printed | 2.00e-15 | 1e-10 | pass |
+| K0037 | the limits r -> 0 and kappa -> 0 | quadrature solver without resetting; entry K0015 | 7.93e-02 | 1e+00 | pass |
+| K0037 | the transition where resetting stops helping | quadrature solver: spread = mean; both papers' printed values | 4.31e-01 | 1e+00 | pass |
+| K0037 | against simulation | Euler-Maruyama with resetting, 100,000 paths | 2.66e+00 | 4e+00 | pass |
+| K0038 | against the time-domain formula | Eq. (36) by quadrature, no transforms | 8.88e-16 | 1e-08 | pass |
+| K0038 | without a refractory period | entry K0015 | 2.22e-16 | 1e-12 | pass |
+| K0038 | against exact event-driven sampling | 200,000 paths each; exponential and fixed periods; independent and correlated cases | 7.44e-01 | 4e+00 | pass |
+| K0039 | the Brownian case and the uniform-start average | entry K0012 at alpha = 2; quadrature of Eq. (8) | 2.22e-04 | 1e+00 | pass |
+| K0039 | against simulation | alpha-stable steps by the Chambers-Mallows-Stuck method, 100,000 paths; the step bias shown falling | 1.86e-01 | 1e+00 | pass |
+| K0040 | against the general formula | Eq. (6) by quadrature with the propagator of Eq. (8) | 4.44e-16 | 1e-09 | pass |
+| K0040 | instant returns, and the optimal rate | entry K0015; numerical minimisation | 1.75e-02 | 1e+00 | pass |
+| K0040 | against simulation | Euler-Maruyama with a bridge-corrected target and timed returns home, 100,000 paths | 7.91e-01 | 4e+00 | pass |
+| K0041 | two printed forms | the Bessel series Eq. (5), acute and obtuse wedges | 1.40e-14 | 1e-10 | pass |
+| K0041 | right angle and half-plane | product of two half-line survivals; erf of the distance to a line | 2.22e-16 | 1e-11 | pass |
+| K0041 | against simulation | two-dimensional Euler-Maruyama with a bridge correction on each edge, 100,000 paths | 5.16e-01 | 4e+00 | pass |
+| K0042 | against the printed Laplace transforms | Eq. (32), with the atom for a start towards the origin | 2.22e-16 | 1e-09 | pass |
+| K0042 | total probability and the long-time tail | 1; Eq. (36) | 1.10e-01 | 1e+00 | pass |
+| K0042 | against exact event-driven simulation | piecewise-linear runs, 200,000 particles per case | 2.79e+00 | 4e+00 | pass |
+| K0043 | the hypergeometric series | mpmath's 2F1 at 30 digits | 3.66e-15 | 1e-12 | pass |
+| K0043 | limits of the decay exponent and of the transform | Eq. (90); theta = 1/2 at gamma = mu = 1; s -> 0 | 5.13e-01 | 1e+00 | pass |
+| K0043 | against exact event-driven simulation | piecewise-exponential runs, 200,000 to 400,000 particles; transform, mean and decay exponent | 1.45e+00 | 4e+00 | pass |
+| M01 | the claim follows from the stored data | the stored grid | 0.00e+00 | 0e+00 | pass |
+| M01 | the stored map is current | the same computation, at sample points | 0.00e+00 | 1e-06 | pass |
+| M02 | the claim follows from the stored data | the stored grid | 0.00e+00 | 0e+00 | pass |
+| M02 | the stored map is current | the same computation, at sample points | 0.00e+00 | 1e-06 | pass |
+| M03 | the claim follows from the stored data | the stored grid | 0.00e+00 | 0e+00 | pass |
+| M03 | the stored map is current | the same computation, at sample points | 0.00e+00 | 1e-06 | pass |
+| M04 | the claim follows from the stored data | the stored grid | 0.00e+00 | 0e+00 | pass |
+| M04 | the stored map is current | the same computation, at sample points | 0.00e+00 | 1e-06 | pass |
+| M05 | the claim follows from the stored data | the stored grid | 0.00e+00 | 0e+00 | pass |
+| M05 | the stored map is current | the same computation, at sample points | 0.00e+00 | 1e-06 | pass |
 
 The tables behind each line are in `verification.json`.

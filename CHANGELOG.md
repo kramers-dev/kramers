@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- The validity atlas (`kramers.atlas`, website section "The validity atlas"): maps of where approximate
+  entries fail, against exact computations, each stored as data in the package with a claim generated from
+  that data and two checks (the claim follows from the data; the data are current, nightly). First five
+  maps, all marked draft until the maintainer approves their claims:
+  - M01: Kramers' overdamped rate (K0001) on the cubic, quartic and cosine wells, 2 to 80 kT, against the
+    exact decay rate.
+  - M02: the weak-noise (K0006) and weak-bias (K0007) rates of the noisy saddle-node against the exact rate
+    (K0004); for -2.14 < beta/D^(2/3) < -0.84 neither is within 10%.
+  - M03: the force dependence of the Dudko-Hummer-Szabo rate (K0026), nu = 2/3 and 1/2, against exact decay
+    rates over barrier and force.
+  - M04: the Dudko-Hummer-Szabo mean and spread (K0027) and the Bell-Evans most probable force (K0029) on
+    the linear-cubic surface, against the exact quasi-static rupture-force distribution.
+  - M05: the histogram-to-rate estimator (K0025) and the standard error kramers adds to it: exact bias,
+    spread and coverage for one bin, from binomial sums. Bins where fewer than one switch is expected often
+    report a zero rate with a zero error bar.
+  `tools/build_atlas.py` computes the maps and draws the figures; entry pages link to their maps; the
+  verification report covers the maps.
 - Three entries from the open list, each with an exact cross-check and a simulation:
   K0031 (diffusion with resetting in d dimensions: mean time to reach an absorbing
   sphere; Evans and Majumdar 2014), K0032 (diffusion with resetting in an interval with

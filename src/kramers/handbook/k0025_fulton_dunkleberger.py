@@ -26,6 +26,10 @@ def histogram_to_rate(counts: ArrayLike, edges: ArrayLike, ramp_rate: float) -> 
     where it is second order in the bin width. ``stderr`` is the delta-method standard
     error from binomial counting, |dI/dt| / Delta I_k * sqrt(n_k / (N_k N_{k+1})), a
     computed addition, not in the source. Bins with no later switches give NaN.
+
+    The standard error is a large-count approximation. A bin with no switches gives a
+    rate of 0 with a standard error of 0, which says only that the rate is small; its
+    coverage, bias and spread for any count are mapped in the validity atlas (map M05).
     """
     n = np.asarray(counts, dtype=float)
     e = np.asarray(edges, dtype=float)

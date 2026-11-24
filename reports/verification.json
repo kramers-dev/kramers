@@ -1,16 +1,17 @@
 {
  "meta": {
-  "generated": "2026-10-25T15:44:50+00:00",
+  "generated": "2026-11-24T09:13:59+00:00",
   "kramers": "0.1.0",
   "python": "3.12.13",
-  "numpy": "2.5.3",
+  "numpy": "2.5.5",
   "scipy": "1.18.1",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
   "slow_checks_included": true,
-  "entries": 30,
-  "checks_run": 66,
+  "entries": 43,
+  "maps": 5,
+  "checks_run": 118,
   "failed": 0,
-  "seconds": 311.0
+  "seconds": 1008.2
  },
  "results": [
   {
@@ -59,7 +60,7 @@
    "worst": 4.3303039573006075e-06,
    "tolerance": 2e-05,
    "detail": "                                             case           entry  integral of the survival, time-dependent Fokker-Planck  rel. diff\nU = x^3/3 - x on [-2, 1], reflecting at -2, x0=-1   3.13774166692                                            3.1377446643    9.6e-07\n U = x^3/3 - x on [-2, 1], absorbing at -2, x0=-1  0.692265177428                                           0.69226817516    4.3e-06",
-   "seconds": 3.75
+   "seconds": 3.61
   },
   {
    "entry": "K0002",
@@ -71,7 +72,7 @@
    "worst": 0.09882544550241447,
    "tolerance": 1.0,
    "detail": "                  case          entry  simulation       std. error  deviation / s.e.\ndouble well, -1 to 0.8  4.90021141184  4.88740876  0.0323870329608              0.40\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 21.01
+   "seconds": 20.72
   },
   {
    "entry": "K0003",
@@ -107,7 +108,7 @@
    "worst": 1.6381207995867628,
    "tolerance": 4.0,
    "detail": "                case           entry  simulation        std. error  deviation / s.e.\ndouble well, x0=-0.3  0.224247622847     0.22085  0.00207409786112              1.64\n double well, x0=0.2  0.700534860017    0.702075  0.00228673180749              0.67",
-   "seconds": 19.71
+   "seconds": 19.31
   },
   {
    "entry": "K0004",
@@ -119,7 +120,7 @@
    "worst": 3.1530333899354446e-14,
    "tolerance": 1e-11,
    "detail": "                  case              entry  quadrature solver (independent: Green's function, entrance and exit tails)  rel. diff\n epsilon0=-3.0, g0=1.0      1931116.91526                                                               1931116.91526    6.2e-15\n epsilon0=-1.0, g0=0.5      138773.179151                                                               138773.179151    3.3e-15\n  epsilon0=0.0, g0=1.3      5.26339759153                                                               5.26339759153    8.9e-16\n  epsilon0=0.5, g0=1.0       4.0204517751                                                                4.0204517751    3.2e-14\n  epsilon0=2.0, g0=0.7       2.2189024273                                                                2.2189024273    0.0e+00\nepsilon0=-20.0, g0=2.0  5.55920578409e+25                                                           5.55920578409e+25    9.5e-15",
-   "seconds": 0.39
+   "seconds": 0.32
   },
   {
    "entry": "K0004",
@@ -155,7 +156,7 @@
    "worst": 3.26405569239796e-14,
    "tolerance": 1e-11,
    "detail": "            case          entry  quadrature solver (entrance at -inf, exit at +inf)  rel. diff\n    mean, D=0.05  13.5070885059                                       13.5070885059    2.2e-16\nvariance, D=0.05  60.8138133019                                       60.8138133019    3.1e-15\n     mean, D=1.0  4.97605395106                                       4.97605395106    2.2e-16\n variance, D=1.0  8.25370430795                                       8.25370430795    1.9e-15\n     mean, D=7.0  2.60127180521                                       2.60127180521    3.3e-14\n variance, D=7.0  2.25553833487                                       2.25553833487    4.1e-15",
-   "seconds": 0.15
+   "seconds": 0.11
   },
   {
    "entry": "K0005",
@@ -227,7 +228,7 @@
    "worst": 2.1538326677728037e-14,
    "tolerance": 1e-12,
    "detail": "  case              entry  Hermite basis, 65 digits  rel. diff\n u=0.0     0.354123244453            0.354123244453    2.2e-15\nu=0.25     0.258968042387            0.258968042387    1.7e-15\n u=0.5     0.183351383909            0.183351383909    1.1e-15\n u=1.0    0.0820749685574           0.0820749685574    1.1e-15\n u=2.0   0.00953406439313          0.00953406439313    8.9e-16\n u=4.0  1.44124933726e-05         1.44124933726e-05    3.3e-16\n u=4.5  1.95615459651e-06         1.95615459651e-06    2.7e-15\n u=8.0  7.04105074707e-14         7.04105074707e-14    2.2e-14",
-   "seconds": 0.17
+   "seconds": 0.16
   },
   {
    "entry": "K0008",
@@ -239,7 +240,7 @@
    "worst": 1.6475709685437323e-13,
    "tolerance": 1e-12,
    "detail": "  case              entry  1/T, T = pi^2 (Ai^2 + Bi^2) (K0004)  rel. diff\n u=8.0  7.04105074707e-14                    7.04105074707e-14    1.6e-13\nu=12.0  9.31493699331e-25                    9.31493699331e-25    1.7e-14\nu=20.0  2.28931620798e-52                    2.28931620798e-52    1.5e-14",
-   "seconds": 0.08
+   "seconds": 0.07
   },
   {
    "entry": "K0008",
@@ -251,7 +252,7 @@
    "worst": 9.212597753549545e-07,
    "tolerance": 0.002,
    "detail": " case            entry  slope of log-survival, time-dependent Fokker-Planck  rel. diff\nu=0.0   0.354123244453                                       0.354122918214    9.2e-07\nu=1.0  0.0820749685574                                      0.0820749213602    5.8e-07",
-   "seconds": 1.59
+   "seconds": 1.31
   },
   {
    "entry": "K0009",
@@ -263,7 +264,7 @@
    "worst": 1.4099832412739488e-14,
    "tolerance": 1e-10,
    "detail": "                          case              entry  quadrature solver, passage -inf to +inf  rel. diff\nmu=-1.0, sigma=1.0, tau_m=10.0   0.00190226769129                         0.00190226769129    1.2e-15\n  mu=0.0, sigma=0.5, tau_m=1.0     0.100481225669                           0.100481225669    6.7e-15\n  mu=0.7, sigma=2.0, tau_m=5.0    0.0667233314854                          0.0667233314854    1.4e-14\n mu=-3.0, sigma=1.5, tau_m=2.0  0.000550677830656                        0.000550677830656    0.0e+00",
-   "seconds": 0.25
+   "seconds": 0.16
   },
   {
    "entry": "K0009",
@@ -311,7 +312,7 @@
    "worst": 0.5957552797083849,
    "tolerance": 4.0,
    "detail": "                         case          entry  simulation      std. error  deviation / s.e.\nmean interspike interval (ms)  103.699308783  104.063437  0.611204348022              0.60",
-   "seconds": 14.77
+   "seconds": 7.87
   },
   {
    "entry": "K0011",
@@ -323,7 +324,7 @@
    "worst": 1.9984014443252818e-15,
    "tolerance": 1e-09,
    "detail": "                             case          entry  Eq. (A.4) evaluated directly  rel. diff\nbeta=-0.4, D=0.5, x-=-1.5, x+=2.0  70.9131664566                 70.9131664566    1.2e-15\n beta=0.3, D=1.0, x-=-2.0, x+=1.5  3.69118956386                 3.69118956386    4.4e-16\nbeta=-1.0, D=0.3, x-=-1.2, x+=3.0  83124.7290727                 83124.7290727    2.0e-15",
-   "seconds": 0.08
+   "seconds": 0.07
   },
   {
    "entry": "K0011",
@@ -347,7 +348,7 @@
    "worst": 1.6653345369377348e-14,
    "tolerance": 1e-09,
    "detail": "                        case            entry  quadrature solver  rel. diff\n       p_right, x=0.5, v=1.0   0.455054233923     0.455054233923    0.0e+00\n          mean, x=0.5, v=1.0   0.410108467847     0.410108467847    2.2e-16\n  mean | right, x=0.5, v=1.0   0.584576488462     0.584576488462    6.7e-16\n   mean | left, x=0.5, v=1.0   0.264419820632     0.264419820632    4.4e-16\n       p_right, x=1.0, v=1.0    0.73105857863      0.73105857863    2.2e-16\n          mean, x=1.0, v=1.0    0.46211715726      0.46211715726    2.2e-16\n  mean | right, x=1.0, v=1.0    0.46211715726      0.46211715726    6.7e-16\n   mean | left, x=1.0, v=1.0    0.46211715726      0.46211715726    6.7e-16\n      p_right, x=0.3, v=-4.0   0.003363529427     0.003363529427    2.2e-16\n         mean, x=0.3, v=-4.0  0.0741591176432    0.0741591176432    4.4e-16\n mean | right, x=0.3, v=-4.0   0.160202471786     0.160202471786    4.4e-16\n  mean | left, x=0.3, v=-4.0  0.0738687315675    0.0738687315675    2.2e-16\n     p_right, x=0.7, v=1e-07     0.7000000105       0.7000000105    1.1e-16\n        mean, x=0.7, v=1e-07     0.1049999993       0.1049999993    2.2e-16\nmean | right, x=0.7, v=1e-07            0.085              0.085    8.9e-16\n mean | left, x=0.7, v=1e-07   0.151666666667     0.151666666667    1.6e-15\n      p_right, x=0.2, v=25.0   0.993262053001     0.993262053001    1.6e-14\n         mean, x=0.2, v=25.0    0.11119144636      0.11119144636    1.7e-14\n mean | right, x=0.2, v=25.0   0.111891461521     0.111891461521    2.9e-15\n  mean | left, x=0.2, v=25.0            0.008              0.008    1.6e-14",
-   "seconds": 4.01
+   "seconds": 2.36
   },
   {
    "entry": "K0012",
@@ -395,7 +396,7 @@
    "worst": 1.2219034222514934e-06,
    "tolerance": 0.002,
    "detail": "                                 case              entry  0 (time-dependent Fokker-Planck at +v and -v)  abs. diff\n left end, max |f(v) - f(-v)| / max f  1.22190342225e-06                                              0    1.2e-06\nright end, max |f(v) - f(-v)| / max f  6.71678354477e-07                                              0    6.7e-07",
-   "seconds": 1.33
+   "seconds": 1.22
   },
   {
    "entry": "K0013",
@@ -407,7 +408,7 @@
    "worst": 0.001478625993809472,
    "tolerance": 1.0,
    "detail": "                                    case              entry  0 (Dagdug and Berezhkovskii, Eq. 1)  abs. diff\nmidpoint: max |f_left - f_right| / max f  2.95725198762e-06                                    0    3.0e-06\n\n                                                     case  entry  1 = yes  abs. diff\nstart at 0.3: the two ends must differ (difference > 0.1)      1        1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
-   "seconds": 1.23
+   "seconds": 1.21
   },
   {
    "entry": "K0014",
@@ -431,7 +432,7 @@
    "worst": 1.7187540295616655,
    "tolerance": 4.0,
    "detail": "           case  entry   simulation         std. error  deviation / s.e.\nd=3, r=0.5, R=1  0.125  0.126257415  0.000731585193908              1.72",
-   "seconds": 4.42
+   "seconds": 3.77
   },
   {
    "entry": "K0015",
@@ -455,7 +456,7 @@
    "worst": 0.6417936331580117,
    "tolerance": 4.0,
    "detail": "              case          entry  simulation        std. error  deviation / s.e.\nx0=1.0, r=1.0, D=1  1.71828182846  1.71211918  0.00960222747696              0.64\nx0=1.0, r=2.5, D=1  1.54419517218  1.54692354  0.00774451217843              0.35",
-   "seconds": 29.44
+   "seconds": 27.95
   },
   {
    "entry": "K0016",
@@ -503,7 +504,7 @@
    "worst": 3.1748971934919545e-05,
    "tolerance": 0.0001,
    "detail": "              case           entry  formula with the closed-form transform  rel. diff\n      T~(r) itself  0.507279504024                          0.507271568336    1.6e-05\nmean under restart   1.21412478739                           1.21416333583    3.2e-05",
-   "seconds": 3.31
+   "seconds": 3.27
   },
   {
    "entry": "K0017",
@@ -515,7 +516,7 @@
    "worst": 0.5001921942407208,
    "tolerance": 4.0,
    "detail": "         case          entry    simulation        std. error  deviation / s.e.\n         mean  1.44821815353   1.443987975  0.00845710624402              0.50\nsecond moment  4.94797946148  4.9459355902   0.0677675858352              0.03",
-   "seconds": 13.56
+   "seconds": 13.27
   },
   {
    "entry": "K0018",
@@ -551,7 +552,7 @@
    "worst": 0.6039384902664134,
    "tolerance": 4.0,
    "detail": "              case          entry   simulation        std. error  deviation / s.e.\nx0=1.0, period=0.8   1.4241506051  1.428440595  0.00710335566355              0.60\nx0=1.0, period=2.0  1.88217447494  1.878280175   0.0103070586224              0.38",
-   "seconds": 23.32
+   "seconds": 22.48
   },
   {
    "entry": "K0020",
@@ -575,7 +576,7 @@
    "worst": 1.122128702765322,
    "tolerance": 4.5,
    "detail": "                      case           entry  simulation         std. error  deviation / s.e.\n             Gaussian, n=1             0.5    0.499865     0.001118033948              0.12\n             Gaussian, n=4       0.2734375     0.27292  0.000996078996867              0.52\n            Gaussian, n=12  0.161180257797     0.16102  0.000821865437891              0.19\n              uniform, n=1             0.5    0.501025   0.00111803163948              0.92\n              uniform, n=4       0.2734375    0.273585  0.000996835612764              0.15\n             uniform, n=12  0.161180257797    0.162105  0.000824096380817              1.12\n Cauchy (Levy flight), n=1             0.5    0.500875   0.00111803227676              0.78\n Cauchy (Levy flight), n=4       0.2734375    0.274155  0.000997481919573              0.72\nCauchy (Levy flight), n=12  0.161180257797    0.162005  0.000823891315572              1.00\n              Laplace, n=1             0.5    0.499295   0.00111803287737              0.63\n              Laplace, n=4       0.2734375     0.27321  0.000996409293162              0.23\n             Laplace, n=12  0.161180257797    0.161425  0.000822699730689              0.30",
-   "seconds": 0.26
+   "seconds": 0.22
   },
   {
    "entry": "K0021",
@@ -587,7 +588,7 @@
    "worst": 4.440892098500626e-16,
    "tolerance": 1e-12,
    "detail": "       case           entry  F / eta = D0 F / kT  rel. diff\n V=0, F=0.2  0.107692307692       0.107692307692    2.2e-16\n V=0, F=3.0   1.61538461538        1.61538461538    0.0e+00\nV=0, F=-2.0  -1.07692307692       -1.07692307692    4.4e-16",
-   "seconds": 0.01
+   "seconds": 0.0
   },
   {
    "entry": "K0021",
@@ -599,7 +600,7 @@
    "worst": 5.551115123125783e-16,
    "tolerance": 1e-09,
    "detail": "                     case            entry  L / mean time over one period (quadrature solver)  rel. diff\nV = 2.0 cos 2 pi x, F=1.0   0.196957959002                                     0.196957959002    3.3e-16\nV = 4.0 cos 2 pi x, F=3.0  0.0311468889661                                    0.0311468889661    5.6e-16\nV = 1.0 cos 2 pi x, F=0.5    0.31270315489                                      0.31270315489    0.0e+00",
-   "seconds": 0.08
+   "seconds": 0.07
   },
   {
    "entry": "K0022",
@@ -635,7 +636,7 @@
    "worst": 0.584731270882603,
    "tolerance": 4.0,
    "detail": "                    case          entry     simulation        std. error  deviation / s.e.\n L=1.0, v=1.0, alpha=2.0              2  1.99809331593  0.00446456845592              0.43\n L=2.0, v=0.5, alpha=0.3            6.4   6.4009699471   0.0129873956463              0.07\nL=1.0, v=3.0, alpha=20.0  1.44444444444  1.44234024679   0.0035985721265              0.58",
-   "seconds": 0.23
+   "seconds": 0.2
   },
   {
    "entry": "K0024",
@@ -659,7 +660,7 @@
    "worst": 2.631228568361621e-14,
    "tolerance": 1e-06,
    "detail": "              case              entry  Dudko, Hummer and Szabo (2006), Eq. (4)  rel. diff\nnu=0.667, F=0.5 Fc    0.0262851110211                          0.0262851110211    4.4e-16\nnu=0.667, F=0.7 Fc    0.0106566166384                          0.0106566166384    5.0e-15\nnu=0.500, F=0.5 Fc    0.0721868830615                          0.0721868830615    4.4e-16\nnu=0.500, F=0.7 Fc  4.72033976162e-09                        4.72033976162e-09    2.6e-14",
-   "seconds": 0.11
+   "seconds": 0.1
   },
   {
    "entry": "K0024",
@@ -671,7 +672,7 @@
    "worst": 4.785739582402471e-10,
    "tolerance": 1e-09,
    "detail": "    case          entry  Gumbel law (exact for an exponential rate)  rel. diff\n    mean  18.9376638157                               18.9376638157    1.0e-12\nvariance  0.80601769237                              0.806017692756    4.8e-10",
-   "seconds": 0.06
+   "seconds": 0.05
   },
   {
    "entry": "K0025",
@@ -755,7 +756,7 @@
    "worst": 0.0,
    "tolerance": 0.0002,
    "detail": "                         case          entry  mode of the exact density (K0024)  rel. diff\n   k0=0.001, x=0.5, rate=20.0   18.420680744                       18.420680744    0.0e+00\nk0=1e-06, x=0.2, rate=10000.0  107.082065088                      107.082065088    0.0e+00\n      k0=0.1, x=1.0, rate=1.0  2.30258509299                      2.30258509299    0.0e+00",
-   "seconds": 1.6
+   "seconds": 1.58
   },
   {
    "entry": "K0029",
@@ -779,7 +780,7 @@
    "worst": 4.870769790166207e-06,
    "tolerance": 0.001,
    "detail": "                        case             entry  twice the cells and twice the time steps  abs. diff\nu at 0.1 escaped, sigma=0.02     2.14641681948                             2.14641194871    4.9e-06\nu at 0.5 escaped, sigma=0.02     1.43938344446                             1.43938289055    5.5e-07\nu at 0.9 escaped, sigma=0.02    0.900519847338                            0.900521600767    1.8e-06\n u at 0.1 escaped, sigma=0.1     1.46278035099                             1.46277862721    1.7e-06\n u at 0.5 escaped, sigma=0.1    0.609335724743                            0.609336994555    1.3e-06\n u at 0.9 escaped, sigma=0.1  -0.0878483208736                          -0.0878480734675    2.5e-07\n u at 0.1 escaped, sigma=0.3    0.781739299497                            0.781740257516    9.6e-07\n u at 0.5 escaped, sigma=0.3   -0.218683903511                            -0.21868048711    3.4e-06\n u at 0.9 escaped, sigma=0.3    -1.07928517829                            -1.07928133628    3.8e-06",
-   "seconds": 49.7
+   "seconds": 47.63
   },
   {
    "entry": "K0030",
@@ -791,7 +792,7 @@
    "worst": 1.6627652731938671,
    "tolerance": 4.0,
    "detail": "                        case           entry      simulation        std. error  deviation / s.e.\nu at 0.25 escaped, sigma=0.1   1.03559277409   1.05464999999   0.0136000000001              1.40\nu at 0.50 escaped, sigma=0.1  0.609335724743  0.615099999988  0.00825000000004              0.70\nu at 0.75 escaped, sigma=0.1    0.2263833569  0.240599999986  0.00855000000004              1.66",
-   "seconds": 26.64
+   "seconds": 26.87
   },
   {
    "entry": "K0030",
@@ -803,7 +804,631 @@
    "worst": 0.0022535564721928303,
    "tolerance": 0.01,
    "detail": "                 case          entry  quasi-static median from the decay rate (K0008)  abs. diff\nmedian u, sigma=0.002  2.30816421463                                     2.3104177711    2.3e-03",
-   "seconds": 88.02
+   "seconds": 72.62
+  },
+  {
+   "entry": "K0031",
+   "title": "Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere",
+   "check": "d = 1 against the one-dimensional result",
+   "reference": "entry K0015 at distance R - a",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-12,
+   "detail": "                       case           entry  K0015 at distance R - a  rel. diff\n R=1.0, a=0.5, r=2.0, D=1.0  0.514057490824           0.514057490824    0.0e+00\nR=3.0, a=0.2, r=0.05, D=0.7   22.2694139867            22.2694139867    0.0e+00\n R=1.5, a=0.0, r=9.0, D=0.3   410.897343552            410.897343552    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0031",
+   "title": "Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere",
+   "check": "d = 3 against the renewal formula",
+   "reference": "Reuveni (2016) Eq. (7) with the elementary d = 3 transform (entry K0017)",
+   "slow": false,
+   "passed": true,
+   "worst": 6.661338147750939e-16,
+   "tolerance": 1e-12,
+   "detail": "                       case              entry  renewal formula with the elementary d = 3 transform  rel. diff\n R=1.0, a=0.5, r=2.0, D=1.0      1.52811498165                                        1.52811498165    3.3e-16\n R=4.0, a=1.0, r=0.3, D=2.0      39.2797859094                                        39.2797859094    2.2e-16\nR=1.2, a=1.0, r=50.0, D=0.1      2.08104429901                                        2.08104429901    6.7e-16\nR=30.0, a=0.1, r=1.0, D=1.0  2.90085662048e+15                                    2.90085662048e+15    2.2e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0031",
+   "title": "Diffusion with resetting in d dimensions: mean time to reach an absorbing sphere",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama for the radial (Bessel) process with Poissonian resetting, 40,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 0.3705604887349465,
+   "tolerance": 4.0,
+   "detail": "                       case           entry   simulation        std. error  deviation / s.e.\nd=2, R=1, a=0.5, r=2.0, D=1  0.865526227851  0.866173715  0.00530244760434              0.12\nd=3, R=1, a=0.5, r=2.0, D=1   1.52811498165  1.531385405  0.00882561269238              0.37\nd=3, R=1, a=0.5, r=8.0, D=1  0.903312594696    0.9019202  0.00460603732115              0.30",
+   "seconds": 29.48
+  },
+  {
+   "entry": "K0032",
+   "title": "Diffusion with resetting in an interval: mean exit time through either end",
+   "check": "against the renewal formula",
+   "reference": "Reuveni (2016) Eq. (7) with the interval's Laplace transform (entry K0017)",
+   "slow": false,
+   "passed": true,
+   "worst": 8.881784197001252e-16,
+   "tolerance": 1e-12,
+   "detail": "                              case            entry  Reuveni (2016) Eq. (7) with the interval transform  rel. diff\n x0=0.3, (-0.5, 1.2), r=0.5, D=0.5   0.763606555931                                      0.763606555931    4.4e-16\n x0=0.3, (-0.5, 1.2), r=3.0, D=0.5    1.01416410285                                       1.01416410285    2.2e-16\n x0=0.9, (0.0, 1.0), r=20.0, D=1.0  0.0269409537067                                     0.0269409537067    8.9e-16\nx0=2.0, (0.0, 10.0), r=0.01, D=0.3     25.362549551                                        25.362549551    2.2e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0032",
+   "title": "Diffusion with resetting in an interval: mean exit time through either end",
+   "check": "the limit without resetting",
+   "reference": "entry K0012 with zero drift",
+   "slow": false,
+   "passed": true,
+   "worst": 8.452638589062644e-11,
+   "tolerance": 1e-06,
+   "detail": "                              case            entry  K0012 without resetting  rel. diff\nx0=0.3, (-0.5, 1.2), D=0.7, r=1e-9   0.514285714329           0.514285714286    8.5e-11\n x0=0.1, (0.0, 1.0), D=2.0, r=1e-9  0.0224999999995                   0.0225    2.3e-11",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0032",
+   "title": "Diffusion with resetting in an interval: mean exit time through either end",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with Poissonian resetting and crossing correction, 100,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 0.7904714642834462,
+   "tolerance": 4.0,
+   "detail": "                             case           entry   simulation        std. error  deviation / s.e.\nx0=0.3, (-0.5, 1.2), r=0.5, D=0.5  0.763606555931  0.762023838  0.00200224549801              0.79\nx0=0.3, (-0.5, 1.2), r=3.0, D=0.5   1.01416410285  1.013587128  0.00282095716164              0.20",
+   "seconds": 48.32
+  },
+  {
+   "entry": "K0033",
+   "title": "Run-and-tumble particle in d dimensions: universal survival probability",
+   "check": "S(0) = 1/2 and the large-time law",
+   "reference": "the limits stated with Eq. (1)",
+   "slow": false,
+   "passed": true,
+   "worst": 0.019231324017821017,
+   "tolerance": 1.0,
+   "detail": "case  entry  1/2  rel. diff\nS(0)    0.5  0.5    0.0e+00\n\n           case             entry  1/sqrt(pi gamma t)  rel. diff\ngamma t = 13000  0.00494817482482     0.0049482699866    1.9e-05\ngamma t = 20000  0.00398937293529    0.00398942280401    1.3e-05\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0033",
+   "title": "Run-and-tumble particle in d dimensions: universal survival probability",
+   "check": "against event-driven simulation",
+   "reference": "exact piecewise-straight runs in d = 1, 2, 3, 200,000 particles each",
+   "slow": true,
+   "passed": true,
+   "worst": 1.8227895838352226,
+   "tolerance": 4.0,
+   "detail": "       case           entry  event-driven simulation         std. error  deviation / s.e.\n d=1, t=0.5   0.43035031752                 0.430615   0.00110721660432              0.24\n d=1, t=1.0  0.378722286762                  0.37909   0.00108485199889              0.34\n d=1, t=5.0  0.212131406546                 0.211215  0.000912697167123              1.00\nd=1, t=20.0  0.109566616531                 0.108915  0.000696607934117              0.94\n d=2, t=0.5   0.43035031752                  0.43013   0.00110706409729              0.20\n d=2, t=1.0  0.378722286762                  0.37793    0.0010842022761              0.73\n d=2, t=5.0  0.212131406546                 0.212145  0.000914164916673              0.01\nd=2, t=20.0  0.109566616531                 0.108545  0.000695568051937              1.47\n d=3, t=0.5   0.43035031752                  0.43044   0.00110716170093              0.08\n d=3, t=1.0  0.378722286762                   0.3787   0.00108463429321              0.02\n d=3, t=5.0  0.212131406546                  0.21218  0.000914220016189              0.05\nd=3, t=20.0  0.109566616531                   0.1083  0.000694878082832              1.82",
+   "seconds": 0.26
+  },
+  {
+   "entry": "K0034",
+   "title": "Drift-diffusion to a target under restart: mean, spread and the Peclet transition",
+   "check": "against the renewal formula",
+   "reference": "Reuveni (2016) Eq. (7) with the drift-diffusion transform (entry K0017)",
+   "slow": false,
+   "passed": true,
+   "worst": 1.3923906472257386e-09,
+   "tolerance": 1e-08,
+   "detail": "                                      case           entry  Reuveni (2016) Eq. (7) with the drift-diffusion transform (entry K0017)  rel. diff\n          mean, L=1.0, V=0.5, D=1.0, r=0.7   1.23558482251                                                            1.23558482251    0.0e+00\n second moment, L=1.0, V=0.5, D=1.0, r=0.7   3.53259919384                                                            3.53259919383    6.1e-13\n         mean, L=1.0, V=-0.8, D=0.5, r=2.0   9.09189760181                                                            9.09189760181    0.0e+00\nsecond moment, L=1.0, V=-0.8, D=0.5, r=2.0   165.511248261                                                            165.511248261    3.4e-14\n          mean, L=2.0, V=3.0, D=0.3, r=0.1  0.687031603062                                                           0.687031603062    1.2e-14\n second moment, L=2.0, V=3.0, D=0.3, r=0.1  0.529337749219                                                           0.529337748482    1.4e-09\n          mean, L=1.0, V=0.0, D=1.0, r=1.3   1.63639763612                                                            1.63639763612    0.0e+00\n second moment, L=1.0, V=0.0, D=1.0, r=1.3   5.76325358738                                                            5.76325358738    2.3e-13",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0034",
+   "title": "Drift-diffusion to a target under restart: mean, spread and the Peclet transition",
+   "check": "the limits V = 0 and r -> 0",
+   "reference": "entry K0015; the quadrature solver without restart",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0006916666572820417,
+   "tolerance": 1.0,
+   "detail": "                      case           entry     entry K0015  rel. diff\nV = 0, L=1.3, D=0.7, r=0.9   3.74103915432   3.74103915432    0.0e+00\nV = 0, L=0.4, D=2.0, r=5.0  0.176445355496  0.176445355496    0.0e+00\n\n                             case           entry    r -> 0 limit  rel. diff\nmean, L=1.0, V=0.5, D=1.0, r=1e-9     1.999999994               2    3.0e-09\n std, L=1.0, V=0.5, D=1.0, r=1e-9   3.99999997233               4    6.9e-09\nmean, L=2.0, V=1.7, D=0.4, r=1e-9   1.17647058876   1.17647058824    4.5e-10\n std, L=2.0, V=1.7, D=0.4, r=1e-9  0.570672059562  0.570672058909    1.1e-09\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.02
+  },
+  {
+   "entry": "K0034",
+   "title": "Drift-diffusion to a target under restart: mean, spread and the Peclet transition",
+   "check": "the optimal rate and the transition at Pe = 1",
+   "reference": "numerical minimisation of the mean",
+   "slow": false,
+   "passed": true,
+   "worst": 0.010681144191337921,
+   "tolerance": 1.0,
+   "detail": "     case           entry  numerical minimum of the mean  rel. diff\n   Pe = 0   2.53963828219                  2.53963827587    2.5e-09\n Pe = 0.2   2.09217695835                  2.09217695835    0.0e+00\nPe = 0.25  0.988272072044                 0.988272061489    1.1e-08\nPe = -0.5   3.57706140435                  3.57706140546    3.1e-10\n\n                           case  entry  expected  rel. diff\n    Pe = 1.5: optimal rate is 0      1         1    0.0e+00\nPe = 1.5: mean increases with r      1         1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0034",
+   "title": "Drift-diffusion to a target under restart: mean, spread and the Peclet transition",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with Poissonian restart, 100,000 paths, drift towards and away",
+   "slow": true,
+   "passed": true,
+   "worst": 2.0659132992443805,
+   "tolerance": 4.0,
+   "detail": "                 case          entry     simulation        std. error  deviation / s.e.\n          mean, V=0.5  1.23558482251    1.228017554  0.00445726382909              1.70\n second moment, V=0.5  3.53259919384  3.49472732994   0.0303021799759              1.25\n         mean, V=-0.8  3.95868796059    3.934751002   0.0144122092897              1.66\nsecond moment, V=-0.8  36.8437265699  36.2532353971    0.285825728057              2.07",
+   "seconds": 103.52
+  },
+  {
+   "entry": "K0035",
+   "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+   "check": "against the renewal formula",
+   "reference": "Reuveni (2016) Eq. (7) with the transform of Eq. (25) (entry K0017)",
+   "slow": false,
+   "passed": true,
+   "worst": 2.4843254120554548e-09,
+   "tolerance": 1e-08,
+   "detail": "                         case           entry  Reuveni (2016) Eq. (7) with the transform of Eq. (25) (entry K0017)  rel. diff\n         mean, nu=0.25, r=0.5   14.2495847641                                                        14.2495847641    0.0e+00\nsecond moment, nu=0.25, r=0.5   410.379248378                                                        410.379248378    1.8e-13\n          mean, nu=1.5, r=0.3   1.42383176446                                                        1.42383176446    2.2e-16\n second moment, nu=1.5, r=0.3   4.46584215235                                                        4.46584215242    1.6e-11\n          mean, nu=2.5, r=1.0  0.705166792061                                                       0.705166792061    2.2e-16\n second moment, nu=2.5, r=1.0  0.830853877624                                                       0.830853877616    1.0e-11\n          mean, nu=4.0, r=0.2  0.339174574372                                                       0.339174574372    1.1e-16\n second moment, nu=4.0, r=0.2  0.169258942894                                                       0.169258942473    2.5e-09",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0035",
+   "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+   "check": "free diffusion",
+   "reference": "entry K0015 at beta U0 = 0",
+   "slow": false,
+   "passed": true,
+   "worst": 4.440892098500626e-16,
+   "tolerance": 1e-12,
+   "detail": "                             case          entry    entry K0015  rel. diff\nbeta U0 = 0, x0=2.0, D=1.0, r=0.8  6.22824346341  6.22824346341    4.4e-16\nbeta U0 = 0, x0=0.7, D=0.3, r=3.0   2.7161801781   2.7161801781    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0035",
+   "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+   "check": "the limit without resetting",
+   "reference": "quadrature solver with the logarithmic potential",
+   "slow": false,
+   "passed": true,
+   "worst": 0.23974973117901754,
+   "tolerance": 1.0,
+   "detail": "                  case           entry  quadrature solver without resetting  rel. diff\nbeta U0 = 4, r = 1e-10  0.666666666644                       0.666666666667    3.3e-11\nbeta U0 = 6, r = 1e-10  0.400000000003                                  0.4    6.7e-12\nbeta U0 = 9, r = 1e-10  0.250000000002                                 0.25    8.3e-12\n\n                           case           entry  the other evaluation  rel. diff\nmean at y = 0.5, beta U0 = -0.5   26.7141479781         26.7141480275    1.8e-09\n std at y = 0.5, beta U0 = -0.5   33.2993986915         33.2993987713    2.4e-09\n mean at y = 0.5, beta U0 = 0.0   10.3795403236         10.3795403388    1.5e-09\n  std at y = 0.5, beta U0 = 0.0   15.1275848998         15.1275849352    2.3e-09\n mean at y = 0.5, beta U0 = 2.0   1.58636022056         1.58636022104    3.0e-10\n  std at y = 0.5, beta U0 = 2.0   2.52648079719         2.52648080052    1.3e-09\n mean at y = 0.5, beta U0 = 4.0  0.660762314437         0.66076231445    1.9e-11\n  std at y = 0.5, beta U0 = 4.0  0.732002355415        0.732002355717    4.1e-10\n mean at y = 0.5, beta U0 = 7.0  0.335101463787         0.33510146378    2.1e-11\n  std at y = 0.5, beta U0 = 7.0  0.234039192519        0.234039192523    2.0e-11\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.06
+  },
+  {
+   "entry": "K0035",
+   "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+   "check": "the optimal rate and the transition at beta U0 = 5",
+   "reference": "numerical minimisation; entry K0016's condition",
+   "slow": false,
+   "passed": true,
+   "worst": 0.010065348110543937,
+   "tolerance": 1.0,
+   "detail": "       case           entry  z/2 = 1 - e^-z  rel. diff\nbeta U0 = 0  0.634909576938  0.634909570547    1.0e-08\n\n                                  case  entry  the CV = 1 criterion  rel. diff\nbeta U0 = 4.5: mean falls with small r     -1                    -1    0.0e+00\nbeta U0 = 5.5: mean rises with small r      1                     1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.01
+  },
+  {
+   "entry": "K0035",
+   "title": "Resetting in a logarithmic potential: mean and spread of the time to the origin",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with the 1/x drift (attractive), and exact event-driven sampling of the Bessel hitting law with exponential resets (repulsive and weakly attractive)",
+   "slow": true,
+   "passed": true,
+   "worst": 0.6914675618009943,
+   "tolerance": 4.0,
+   "detail": "                                       case            entry       simulation         std. error  deviation / s.e.\n                Langevin, mean, beta U0 = 4   0.164977926482      0.165030521  0.000488961736805              0.11\n       Langevin, second moment, beta U0 = 4  0.0515404492799  0.0511431917839  0.000581616115781              0.68\n         event-driven, mean, beta U0 = -0.5    4.00487922737    4.00817032311   0.00948666700948              0.35\nevent-driven, second moment, beta U0 = -0.5    34.0949442358     34.064709532     0.179969937774              0.17\n          event-driven, mean, beta U0 = 2.5   0.283352101192   0.282961219789  0.000694933629394              0.56\n event-driven, second moment, beta U0 = 2.5   0.177696324466   0.176653118824   0.00150868341359              0.69",
+   "seconds": 7.08
+  },
+  {
+   "entry": "K0036",
+   "title": "Resetting between an absorbing end and a reflecting wall: mean time and the critical start point",
+   "check": "against the renewal formula",
+   "reference": "Reuveni (2016) Eq. (7) with the wall transform (entry K0017)",
+   "slow": false,
+   "passed": true,
+   "worst": 2.220446049250313e-15,
+   "tolerance": 1e-12,
+   "detail": "                        case           entry  Reuveni (2016) Eq. (7) with the wall transform (entry K0017)  rel. diff\n x0=0.5, L=1.0, D=0.5, r=0.5  0.736866092885                                                0.736866092885    1.1e-16\n x0=0.5, L=1.0, D=0.5, r=3.0  0.718723416744                                                0.718723416744    4.4e-16\nx0=0.2, L=1.5, D=1.0, r=0.05  0.273003656881                                                0.273003656881    2.2e-15\n x0=0.9, L=1.0, D=2.0, r=7.0  0.323786422222                                                0.323786422222    2.2e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0036",
+   "title": "Resetting between an absorbing end and a reflecting wall: mean time and the critical start point",
+   "check": "no resetting, and the critical start point",
+   "reference": "quadrature solver: mean, variance, and variance = mean^2",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0066983307789314495,
+   "tolerance": 1.0,
+   "detail": "                        case           entry  quadrature solver without resetting  rel. diff\nr -> 0, x0=0.5, L=1.0, D=0.5  0.749999999997                                 0.75    4.2e-12\nr -> 0, x0=0.3, L=2.0, D=1.3  0.426923076894                       0.426923076923    6.7e-11\n\n               case         entry  variance = mean^2, quadrature  rel. diff\ncritical start x0/L  0.5527864045                   0.5527864045    2.7e-15\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.06
+  },
+  {
+   "entry": "K0036",
+   "title": "Resetting between an absorbing end and a reflecting wall: mean time and the critical start point",
+   "check": "the optimal rate",
+   "reference": "numerical minimisation of the mean",
+   "slow": false,
+   "passed": true,
+   "worst": 0.019283146412973906,
+   "tolerance": 1.0,
+   "detail": "                case          entry  numerical minimum of the mean  rel. diff\nx0=0.5, L=1.0, D=1.0  5.06568038092                  5.06568042408    8.5e-09\nx0=0.2, L=1.0, D=0.5   31.743043927                  31.7430445391    1.9e-08\nx0=1.0, L=3.0, D=2.0  4.95495976611                  4.95495976499    2.3e-10\n\n                                            case  entry  expected  rel. diff\nx0/L = 0.6 > 1 - 1/sqrt 5: mean increases with r      1         1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0036",
+   "title": "Resetting between an absorbing end and a reflecting wall: mean time and the critical start point",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with a reflecting wall and resetting, 100,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 1.7961865592186796,
+   "tolerance": 4.0,
+   "detail": "                       case           entry   simulation        std. error  deviation / s.e.\nx0=0.5, L=1.0, D=0.5, r=0.5  0.736866092885  0.735069248  0.00241383640913              0.74\nx0=0.5, L=1.0, D=0.5, r=3.0  0.718723416744  0.722798491  0.00226873663837              1.80",
+   "seconds": 63.13
+  },
+  {
+   "entry": "K0037",
+   "title": "Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate",
+   "check": "two printed forms",
+   "reference": "Ahmad et al. Eqs. (21)-(22) and Dubey and Pal Eq. (41), evaluated as printed",
+   "slow": false,
+   "passed": true,
+   "worst": 1.9984014443252818e-15,
+   "tolerance": 1e-10,
+   "detail": "                                        case           entry  the printed closed forms  rel. diff\n  Ahmad Eqs. (21)-(22), x0=2.5, k=0.1, r=0.3   5.34639738846             5.34639738846    2.2e-16\nDubey-Pal Eq. (41), x0=2.5, kappa=0.2, r=0.3   5.34639738846             5.34639738846    2.0e-15\n  Ahmad Eqs. (21)-(22), x0=1.0, k=0.5, r=1.0  0.911473602931            0.911473602931    4.4e-16\nDubey-Pal Eq. (41), x0=1.0, kappa=1.0, r=1.0  0.911473602931            0.911473602931    4.4e-16\n  Ahmad Eqs. (21)-(22), x0=0.5, k=1.0, r=4.0  0.300226139468            0.300226139468    1.3e-15\nDubey-Pal Eq. (41), x0=0.5, kappa=2.0, r=4.0  0.300226139468            0.300226139468    5.6e-16\n            Ahmad, x0=0.5, k=0.3, D=0.5, r=2  0.685982711123            0.685982711123    1.9e-15",
+   "seconds": 0.01
+  },
+  {
+   "entry": "K0037",
+   "title": "Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate",
+   "check": "the limits r -> 0 and kappa -> 0",
+   "reference": "quadrature solver without resetting; entry K0015",
+   "slow": false,
+   "passed": true,
+   "worst": 0.07926516748524293,
+   "tolerance": 1.0,
+   "detail": "                             case           entry  quadrature solver without resetting  rel. diff\n r -> 0, x0=1.0, kappa=1.0, D=1.0  0.901907994051                       0.901908012653    2.1e-08\nr -> 0, x0=2.5, kappa=0.35, D=1.0   3.37562000254                        3.37561941417    1.7e-07\n r -> 0, x0=0.5, kappa=0.6, D=0.5  0.940971927791                        0.94097217628    2.6e-07\n\n                              case          entry     entry K0015  rel. diff\nkappa = 1e-6, x0=1.0, D=1.0, r=1.0  1.71828046646   1.71828182846    7.9e-07\nkappa = 1e-6, x0=0.4, D=0.3, r=2.0  0.90445329955  0.904453667526    4.1e-07\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.02
+  },
+  {
+   "entry": "K0037",
+   "title": "Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate",
+   "check": "the transition where resetting stops helping",
+   "reference": "quadrature solver: spread = mean; both papers' printed values",
+   "slow": false,
+   "passed": true,
+   "worst": 0.4307182562279798,
+   "tolerance": 1.0,
+   "detail": "                                           case        entry     printed k*  rel. diff\nz_c against Dubey and Pal (printed to 6 digits)  1.045520245  1.04551123858    8.6e-06\n\n                               case           entry  printed K_c  rel. diff\nz_c against Ahmad et al. (4 digits)  0.739294455105       0.7393    7.5e-06\n\n                                                  case  entry  expected  rel. diff\nz = 0.993: sign of the change of the mean with small r     -1        -1    0.0e+00\nz = 1.098: sign of the change of the mean with small r      1         1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.11
+  },
+  {
+   "entry": "K0037",
+   "title": "Ornstein-Uhlenbeck process with resetting, target at the trap centre: mean time and the vanishing optimal rate",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with resetting, 100,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 2.659906841922898,
+   "tolerance": 4.0,
+   "detail": "                           case           entry   simulation        std. error  deviation / s.e.\nx0=0.5, kappa=0.6, D=0.5, r=2.0  0.685982711123  0.692184991  0.00233176582715              2.66\nx0=1.0, kappa=1.0, D=1.0, r=1.0  0.911473602931  0.916607674  0.00279485883341              1.84",
+   "seconds": 63.55
+  },
+  {
+   "entry": "K0038",
+   "title": "Diffusion with resetting and a refractory period: mean time to the target",
+   "check": "against the time-domain formula",
+   "reference": "Eq. (36) by quadrature, no transforms",
+   "slow": false,
+   "passed": true,
+   "worst": 8.881784197001252e-16,
+   "tolerance": 1e-08,
+   "detail": "                               case          entry  Eq. (36) by quadrature in the time domain  rel. diff\nL=1.0, D=1.0, r=1.0, a0=0.5, a1=0.0  2.57742274269                              2.57742274269    0.0e+00\nL=1.0, D=1.0, r=2.0, a0=0.0, a1=0.3  1.91754672903                              1.91754672903    6.7e-16\nL=1.0, D=1.0, r=0.5, a0=0.2, a1=0.4  2.80150223247                              2.80150223247    0.0e+00\nL=0.6, D=0.4, r=3.0, a0=1.0, a1=1.0  6.67868087493                              6.67868087493    8.9e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0038",
+   "title": "Diffusion with resetting and a refractory period: mean time to the target",
+   "check": "without a refractory period",
+   "reference": "entry K0015",
+   "slow": false,
+   "passed": true,
+   "worst": 2.220446049250313e-16,
+   "tolerance": 1e-12,
+   "detail": "                case           entry     entry K0015  rel. diff\n L=1.0, D=1.0, r=1.0   1.71828182846   1.71828182846    1.1e-16\n L=0.3, D=0.2, r=5.0  0.696337814068  0.696337814068    2.2e-16\nL=2.0, D=3.0, r=0.01   12.2400902446   12.2400902446    1.1e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0038",
+   "title": "Diffusion with resetting and a refractory period: mean time to the target",
+   "check": "against exact event-driven sampling",
+   "reference": "200,000 paths each; exponential and fixed periods; independent and correlated cases",
+   "slow": true,
+   "passed": true,
+   "worst": 0.7439649146764238,
+   "tolerance": 4.0,
+   "detail": "                                            case          entry     simulation        std. error  deviation / s.e.\nL=1.0, r=1.0, a0=0.5, a1=0.0, exponential period  2.57742274269  2.57756051366  0.00656602287998              0.02\n      L=1.0, r=1.0, a0=0.5, a1=0.0, fixed period  2.57742274269  2.57268602511  0.00636685612522              0.74\nL=1.0, r=2.0, a0=0.0, a1=0.3, exponential period  1.91754672903  1.91791038297   0.0046491020377              0.08\nL=1.0, r=0.5, a0=0.2, a1=0.4, exponential period  2.80150223247  2.80037472163  0.00866951506951              0.13",
+   "seconds": 0.14
+  },
+  {
+   "entry": "K0039",
+   "title": "Symmetric Levy flight: mean exit time from an interval",
+   "check": "the Brownian case and the uniform-start average",
+   "reference": "entry K0012 at alpha = 2; quadrature of Eq. (8)",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0002220446049250313,
+   "tolerance": 1.0,
+   "detail": "                                 case           entry     entry K0012  rel. diff\n alpha = 2, x0=0.3, L=1.0, sigma0=0.7  0.928571428571  0.928571428571    2.2e-16\nalpha = 2, x0=-0.9, L=2.0, sigma0=1.3  0.943786982249  0.943786982249    2.2e-16\n alpha = 2, x0=0.0, L=0.5, sigma0=0.2           3.125           3.125    2.2e-16\n\n                      case           entry  quadrature average of Eq. (8)  rel. diff\nuniform start, alpha = 0.5   0.98622503973                  0.98622503973    2.2e-15\nuniform start, alpha = 1.0  0.785398163397                 0.785398163397    6.7e-16\nuniform start, alpha = 1.3  0.637208631872                 0.637208631872    2.2e-16\nuniform start, alpha = 2.0  0.333333333333                 0.333333333333    1.1e-16\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0039",
+   "title": "Symmetric Levy flight: mean exit time from an interval",
+   "check": "against simulation",
+   "reference": "alpha-stable steps by the Chambers-Mallows-Stuck method, 100,000 paths; the step bias shown falling",
+   "slow": true,
+   "passed": true,
+   "worst": 0.18569593761674288,
+   "tolerance": 1.0,
+   "detail": "                          case           entry     simulation        std. error  deviation / s.e.\n alpha=0.7, x0=0.0, dt=0.00025   1.10054740552   1.1003392625  0.00324804222711              0.06\n alpha=1.0, x0=0.5, dt=0.00025  0.866025403784   0.8680284425  0.00269666469454              0.74\nalpha=1.5, x0=0.0, dt=6.25e-05  0.752252778064  0.75305186375  0.00202152836738              0.40\n\n                                                      case  entry  expected  rel. diff\nalpha = 1.5: the step bias falls from dt = 1e-3 to 6.25e-5      1         1    0.0e+00\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 138.4
+  },
+  {
+   "entry": "K0040",
+   "title": "Search with resetting and a return home at constant speed: mean time to the target",
+   "check": "against the general formula",
+   "reference": "Eq. (6) by quadrature with the propagator of Eq. (8)",
+   "slow": false,
+   "passed": true,
+   "worst": 4.440892098500626e-16,
+   "tolerance": 1e-09,
+   "detail": "                      case          entry  Eq. (6) by quadrature with the propagator of Eq. (8)  rel. diff\nL=1.0, D=0.5, v=1.0, r=2.0  5.82138845731                                         5.82138845731    0.0e+00\nL=1.0, D=1.0, v=0.3, r=0.5  5.95917423845                                         5.95917423845    4.4e-16\nL=2.0, D=0.7, v=5.0, r=1.2  12.2813826052                                         12.2813826052    1.1e-16",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0040",
+   "title": "Search with resetting and a return home at constant speed: mean time to the target",
+   "check": "instant returns, and the optimal rate",
+   "reference": "entry K0015; numerical minimisation",
+   "slow": false,
+   "passed": true,
+   "worst": 0.017505612293078343,
+   "tolerance": 1.0,
+   "detail": "                         case          entry    entry K0015  rel. diff\nv = 1e12, L=1.0, D=0.5, r=2.0  3.19452804947  3.19452804947    8.2e-13\nv = 1e12, L=0.7, D=2.0, r=0.3  1.03805929923  1.03805929923    6.9e-13\n\n                case           entry  numerical minimum of the mean  rel. diff\n L=1.0, D=0.5, v=1.0  0.669267248434                 0.669267248357    1.2e-10\nL=1.0, D=1.0, v=0.25  0.466300240163                 0.466300239358    1.7e-09\n L=2.0, D=0.3, v=3.0  0.171156161082                 0.171156158086    1.8e-08\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0040",
+   "title": "Search with resetting and a return home at constant speed: mean time to the target",
+   "check": "against simulation",
+   "reference": "Euler-Maruyama with a bridge-corrected target and timed returns home, 100,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 0.7906701988496593,
+   "tolerance": 4.0,
+   "detail": "                      case          entry     simulation       std. error  deviation / s.e.\nL=1.0, D=0.5, v=1.0, r=2.0  5.82138845731  5.82093712124  0.0190558447999              0.02\nL=1.0, D=1.0, v=0.3, r=0.5  5.95917423845  5.98247637834  0.0294713774804              0.79",
+   "seconds": 108.34
+  },
+  {
+   "entry": "K0041",
+   "title": "Brownian motion in a planar wedge of any angle: exact survival probability",
+   "check": "two printed forms",
+   "reference": "the Bessel series Eq. (5), acute and obtuse wedges",
+   "slow": false,
+   "passed": true,
+   "worst": 1.3988810110276972e-14,
+   "tolerance": 1e-10,
+   "detail": "                            case            entry  the Bessel series, Eq. (5)  rel. diff\nalpha=1.0472, phi0=0.3142, y=0.2  0.0498781821009             0.0498781821009    4.4e-16\nalpha=1.0472, phi0=0.3142, y=1.0   0.333066154069              0.333066154069    3.3e-16\nalpha=1.0472, phi0=0.3142, y=5.0   0.830262495646              0.830262495646    1.1e-16\nalpha=1.0472, phi0=0.5236, y=0.2  0.0616516774855             0.0616516774855    2.4e-15\nalpha=1.0472, phi0=0.5236, y=1.0   0.410879248171              0.410879248171    2.2e-16\nalpha=1.0472, phi0=0.5236, y=5.0   0.949313106861              0.949313106861    2.2e-16\nalpha=0.9000, phi0=0.2700, y=0.2  0.0249467387911             0.0249467387911    3.1e-15\nalpha=0.9000, phi0=0.2700, y=1.0   0.240448060187              0.240448060187    7.8e-16\nalpha=0.9000, phi0=0.2700, y=5.0   0.758696036128              0.758696036128    1.0e-14\nalpha=0.9000, phi0=0.4500, y=0.2  0.0308357995102             0.0308357995102    5.6e-15\nalpha=0.9000, phi0=0.4500, y=1.0   0.297060548457              0.297060548457    5.6e-16\nalpha=0.9000, phi0=0.4500, y=5.0   0.896525251519              0.896525251519    1.0e-14\nalpha=2.0000, phi0=0.6000, y=0.2   0.296185207454              0.296185207454    8.9e-16\nalpha=2.0000, phi0=0.6000, y=1.0   0.720565294163              0.720565294163    8.9e-16\nalpha=2.0000, phi0=0.6000, y=5.0   0.988428196342              0.988428196342    7.3e-15\nalpha=2.0000, phi0=1.0000, y=0.2   0.363901199946              0.363901199946    6.7e-16\nalpha=2.0000, phi0=1.0000, y=1.0   0.839124581659              0.839124581659    8.9e-16\nalpha=2.0000, phi0=1.0000, y=5.0   0.999666867797              0.999666867797    1.4e-14\nalpha=4.7124, phi0=1.4137, y=0.2   0.711825445791              0.711825445791    2.2e-16\nalpha=4.7124, phi0=1.4137, y=1.0   0.963957724441              0.963957724441    4.4e-16\nalpha=4.7124, phi0=1.4137, y=5.0   0.999991882704              0.999991882704    1.0e-14\nalpha=4.7124, phi0=2.3562, y=0.2    0.79301948254               0.79301948254    6.7e-16\nalpha=4.7124, phi0=2.3562, y=1.0   0.982616611826              0.982616611826    4.4e-16\nalpha=4.7124, phi0=2.3562, y=5.0    0.99999833792               0.99999833792    3.0e-15",
+   "seconds": 0.02
+  },
+  {
+   "entry": "K0041",
+   "title": "Brownian motion in a planar wedge of any angle: exact survival probability",
+   "check": "right angle and half-plane",
+   "reference": "product of two half-line survivals; erf of the distance to a line",
+   "slow": false,
+   "passed": true,
+   "worst": 2.220446049250313e-16,
+   "tolerance": 1e-11,
+   "detail": "                           case           entry  product of half-line survivals; distance to a line  rel. diff\nright angle, phi0=0.4712, y=1.0  0.588534005363                                      0.588534005363    0.0e+00\n   right angle, phi0=1.1, y=0.3  0.255498087938                                      0.255498087938    2.2e-16\n   right angle, phi0=0.2, y=4.0  0.573148073209                                      0.573148073209    0.0e+00\n    half-plane, phi0=0.4, y=1.0  0.563924075091                                      0.563924075091    0.0e+00\n    half-plane, phi0=2.0, y=0.3  0.680791358778                                      0.680791358778    1.1e-16\n half-plane, phi0=1.5707, y=4.0  0.999936657511                                      0.999936657511    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "K0041",
+   "title": "Brownian motion in a planar wedge of any angle: exact survival probability",
+   "check": "against simulation",
+   "reference": "two-dimensional Euler-Maruyama with a bridge correction on each edge, 100,000 paths",
+   "slow": true,
+   "passed": true,
+   "worst": 0.5158541093990779,
+   "tolerance": 4.0,
+   "detail": "                        case            entry  simulation         std. error  deviation / s.e.\nalpha=0.9, phi0=0.35, t=0.25    0.11560239671      0.1153   0.00100997975227              0.30\n alpha=0.9, phi0=0.35, t=1.0  0.0134957962198     0.01333  0.000362661151766              0.46\n alpha=2.0, phi0=0.6, t=0.25   0.520775123774     0.52159   0.00157966411588              0.52\n  alpha=2.0, phi0=0.6, t=1.0   0.213579558081     0.21391   0.00129673633365              0.25",
+   "seconds": 157.44
+  },
+  {
+   "entry": "K0042",
+   "title": "Run-and-tumble particle on a half-line: exact first-passage density to the origin",
+   "check": "against the printed Laplace transforms",
+   "reference": "Eq. (32), with the atom for a start towards the origin",
+   "slow": false,
+   "passed": true,
+   "worst": 2.220446049250313e-16,
+   "tolerance": 1e-09,
+   "detail": "                  case              entry  the printed Laplace transform, Eq. (32)  rel. diff\n    away, x=0.7, s=0.3     0.262397019324                           0.262397019324    0.0e+00\n towards, x=0.7, s=0.3     0.559079459348                           0.559079459348    0.0e+00\n    away, x=3.0, s=1.5  0.000215907004134                        0.000215907004134    0.0e+00\n towards, x=3.0, s=1.5   0.00103447260509                         0.00103447260509    2.2e-16\n   away, x=1.0, s=0.05     0.529892581986                           0.529892581986    0.0e+00\ntowards, x=1.0, s=0.05     0.726035612833                           0.726035612833    1.1e-16",
+   "seconds": 0.01
+  },
+  {
+   "entry": "K0042",
+   "title": "Run-and-tumble particle on a half-line: exact first-passage density to the origin",
+   "check": "total probability and the long-time tail",
+   "reference": "1; Eq. (36)",
+   "slow": false,
+   "passed": true,
+   "worst": 0.10970076362859514,
+   "tolerance": 1.0,
+   "detail": "                      case          entry  1  rel. diff\n   total mass, away, x=0.7  1.00000008624  1    8.6e-08\ntotal mass, towards, x=0.7  1.00000001443  1    1.4e-08\n   total mass, away, x=3.0  1.00000109701  1    1.1e-06\ntotal mass, towards, x=3.0  1.00000048618  1    4.9e-07\n\n                           case              entry           Eq. (36)  rel. diff\n   tail at t = 1e5, away, x=0.7  2.14462991903e-08  2.14466264372e-08    1.5e-05\ntail at t = 1e5, towards, x=0.7  8.83090907539e-09  8.83096382707e-09    6.2e-06\n   tail at t = 1e5, away, x=3.0  5.04584874837e-08  5.04626504404e-08    8.2e-05\ntail at t = 1e5, towards, x=3.0  3.78451428597e-08  3.78469878303e-08    4.9e-05\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 0.01
+  },
+  {
+   "entry": "K0042",
+   "title": "Run-and-tumble particle on a half-line: exact first-passage density to the origin",
+   "check": "against exact event-driven simulation",
+   "reference": "piecewise-linear runs, 200,000 particles per case",
+   "slow": true,
+   "passed": true,
+   "worst": 2.7935093460852025,
+   "tolerance": 4.0,
+   "detail": "                            case            entry  simulation         std. error  deviation / s.e.\n    survival, away, x=0.5, t=2.0   0.711057193542     0.71043    0.0010141972567              0.62\n    survival, away, x=0.5, t=5.0    0.49700650287     0.49536   0.00111798584606              1.47\n   survival, away, x=0.5, t=20.0   0.262529131005     0.26124   0.00098232800632              1.31\n survival, towards, x=0.5, t=2.0   0.258698908231    0.257285   0.00097746976622              1.45\n survival, towards, x=0.5, t=5.0    0.17258769775     0.17024  0.000840411632475              2.79\nsurvival, towards, x=0.5, t=20.0  0.0884680059318     0.08707  0.000630431658072              2.22\n    survival, away, x=1.0, t=2.0   0.852769801919     0.85336  0.000791001613146              0.75\n    survival, away, x=1.0, t=5.0   0.628038164226    0.628765   0.00108032304144              0.67\n   survival, away, x=1.0, t=20.0   0.344736810038     0.34516   0.00106307237383              0.40\n survival, towards, x=1.0, t=2.0    0.49881815599     0.49894    0.0011180314763              0.11\n survival, towards, x=1.0, t=5.0   0.338300715394     0.33784    0.0010576013767              0.44\nsurvival, towards, x=1.0, t=20.0    0.17589154024     0.17676  0.000852982714948              1.02\n    survival, away, x=3.0, t=2.0                1           1                  0              0.00\n    survival, away, x=3.0, t=5.0   0.938419985965     0.93849  0.000537245381088              0.13\n   survival, away, x=3.0, t=20.0   0.628488323368    0.628175     0.001080673793              0.29\n survival, towards, x=3.0, t=2.0                1           1                  0              0.00\n survival, towards, x=3.0, t=5.0   0.829388855392     0.82963  0.000840666589975              0.29\nsurvival, towards, x=3.0, t=20.0    0.49614970372     0.49558   0.00111799030318              0.51",
+   "seconds": 0.47
+  },
+  {
+   "entry": "K0043",
+   "title": "Run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform and decay exponent",
+   "check": "the hypergeometric series",
+   "reference": "mpmath's 2F1 at 30 digits",
+   "slow": false,
+   "passed": true,
+   "worst": 3.6637359812630166e-15,
+   "tolerance": 1e-12,
+   "detail": "                                   case             entry  mpmath, 30 digits  rel. diff\n               2F1(0.5, 1.5; 1.0; 0.35)     1.39340508547      1.39340508547    2.2e-16\n                2F1(1.0, 5.0; 3.0; 0.5)     3.66666666667      3.66666666667    0.0e+00\n2F1(-0.00155, 199.99845; 99.99845; 0.5)    0.994787616934     0.994787616934    0.0e+00\n            2F1(-0.9, 199.1; 99.1; 0.5)  0.00525343933695   0.00525343933695    3.7e-15\n                2F1(0.3, 4.3; 2.3; 0.0)                 1                  1    0.0e+00\n            2F1(2.0, 202.0; 103.0; 0.5)     187.848299977      187.848299977    6.7e-16\n               2F1(-0.3, 0.7; 0.2; 0.5)    0.268949636914     0.268949636914    4.4e-16\n             2F1(8.0, 12.0; 11.0; 0.25)     12.4102294089      12.4102294089    4.4e-16",
+   "seconds": 0.08
+  },
+  {
+   "entry": "K0043",
+   "title": "Run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform and decay exponent",
+   "check": "limits of the decay exponent and of the transform",
+   "reference": "Eq. (90); theta = 1/2 at gamma = mu = 1; s -> 0",
+   "slow": false,
+   "passed": true,
+   "worst": 0.513426387724214,
+   "tolerance": 1.0,
+   "detail": "                                               case           entry  Eq. (90)  rel. diff\n    slow reversals: theta/gamma at gamma/mu = 0.001    0.9993068532         1    6.9e-04\n        fast reversals: theta/mu at gamma/mu = 3000  0.989731472246         1    1.0e-02\ntheta/mu rises towards 1 (gamma/mu = 10, 100, 3000)               1         1    0.0e+00\n\n          case  entry  1/2  rel. diff\ngamma = mu = 1    0.5  0.5    2.1e-15\n\n                                  case           entry         s -> 0  rel. diff\nQ~(s = 1e-6) against the mean, towards  0.641728979622  0.64173023835    2.0e-06\n   Q~(s = 1e-6) against the mean, away   3.29619507759  3.29620486383    3.0e-06\n(worst shown as a fraction of each part's tolerance)",
+   "seconds": 2.44
+  },
+  {
+   "entry": "K0043",
+   "title": "Run-and-tumble particle in a harmonic trap, absorbed at the centre: survival transform and decay exponent",
+   "check": "against exact event-driven simulation",
+   "reference": "piecewise-exponential runs, 200,000 to 400,000 particles; transform, mean and decay exponent",
+   "slow": true,
+   "passed": true,
+   "worst": 1.448752258635098,
+   "tolerance": 4.0,
+   "detail": "                                                      case           entry      simulation         std. error  deviation / s.e.\n             E exp(-sT), towards, gamma=0.5, x0=0.3, s=0.5  0.810263764083  0.810906906124  0.000443928240911              1.45\n                     mean time, towards, gamma=0.5, x0=0.3   0.64173023835  0.638441929428   0.00323072989982              1.02\n                E exp(-sT), away, gamma=0.5, x0=0.3, s=0.5  0.340218118239  0.340254340912    0.0005748232652              0.06\n                        mean time, away, gamma=0.5, x0=0.3   3.29620486383   3.29712756291   0.00654501750627              0.14\n             E exp(-sT), towards, gamma=2.0, x0=0.8, s=1.0  0.326100511286  0.325747152783  0.000464903046314              0.76\n                     mean time, towards, gamma=2.0, x0=0.8   1.64128464502   1.64198853412   0.00329186256807              0.21\n                E exp(-sT), away, gamma=2.0, x0=0.8, s=1.0  0.207631874299  0.207945141096   0.00036675850705              0.85\n                        mean time, away, gamma=2.0, x0=0.8   2.21741635392   2.21403562308   0.00355390573987              0.95\ntheta, gamma=0.5 (rate of the survival beyond t = 5/theta)  0.345459307842  0.345783113944   0.00639571898303              0.05\ntheta, gamma=1.0 (rate of the survival beyond t = 5/theta)             0.5   0.50220697694   0.00678410346302              0.33\ntheta, gamma=3.0 (rate of the survival beyond t = 5/theta)  0.697224362268  0.703181595377   0.00664414492117              0.90",
+   "seconds": 1.27
+  },
+  {
+   "entry": "M01",
+   "title": "Validity map: Kramers' overdamped rate on three wells",
+   "check": "the claim follows from the stored data",
+   "reference": "the stored grid",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 0.0,
+   "detail": "case  from the data now  stored with the map  abs. diff\nbmin                  2                    2    0.0e+00\nbmax                 80                   80    0.0e+00\n b5c                6.8                  6.8    0.0e+00\n b1c                 29                   29    0.0e+00\ne10c                3.2                  3.2    0.0e+00\n b5q                8.9                  8.9    0.0e+00\n b1q               38.8                 38.8    0.0e+00\ne10q                4.3                  4.3    0.0e+00\n b5k               11.4                 11.4    0.0e+00\n b1k               51.4                 51.4    0.0e+00\ne10k                5.8                  5.8    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M01",
+   "title": "Validity map: Kramers' overdamped rate on three wells",
+   "check": "the stored map is current",
+   "reference": "the same computation, at sample points",
+   "slow": true,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-06,
+   "detail": "                      case      computed now            stored  abs. diff\n          cubic well, 2 kT   0.0791705118666   0.0791705118666    0.0e+00\n         cubic well, 12 kT   0.0258667788566   0.0258667788566    0.0e+00\n         cubic well, 80 kT  0.00352297120294  0.00352297120294    0.0e+00\n quartic double well, 2 kT    0.165546668116    0.165546668116    0.0e+00\nquartic double well, 12 kT   0.0350888169361   0.0350888169361    0.0e+00\nquartic double well, 80 kT  0.00475895395231  0.00475895395231    0.0e+00\n         cosine well, 2 kT    0.226069363337    0.226069363337    0.0e+00\n        cosine well, 12 kT   0.0470669938647   0.0470669938647    0.0e+00\n        cosine well, 80 kT  0.00635032156226  0.00635032156226    0.0e+00",
+   "seconds": 0.27
+  },
+  {
+   "entry": "M02",
+   "title": "Validity map: Firing rate of the noisy saddle-node: weak-noise and weak-bias formulas",
+   "check": "the claim follows from the stored data",
+   "reference": "the stored grid",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 0.0,
+   "detail": "          case  from the data now  stored with the map  abs. diff\n       lin1_lo              -0.46                -0.46    0.0e+00\n       lin1_hi               0.72                 0.72    0.0e+00\n         weak1               -7.8                 -7.8    0.0e+00\n weak1_barrier                 29                   29    0.0e+00\n       lin5_lo               -0.7                 -0.7    0.0e+00\n       lin5_hi               1.52                 1.52    0.0e+00\n         weak5              -3.02                -3.02    0.0e+00\n weak5_barrier                  7                    7    0.0e+00\n      lin10_lo              -0.84                -0.84    0.0e+00\n      lin10_hi               2.26                 2.26    0.0e+00\n        weak10              -2.14                -2.14    0.0e+00\nweak10_barrier                4.2                  4.2    0.0e+00\n     weak_peak               22.2                 22.2    0.0e+00\n   weak_peak_b                 -1                   -1    0.0e+00\n      gap10_lo              -2.14                -2.14    0.0e+00\n      gap10_hi              -0.84                -0.84    0.0e+00\n       gap5_lo              -3.02                -3.02    0.0e+00\n       gap5_hi               -0.7                 -0.7    0.0e+00\n      lin_zero              -1.37                -1.37    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M02",
+   "title": "Validity map: Firing rate of the noisy saddle-node: weak-noise and weak-bias formulas",
+   "check": "the stored map is current",
+   "reference": "the same computation, at sample points",
+   "slow": true,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-06,
+   "detail": "                        case        computed now              stored  abs. diff\n weak noise (K0006), b = -10    0.00677537386651    0.00677537386651    0.0e+00\nweak noise (K0006), b = -9.2    0.00770808675015    0.00770808675015    0.0e+00\nweak noise (K0006), b = -8.4    0.00887859023349    0.00887859023349    0.0e+00\nweak noise (K0006), b = -7.6     0.0103823998894     0.0103823998894    0.0e+00\nweak noise (K0006), b = -6.8     0.0123715153526     0.0123715153526    0.0e+00\n  weak noise (K0006), b = -6     0.0151023588828     0.0151023588828    0.0e+00\nweak noise (K0006), b = -5.2     0.0190426090968     0.0190426090968    0.0e+00\nweak noise (K0006), b = -4.4     0.0251478027006     0.0251478027006    0.0e+00\nweak noise (K0006), b = -3.6     0.0357516834316     0.0357516834316    0.0e+00\nweak noise (K0006), b = -2.8     0.0579433245643     0.0579433245643    0.0e+00\n  weak noise (K0006), b = -2      0.112789017589      0.112789017589    0.0e+00\nweak noise (K0006), b = -1.2      0.211245840536      0.211245840536    0.0e+00\nweak noise (K0006), b = -0.4     0.0035938329418     0.0035938329418    0.0e+00\n  weak bias (K0007), b = -10  -2.59011401913e+18  -2.59011401913e+18    0.0e+00\n weak bias (K0007), b = -9.2  -1.72482666604e+16  -1.72482666604e+16    0.0e+00\n weak bias (K0007), b = -8.4  -1.40942866636e+14  -1.40942866636e+14    0.0e+00\n weak bias (K0007), b = -7.6  -1.42480107559e+12  -1.42480107559e+12    0.0e+00\n weak bias (K0007), b = -6.8      -17978759798.8      -17978759798.8    0.0e+00\n   weak bias (K0007), b = -6       -285924724.95       -285924724.95    0.0e+00\n weak bias (K0007), b = -5.2      -5788644.51406      -5788644.51406    0.0e+00\n weak bias (K0007), b = -4.4      -150555.312401      -150555.312401    0.0e+00\n weak bias (K0007), b = -3.6      -5051.66927639      -5051.66927639    0.0e+00\n weak bias (K0007), b = -2.8      -215.664234431      -215.664234431    0.0e+00\n   weak bias (K0007), b = -2      -10.8827150448      -10.8827150448    0.0e+00\n weak bias (K0007), b = -1.2     -0.495736327277     -0.495736327277    0.0e+00\n weak bias (K0007), b = -0.4   -0.00560184835283   -0.00560184835283    0.0e+00\n  weak bias (K0007), b = 0.4    0.00227349783538    0.00227349783538    0.0e+00\n  weak bias (K0007), b = 1.2     0.0305226844457     0.0305226844457    0.0e+00\n    weak bias (K0007), b = 2     0.0808887202787     0.0808887202787    0.0e+00\n  weak bias (K0007), b = 2.8      0.140243319768      0.140243319768    0.0e+00\n  weak bias (K0007), b = 3.6      0.202239301562      0.202239301562    0.0e+00\n  weak bias (K0007), b = 4.4      0.264185383193      0.264185383193    0.0e+00\n  weak bias (K0007), b = 5.2       0.32496698455       0.32496698455    0.0e+00\n    weak bias (K0007), b = 6      0.384149351889      0.384149351889    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M03",
+   "title": "Validity map: Force-dependent rate of Dudko, Hummer and Szabo",
+   "check": "the claim follows from the stored data",
+   "reference": "the stored grid",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 0.0,
+   "detail": "        case  from the data now  stored with the map  abs. diff\n     worst3c                8.8                  8.8    0.0e+00\nworst3c_left                3.3                  3.3    0.0e+00\n  worst3c_dG                 80                   80    0.0e+00\n      left5c                6.1                  6.1    0.0e+00\n     left10c                  1                    1    0.0e+00\n     worst3p               15.6                 15.6    0.0e+00\nworst3p_left                3.2                  3.2    0.0e+00\n  worst3p_dG                 80                   80    0.0e+00\n      left5p               10.4                 10.4    0.0e+00\n     left10p                5.8                  5.8    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M03",
+   "title": "Validity map: Force-dependent rate of Dudko, Hummer and Szabo",
+   "check": "the stored map is current",
+   "reference": "the same computation, at sample points",
+   "slow": true,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-06,
+   "detail": "                                        case     computed now           stored  abs. diff\nlinear-cubic (nu = 2/3), dG = 10, F/Fc = 0.4  0.0416535421837  0.0416535421837    0.0e+00\nlinear-cubic (nu = 2/3), dG = 40, F/Fc = 0.7   0.044821489256   0.044821489256    0.0e+00\nlinear-cubic (nu = 2/3), dG = 80, F/Fc = 0.9  0.0890628684212  0.0890628684212    0.0e+00\n        cusp (nu = 1/2), dG = 10, F/Fc = 0.4  0.0953374025769  0.0953374025769    0.0e+00\n        cusp (nu = 1/2), dG = 40, F/Fc = 0.7   0.146662439613   0.146662439613    0.0e+00\n        cusp (nu = 1/2), dG = 80, F/Fc = 0.9  -0.205935509733  -0.205935509733    0.0e+00",
+   "seconds": 0.28
+  },
+  {
+   "entry": "M04",
+   "title": "Validity map: Rupture force under constant loading: Dudko-Hummer-Szabo and Bell-Evans",
+   "check": "the claim follows from the stored data",
+   "reference": "the stored grid",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 0.0,
+   "detail": "       case  from the data now  stored with the map  abs. diff\nbe_neg_from               0.25                 0.25    0.0e+00\n    be05_lo                  8                    8    0.0e+00\n    be05_hi                 10                   10    0.0e+00\n    be_most                 27                   27    0.0e+00\n     be_pos                 19                   19    0.0e+00\n      m5_10                0.4                  0.4    0.0e+00\n     sd5_10                0.5                  0.5    0.0e+00\n      m5_20                0.2                  0.2    0.0e+00\n     sd5_20                0.3                  0.3    0.0e+00\n      m5_40                0.1                  0.1    0.0e+00\n     sd5_40               0.15                 0.15    0.0e+00\n      m5_80               0.05                 0.05    0.0e+00\n     sd5_80                0.1                  0.1    0.0e+00\n  mean_slow                -62                  -62    0.0e+00\n    sd_slow                 90                   90    0.0e+00\n    smax_lo               0.75                 0.75    0.0e+00\n    smax_hi               0.95                 0.95    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M04",
+   "title": "Validity map: Rupture force under constant loading: Dudko-Hummer-Szabo and Bell-Evans",
+   "check": "the stored map is current",
+   "reference": "the same computation, at sample points",
+   "slow": true,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-06,
+   "detail": "                                                     case       computed now             stored  abs. diff\n                mean force, DHS (K0027), dG = 20, s = 0.2   -0.0284914807107   -0.0284914807107    0.0e+00\n       spread of the force, DHS (K0027), dG = 20, s = 0.2     0.122869106426     0.122869106426    0.0e+00\nmost probable force, Bell-Evans (K0029), dG = 20, s = 0.2   -0.0307568123409   -0.0307568123409    0.0e+00\n                mean force, DHS (K0027), dG = 20, s = 0.5  -0.00449510606757  -0.00449510606757    0.0e+00\n       spread of the force, DHS (K0027), dG = 20, s = 0.5   0.00124023725644   0.00124023725644    0.0e+00\nmost probable force, Bell-Evans (K0029), dG = 20, s = 0.5   -0.0970523597076   -0.0970523597076    0.0e+00\n                mean force, DHS (K0027), dG = 20, s = 0.8  -0.00921995751392  -0.00921995751392    0.0e+00\n       spread of the force, DHS (K0027), dG = 20, s = 0.8   -0.0170822548515   -0.0170822548515    0.0e+00\nmost probable force, Bell-Evans (K0029), dG = 20, s = 0.8    -0.187025272918    -0.187025272918    0.0e+00",
+   "seconds": 2.82
+  },
+  {
+   "entry": "M05",
+   "title": "Validity map: Rates from a switching histogram: bias, spread and the error bar",
+   "check": "the claim follows from the stored data",
+   "reference": "the stored grid",
+   "slow": false,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 0.0,
+   "detail": "     case  from the data now  stored with the map  abs. diff\n    cov_c                 10                   10    0.0e+00\n  bias1_c                 30                   30    0.0e+00\n  bias5_c                  5                    5    0.0e+00\n  cov_few                  3                    3    0.0e+00\ncov_ideal               68.3                 68.3    0.0e+00",
+   "seconds": 0.0
+  },
+  {
+   "entry": "M05",
+   "title": "Validity map: Rates from a switching histogram: bias, spread and the error bar",
+   "check": "the stored map is current",
+   "reference": "the same computation, at sample points",
+   "slow": true,
+   "passed": true,
+   "worst": 0.0,
+   "tolerance": 1e-06,
+   "detail": "                                                            case       computed now             stored  abs. diff\n                 relative bias of the rate, N = 10, mu = 0.12247    0.0578013159726    0.0578013159726    0.0e+00\n               relative spread of the rate, N = 10, mu = 0.12247     0.994265244784     0.994265244784    0.0e+00\n   coverage of the reported standard error, N = 10, mu = 0.12247     0.607289066058     0.607289066058    0.0e+00\n                relative bias of the rate, N = 100, mu = 0.78254   0.00771396134379   0.00771396134379    0.0e+00\n              relative spread of the rate, N = 100, mu = 0.78254     0.141229798897     0.141229798897    0.0e+00\n  coverage of the reported standard error, N = 100, mu = 0.78254     0.684104609335     0.684104609335    0.0e+00\n               relative bias of the rate, N = 1000, mu = 0.01917  0.000505168235077  0.000505168235077    0.0e+00\n             relative spread of the rate, N = 1000, mu = 0.01917     0.229613373347     0.229613373347    0.0e+00\n coverage of the reported standard error, N = 1000, mu = 0.01917     0.638745936391     0.638745936391    0.0e+00\n              relative bias of the rate, N = 10000, mu = 1.97806  0.000157537143367  0.000157537143367    0.0e+00\n            relative spread of the rate, N = 10000, mu = 1.97806    0.0126236309015    0.0126236309015    0.0e+00\ncoverage of the reported standard error, N = 10000, mu = 1.97806     0.682350822849     0.682350822849    0.0e+00\n               relative bias of the rate, N = 100000, mu = 0.003  5.00754100408e-06  5.00754100408e-06    0.0e+00\n             relative spread of the rate, N = 100000, mu = 0.003    0.0577786454603    0.0577786454603    0.0e+00\n coverage of the reported standard error, N = 100000, mu = 0.003     0.688434521731     0.688434521731    0.0e+00",
+   "seconds": 0.47
   }
  ]
 }

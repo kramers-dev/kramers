@@ -4,7 +4,9 @@
     python tools/build_handbook.py
 
 Writes docs/handbook/index.md, one page per entry (docs/handbook/K0001.md ...),
-docs/errata.md, handbook.json, and the entry table in README.md between the markers
+docs/errata.md, the validity atlas pages (docs/atlas/index.md and one per map, from the
+stored maps; tools/build_atlas.py computes them and draws the figures), handbook.json,
+and the entry table in README.md between the markers
 <!-- entries:start --> and <!-- entries:end -->. Latest check outcomes are taken from
 reports/verification.json when it exists.
 """
@@ -21,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 import kramers  # noqa: E402
+from kramers import atlas  # noqa: E402
 from kramers.registry import AREAS, KINDS  # noqa: E402
 
 
@@ -59,22 +62,61 @@ def entry_page(e: kramers.Entry, ver: dict) -> str:
     lines += ["", "## When it holds", "", e.validity, "", "## How it is checked", "",
               "| Check | Against | Latest result |", "|---|---|---|"]
     for c in e.checks:
-        r = ver.get((e.id, c.name))
-        if r is None:
-            res = "not yet run"
-        else:
-            res = (f"{'pass' if r['passed'] else 'FAIL'}: worst {r['worst']:.1e} (tolerance {r['tolerance']:.0e}), "
-                   f"{r['generated'][:10]}")
+        res = _result(ver.get((e.id, c.name)))
         lines.append(f"| {c.name}{' (slow, nightly)' if c.slow else ''} | {c.reference} | {res} |")
     if e.notes:
         lines += ["", "## Notes", "", e.notes]
     if e.aliases:
         lines += ["", "**Also known as:** " + "; ".join(e.aliases) + "."]
+    maps = atlas.for_entry(e.id)
+    if maps:
+        lines += ["", "**Validity map:** " + "; ".join(f"[{m.id}. {m.title}](../atlas/{m.id}.md)" for m in maps) + "."]
     if e.related:
         lines += ["", "**Related entries:** " + ", ".join(f"[{r}]({r}.md)" for r in e.related) + "."]
     lines += ["", "## Cite", "", "```text", e.cite(), "```", "",
               f"*Written by:* {', '.join(e.written_by)}. *Checked by people:* {', '.join(e.checked_by) or 'nobody yet; see CONTRIBUTING.md'}. "
               f"*Added:* {e.added}.", ""]
+    return "\n".join(lines)
+
+
+def _result(r: dict | None) -> str:
+    if r is None:
+        return "not yet run"
+    return (f"{'pass' if r['passed'] else 'FAIL'}: worst {r['worst']:.1e} (tolerance {r['tolerance']:.0e}), "
+            f"{r['generated'][:10]}")
+
+
+ATLAS_INTRO = (
+    "Where an approximate result of the handbook stops being accurate, computed. Each map is the error of "
+    "one or more entries against an exact computation over a grid of their parameters, stored as data in "
+    "the package (`kramers.atlas`), with a claim whose numbers are generated from that data. A map says "
+    "nothing outside its grid. Earlier work on the same questions is listed on each map, with whether we "
+    "have read it; no map claims to be the first.")
+
+
+def atlas_page(m: atlas.AtlasMap, ver: dict) -> str:
+    d = m.load()
+    status = ("Draft: the claim below has not yet been approved by the maintainer." if m.status == "draft"
+              else "Approved by the maintainer.")
+    lines = [f"# {m.id}. {m.title}", "", "!!! note \"Status\"", f"    {status}", "",
+             f"**Claim (computed {d['computed']}, kramers {d['kramers']}).** {m.claim(d)}", "",
+             f"![{m.title}]({m.id}.png)", "", "## What is compared", "",
+             f"- **Approximation:** {m.approximation}.",
+             f"- **Exact side:** {m.reference}.",
+             f"- **Stored values:** {m.quantity}.",
+             "- **Entries:** " + ", ".join(f"[{e}](../handbook/{e}.md)" for e in m.entries) + ".", ""]
+    if m.notes:
+        lines += ["## Notes", "", m.notes, ""]
+    lines += ["## Earlier work", ""]
+    lines += [f"- {p.citation}.{_doi_link(p.doi)} Read: {p.read}." for p in m.prior] or ["None listed yet."]
+    lines += ["", "## Data and how to reproduce it", "", "```python", "from kramers import atlas",
+              f'm = atlas.get("{m.id}")', "data = m.load()   # axes, series (None where not mapped), facts",
+              "print(m.claim())", "```", "",
+              f"Recompute: `python tools/build_atlas.py {m.id}` (writes `src/kramers/data/atlas_{m.id}.json` and "
+              "this figure).", "", "## How it is checked", "", "| Check | Against | Latest result |", "|---|---|---|"]
+    for c in m.checks():
+        lines.append(f"| {c.name}{' (slow, nightly)' if c.slow else ''} | {c.reference} | {_result(ver.get((m.id, c.name)))} |")
+    lines.append("")
     return "\n".join(lines)
 
 
@@ -110,6 +152,13 @@ def main() -> None:
         if re.search(r"questions? for the authors", e.notes, re.IGNORECASE):
             errata += [f"## {e.id}. {e.title}", "", e.notes, ""]
     (ROOT / "docs" / "errata.md").write_text("\n".join(errata))
+    adir = ROOT / "docs" / "atlas"
+    adir.mkdir(parents=True, exist_ok=True)
+    aindex = ["# The validity atlas", "", ATLAS_INTRO, "", "| Map | Entries | Status | Claim |", "|---|---|---|---|"]
+    for m in atlas.maps():
+        (adir / f"{m.id}.md").write_text(atlas_page(m, ver))
+        aindex.append(f"| [{m.id}. {m.title}]({m.id}.md) | {', '.join(m.entries)} | {m.status} | {m.claim()} |")
+    (adir / "index.md").write_text("\n".join(aindex) + "\n")
     (ROOT / "handbook.json").write_text(kramers.to_json())
     readme = ROOT / "README.md"
     if readme.exists():
@@ -119,7 +168,7 @@ def main() -> None:
             head, rest = text.split(start, 1)
             _, tail = rest.split(end, 1)
             readme.write_text(head + start + "\n" + "\n".join(table) + "\n" + end + tail)
-    print(f"wrote {len(entries)} pages, the index, the errata page, handbook.json")
+    print(f"wrote {len(entries)} pages, the index, the errata page, {len(atlas.maps())} atlas pages, handbook.json")
 
 
 if __name__ == "__main__":
